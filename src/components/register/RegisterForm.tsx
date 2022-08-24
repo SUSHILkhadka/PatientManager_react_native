@@ -7,23 +7,20 @@ import ToastMessage from '../utils/ToastMessage';
 import { useDispatch } from 'react-redux';
 import { changePage } from '../../redux_toolkit/slices/pageSlice';
 import { useNavigation } from '@react-navigation/native';
+import { typeOfUseNavigationHook } from '../../navigator/Navigator';
 
 const RegisterForm = () => {
-  const navigation:any=useNavigation();
+  const navigation:typeOfUseNavigationHook['navigation']=useNavigation();
   const changePageToLogin=()=>{
-    navigation.navigate("register");
+    navigation.navigate("login");
   }
 
-  
   const [name, setName] = useState<string>('give your name here');
   const [email, setEmail] = useState<string>('give your email here');
   const [password, setPassword] = useState<string>('give your password here');
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState<boolean>(false);
-
-
-
   const handleRegister = async () => {
     setLoading(true);
     const body = {

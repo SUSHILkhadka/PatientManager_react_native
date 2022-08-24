@@ -14,9 +14,13 @@ import {AxiosError} from 'axios';
 import ToastMessage from '../utils/ToastMessage';
 import { changePage } from '../../redux_toolkit/slices/pageSlice';
 import { useNavigation} from '@react-navigation/native';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { typeOfUseNavigationHook } from '../../navigator/Navigator';
+
+
 
 const LoginForm = () => {
-  const navigation:any=useNavigation();
+  const navigation:typeOfUseNavigationHook['navigation']=useNavigation();
   const authInfo = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
   const [name, setName] = useState<string>('give your name here');
@@ -51,14 +55,13 @@ const LoginForm = () => {
   };
   const changePageToRegister=()=>{
     navigation.navigate("register");
-
     dispatch(changePage(1));
   }
 
   return (
     <View>
       <Button title='new user Register??' onPress={changePageToRegister}></Button>
-      <Text>{authInfo.username}</Text>
+      <Text style={{color:"red"}}>{authInfo.username}</Text>
       <TextInput
         onChangeText={setName}
         value={name}

@@ -32,7 +32,6 @@ const App = () => {
   return(
     <Navigator/>
   )
-
 };
 
 export default App;
