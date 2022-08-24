@@ -1,14 +1,17 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import RegisterPage from '../screens/register/RegisterPage';
 import LoginPage from '../screens/login/LoginPage';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import BasicPatientForm from '../components/patient/BasicPatientForm';
+import ListPatientSection from '../components/patient/ListPatientSection';
+import LayoutPage from '../screens/layout/LayoutPage';
 type RootStackParamList = {
-  login: any;
-  register: any;
+  login: undefined;
+  register: undefined;
+  layout: undefined;
 };
-
 export type typeOfUseNavigationHook = NativeStackScreenProps<RootStackParamList>;
 
 const Navigator = () => {
@@ -37,7 +40,8 @@ const Navigator = () => {
           }}
           component={LoginPage}
         />
-        <Stack.Screen name="register" component={RegisterPage} options={{}} />
+        <Stack.Screen name="register" component={RegisterPage}/>
+        <Stack.Screen name="layout" component={LayoutPage}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

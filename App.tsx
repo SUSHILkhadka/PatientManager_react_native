@@ -21,12 +21,7 @@ const App = () => {
     }
   };
 
-  // return(
-  //   <View>
-  //   {getPage()}
-  //   </View>
 
-  // )
 
 
   return(

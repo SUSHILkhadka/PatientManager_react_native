@@ -18,7 +18,6 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { typeOfUseNavigationHook } from '../../navigator/Navigator';
 
 
-
 const LoginForm = () => {
   const navigation:typeOfUseNavigationHook['navigation']=useNavigation();
   const authInfo = useSelector((state: RootState) => state.auth);
@@ -47,6 +46,7 @@ const LoginForm = () => {
         response.expiresAtRefreshToken,
       );
       await setLogStatus(true);
+    navigation.navigate("layout")
       ToastMessage(response.message);
     } catch (e: AxiosError | any) {
       ToastMessage(e.response.data.message);
@@ -55,7 +55,6 @@ const LoginForm = () => {
   };
   const changePageToRegister=()=>{
     navigation.navigate("register");
-    dispatch(changePage(1));
   }
 
   return (
