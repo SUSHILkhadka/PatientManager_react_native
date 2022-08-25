@@ -1,6 +1,6 @@
 import api from './api';
 
-const routeName='patient'
+const routeName='/patient/'
 
 /**
  *

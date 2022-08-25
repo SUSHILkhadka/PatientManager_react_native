@@ -3,13 +3,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 /**
  *
  * @param response whole login response obj
- * stores response in AsyncStorage as string
+ * stores whole response in AsyncStorage as string and also tokens separatly for easy access
  */
 
 export async function saveLoginResponse(response: any) {
-  try {
-    await AsyncStorage.setItem('loginResponse', response);
-  } catch {}
+  await saveAccessToken(response.accessToken);
+  await saveRefreshToken(response.refreshToken, response.expiresAtRefreshToken);
+  await AsyncStorage.setItem('loginResponse', JSON.stringify(response));
 }
 
 /**
@@ -21,27 +21,7 @@ export async function getLoginResponse(): Promise<any> {
   return obj ? obj : '';
 }
 
-/**
- *
- * @returns login status from local storage as boolean value
- */
-export async function getLogStatus(): Promise<boolean> {
-  const logStatus = await AsyncStorage.getItem('LogStatus');
-  return logStatus ? Boolean(logStatus) : false;
-}
 
-/**
- *
- * @param loggedIn Log in response after successful login to server
- * saves boolean as string in local storage
- */
-export async function setLogStatus(loggedIn: boolean): Promise<void> {
-  if (loggedIn) {
-    await AsyncStorage.setItem('LogStatus', 'true');
-  } else {
-    await AsyncStorage.setItem('LogStatus', '');
-  }
-}
 
 //cookies
 /**

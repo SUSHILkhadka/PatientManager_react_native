@@ -7,18 +7,23 @@ import ToastMessage from '../utils/ToastMessage';
 import {changePage} from '../../redux_toolkit/slices/pageSlice';
 import {useNavigation} from '@react-navigation/native';
 import {typeOfUseNavigationHook} from '../../navigator/Navigator';
-import {addPatient} from '../../services/backendCallPatient';
+import {editPatient} from '../../services/backendCallPatient';
+import ListAllergy from '../allergy/ListAllergy';
 
-const BasicPatientForm = () => {
+const EditPatientForm = () => {
   const navigation: typeOfUseNavigationHook['navigation'] = useNavigation();
+  const patientInfo = useSelector((state: RootState) => state.patient);
   const dispatch = useDispatch();
-  const [name, setName] = useState<string>('name ');
-  const [email, setEmail] = useState<string>('email');
-  const [contact, setContact] = useState<string>('phone no');
-  const [dob, setDob] = useState<string>('date of birth through date picker');
-  const [address, setAddress] = useState<string>('address');
-  const [specialAttention, setSpecialAttention] = useState<boolean>(false);
-  const [allergies, setAllergies] = useState<string>('give your email here');
+
+  const [name, setName] = useState<string>(patientInfo.name);
+  const [email, setEmail] = useState<string>(patientInfo.email);
+  const [contact, setContact] = useState<string>(patientInfo.contact);
+  const [dob, setDob] = useState<string>(patientInfo.dob);
+  const [address, setAddress] = useState<string>(patientInfo.address);
+  const [specialAttention, setSpecialAttention] = useState<boolean>(
+    patientInfo.specialAttention,
+  );
+  const [allergies, setAllergies] = useState<string>(patientInfo.allergies);
 
   const [loading, setLoading] = useState<boolean>(false);
   const handleCreate = async () => {
@@ -34,12 +39,10 @@ const BasicPatientForm = () => {
       photoUrl: email,
     };
     try {
-      const response = await addPatient(body);
-      console.log(response);
+      const response = await editPatient(body, patientInfo.patientId);
       ToastMessage(response.message);
     } catch (e: AxiosError | any) {
       ToastMessage(e.response.data.message);
-      console.log(e.response.data.message);
     }
     setLoading(false);
     changePageToListPatient();
@@ -56,11 +59,11 @@ const BasicPatientForm = () => {
       <TextInput onChangeText={setDob} value={dob} />
       <TextInput onChangeText={setAddress} value={address} />
       <Switch onValueChange={setSpecialAttention} value={specialAttention} />
-      <TextInput onChangeText={setAllergies} value={allergies} />
-
-      <Button disabled={loading} title="Add new patient" onPress={handleCreate} />
+      <Text>List of allergius are:</Text>
+      <ListAllergy patientId={patientInfo.patientId} />
+      <Button disabled={loading} title="Edit patient" onPress={handleCreate} />
     </View>
   );
 };
 
-export default BasicPatientForm;
+export default EditPatientForm;

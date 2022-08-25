@@ -1,10 +1,9 @@
-import { createSlice } from '@reduxjs/toolkit';
-export interface PageNumber {
-  page: number;
-}
+import {createSlice} from '@reduxjs/toolkit';
+import {IPageNumber} from '../Interfaces/IPageNumber';
 
-const defaultValue: PageNumber = {
+const defaultValue: IPageNumber = {
   page: 2,
+  refreshFlag: false,
 };
 
 export const pageSlice = createSlice({
@@ -14,8 +13,12 @@ export const pageSlice = createSlice({
     changePage: (state, action) => {
       state.page = action.payload;
     },
+    refreshPage: (state, action) => {
+      state.refreshFlag = action.payload;
+      console.log('in refreshpage dispacth', state.refreshFlag);
+    },
   },
 });
 
-export const { changePage } = pageSlice.actions;
+export const {changePage, refreshPage} = pageSlice.actions;
 export const pageReducer = pageSlice.reducer;

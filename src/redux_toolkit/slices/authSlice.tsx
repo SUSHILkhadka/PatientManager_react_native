@@ -1,13 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-export interface IAuth {
-  login: boolean;
-  id: number;
-  username: string;
-  email: string;
-  password: string;
-  accessToken: string;
-  refreshToken: string;
-}
+import {createSlice} from '@reduxjs/toolkit';
+import {IAuth} from '../Interfaces/IAuth';
 
 const defaultValue: IAuth = {
   login: false,
@@ -23,7 +15,7 @@ export const authSlice = createSlice({
   name: 'authInfo',
   initialState: defaultValue,
   reducers: {
-    makeLoggedIn: (state) => {
+    makeLoggedIn: state => {
       state.login = true;
     },
     makeLoggedInWithInfo: (state, action) => {
@@ -35,7 +27,7 @@ export const authSlice = createSlice({
       state.accessToken = action.payload.accessToken;
       state.refreshToken = action.payload.refreshToken;
     },
-    makeLoggedOut: (state) => {
+    makeLoggedOut: state => {
       state.login = false;
       state.username = '';
       state.email = '';
@@ -46,11 +38,16 @@ export const authSlice = createSlice({
       state.username = action.payload.name;
       state.password = action.payload.password;
     },
-    DELETETHISLATER:(state,action)=>{
-      state.username=action.payload
-    }
+    DELETETHISLATER: (state, action) => {
+      state.username = action.payload;
+    },
   },
 });
 
-export const { DELETETHISLATER, makeLoggedIn, makeLoggedInWithInfo, makeLoggedOut } = authSlice.actions;
+export const {
+  DELETETHISLATER,
+  makeLoggedIn,
+  makeLoggedInWithInfo,
+  makeLoggedOut,
+} = authSlice.actions;
 export const authReducer = authSlice.reducer;
