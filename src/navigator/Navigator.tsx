@@ -5,7 +5,7 @@ import RegisterPage from '../screens/register/RegisterPage';
 import LoginPage from '../screens/login/LoginPage';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import BasicPatientForm from '../components/patient/BasicPatientForm';
-import ListPatientSection from '../components/patient/ListPatientSection';
+import ListPatientSection from '../components/patient/PatientTable';
 import LayoutPage from '../screens/layout/LayoutPage';
 type RootStackParamList = {
   login: undefined;

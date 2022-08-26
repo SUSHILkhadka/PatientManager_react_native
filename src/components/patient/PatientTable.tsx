@@ -9,7 +9,7 @@ import {sortAscendingByNameKey} from '../../utils/sort';
 import ToastMessage from '../utils/ToastMessage';
 import PatientCard from './PatientCard';
 
-const ListPatientSection = () => {
+const PatientTable = () => {
   const pageInfo = useSelector((state: RootState) => state.page);
   const [loading, setLoading] = useState<boolean>(false);
   const [originalData, setOriginalData] = useState<IPatient[]>([]);
@@ -71,4 +71,4 @@ const styles = StyleSheet.create({
     alignItems: 'baseline',
   },
 });
-export default ListPatientSection;
+export default PatientTable;

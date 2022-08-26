@@ -1,4 +1,4 @@
-import {Button, ScrollView, Switch, Text, TextInput, View} from 'react-native';
+import {Switch, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../redux_toolkit/stores/store';
 import React, {useState} from 'react';
@@ -6,16 +6,13 @@ import {AxiosError} from 'axios';
 import ToastMessage from '../utils/ToastMessage';
 import {changePage} from '../../redux_toolkit/slices/pageSlice';
 import {editPatient} from '../../services/backendCallPatient';
-import ListAllergy from '../allergy/ListAllergy';
-import DatePicker from 'react-native-date-picker'
+import AllergyTable from '../allergy/AllergyTable';
+import formStyles from '../styles/Form';
+import CustomDatePicker from '../utils/CustomDatePicker';
 
 const EditPatientForm = () => {
   const patientInfo = useSelector((state: RootState) => state.patient);
   const dispatch = useDispatch();
-
-  console.log('patientinfo = ', patientInfo)
-  console.log('type of  patientinfo.dob= ', typeof(patientInfo.dob))
-
   const [name, setName] = useState<string>(patientInfo.name);
   const [email, setEmail] = useState<string>(patientInfo.email);
   const [contact, setContact] = useState<string>(patientInfo.contact);
@@ -24,9 +21,8 @@ const EditPatientForm = () => {
   const [specialAttention, setSpecialAttention] = useState<boolean>(
     patientInfo.specialAttention,
   );
-  console.log('type of  dob= ',typeof(dob))
-
   const [loading, setLoading] = useState<boolean>(false);
+
   const handleCreate = async () => {
     setLoading(true);
     const body = {
@@ -53,15 +49,57 @@ const EditPatientForm = () => {
 
   return (
     <View>
-      <TextInput onChangeText={setName} value={name} />
-      <TextInput onChangeText={setEmail} value={email} />
-      <TextInput onChangeText={setContact} value={contact} />
-      <DatePicker date={dob} onDateChange={setDob} mode="date" />
-      <TextInput onChangeText={setAddress} value={address} />
-      <Switch onValueChange={setSpecialAttention} value={specialAttention} />
-      <Text>List of allergius are:</Text>
-      <ListAllergy patientId={patientInfo.patientId} />
-      <Button disabled={loading} title="Edit patient" onPress={handleCreate} />
+      <View style={formStyles.container}>
+        <Text style={formStyles.elementTextLabel}>Patient Name:</Text>
+        <TextInput
+          style={formStyles.elementTextInput}
+          onChangeText={setName}
+          value={name}
+          placeholder="enter patient name"
+        />
+        <Text style={formStyles.elementTextLabel}>Patient Email:</Text>
+        <TextInput
+          style={formStyles.elementTextInput}
+          onChangeText={setEmail}
+          value={email}
+          placeholder="enter patient email"
+        />
+        <Text style={formStyles.elementTextLabel}>Phone No:</Text>
+        <TextInput
+          style={formStyles.elementTextInput}
+          onChangeText={setContact}
+          value={contact}
+          placeholder="enter patient phone no"
+          dataDetectorTypes="phoneNumber"
+          keyboardType="phone-pad"
+        />
+        <Text style={formStyles.elementTextLabel}>Date of birth</Text>
+        <CustomDatePicker dob={dob} setDob={setDob} />
+
+        <Text style={formStyles.elementTextLabel}>Address:</Text>
+        <TextInput
+          style={formStyles.elementTextInput}
+          onChangeText={setAddress}
+          value={address}
+          placeholder="enter patient adress"
+        />
+        <View style={formStyles.elementSwitch}>
+          <Text style={formStyles.elementTextLabel}>Special Attention:</Text>
+          <Switch
+            onValueChange={setSpecialAttention}
+            value={specialAttention}
+          />
+        </View>
+        <Text style={formStyles.elementTextLabel}>List of allergius are:</Text>
+
+        <AllergyTable patientId={patientInfo.patientId} />
+        <TouchableOpacity
+          disabled={loading}
+          style={formStyles.elementButton}
+          onPress={handleCreate}>
+          <Text style={formStyles.textInsideButton}>Tap to Save Changes</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };

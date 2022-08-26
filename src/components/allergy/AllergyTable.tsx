@@ -5,22 +5,24 @@ import {
   View,
   Text,
   StyleSheet,
-  Button,
   TextInput,
-  ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 import {IAllergy} from '../../redux_toolkit/Interfaces/IAllergy';
 import {
   addAllergy,
   getAllAllergiesByPatientId,
 } from '../../services/backendCallAllergy';
+import { primaryButtonColor } from '../styles/constants';
+import formStyles from '../styles/Form';
 import ToastMessage from '../utils/ToastMessage';
 import AllergyCard from './AllergyCard';
+
 
 type PropType = {
   patientId: number;
 };
-const ListAllergy = ({patientId}: PropType) => {
+const AllergyTable = ({patientId}: PropType) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<IAllergy[]>([]);
   const [allergyName, setAllergyName] = useState<string>();
@@ -53,25 +55,26 @@ const ListAllergy = ({patientId}: PropType) => {
     try {
       const response = await addAllergy(body);
       ToastMessage(response.message);
+      setAllergyName('')
       setRefresh(!refresh);
     } catch (e: AxiosError | any) {
-      ToastMessage(e.response.data.message,true);
+      ToastMessage(e.response.data.message, true);
     }
     setLoadingAddButton(false);
   };
 
   return (
     <View>
-      <View style={styles.addContainer}>
-        <TextInput onChangeText={setAllergyName} value={allergyName} />
-        <Button
+      <View style={allergyStyles.addContainer}>
+        <TextInput style={formStyles.elementTextInput} onChangeText={setAllergyName} value={allergyName} />
+        <TouchableOpacity style={allergyStyles.elementButton}
           disabled={loadingAddButton}
-          onPress={handleAddAllergy}
-          title=" Add allergy"
-        />
+          onPress={handleAddAllergy}>
+          <Text style={allergyStyles.textInsideButton}>Add allergy</Text>
+        </TouchableOpacity>
       </View>
 
-      <View style={styles.listContainer}>
+      <View style={allergyStyles.listContainer}>
         {data.map((element: IAllergy) => (
           <AllergyCard
             allergyObj={element}
@@ -85,8 +88,25 @@ const ListAllergy = ({patientId}: PropType) => {
   );
 };
 
-const styles = StyleSheet.create({
+export const allergyStyles = StyleSheet.create({
   addContainer: {},
   listContainer: {},
+  elementButton: {
+    display: 'flex',
+    width: '20%',
+    textAlign: 'center',
+    margin: 10,
+    padding: 10,
+    borderColor: primaryButtonColor,
+    borderWidth: 3,
+    borderRadius: 10,
+    fontSize: 20,
+    backgroundColor: primaryButtonColor,
+    alignSelf:"center",
+  },
+  textInsideButton:{
+    fontSize: 10,
+    textAlign: "center",
+  },
 });
-export default ListAllergy;
+export default AllergyTable;
