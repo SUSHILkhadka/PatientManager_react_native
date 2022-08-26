@@ -39,7 +39,7 @@ const PatientTable = () => {
       <ScrollView>
         <Text>This is list page</Text>
         <View style={styles.row}>
-          <Text>ID</Text>
+          <Text>Photo</Text>
           <Text>NAME</Text>
           <Text>EMAIL</Text>
           <Text>ADDRESS</Text>
