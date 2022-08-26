@@ -1,12 +1,16 @@
 import {AxiosError} from 'axios';
-import React, {useState} from 'react';
+import React, {Dispatch, SetStateAction, useState} from 'react';
 import {useEffect} from 'react';
 import {View, Text, StyleSheet, Button, TextInput} from 'react-native';
 import {IAllergy} from '../../redux_toolkit/Interfaces/IAllergy';
 import {deleteAllergy, updateAllergy} from '../../services/backendCallAllergy';
 import ToastMessage from '../utils/ToastMessage';
-
-const AllergyCard = (allergyObj: IAllergy) => {
+type PropType={
+  allergyObj:IAllergy;
+  refresh: boolean;
+  setRefresh: Dispatch<SetStateAction<boolean>>;
+}
+const AllergyCard = ({allergyObj,refresh,setRefresh}:PropType) => {
   const [allergyName, setAllergyName] = useState<string>(allergyObj.name);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -17,7 +21,7 @@ const AllergyCard = (allergyObj: IAllergy) => {
       const response = await updateAllergy(body);
       ToastMessage(response.message);
     } catch (e: AxiosError | any) {
-      ToastMessage(e.response.data.message);
+      ToastMessage(e.response.data.message,true);
     }
     setLoading(false);
   };
@@ -27,8 +31,9 @@ const AllergyCard = (allergyObj: IAllergy) => {
     try {
       const response = await deleteAllergy(allergyObj.id);
       ToastMessage(response.message);
+      setRefresh(!refresh)
     } catch (e: AxiosError | any) {
-      ToastMessage(e.response.data.message);
+      ToastMessage(e.response.data.message,true);
     }
     setLoading(false);
   };

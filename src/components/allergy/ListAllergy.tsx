@@ -1,7 +1,14 @@
 import {AxiosError} from 'axios';
 import React, {useState} from 'react';
 import {useEffect} from 'react';
-import {View, Text, StyleSheet, Button, TextInput} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Button,
+  TextInput,
+  ScrollView,
+} from 'react-native';
 import {IAllergy} from '../../redux_toolkit/Interfaces/IAllergy';
 import {
   addAllergy,
@@ -11,7 +18,7 @@ import ToastMessage from '../utils/ToastMessage';
 import AllergyCard from './AllergyCard';
 
 type PropType = {
-    patientId: number;
+  patientId: number;
 };
 const ListAllergy = ({patientId}: PropType) => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -26,7 +33,7 @@ const ListAllergy = ({patientId}: PropType) => {
       try {
         const response = await getAllAllergiesByPatientId(patientId);
         setData(response.data);
-        console.log('reading allergies',response.data)
+        console.log('reading allergies', response.data);
         ToastMessage(response.message);
       } catch (e: AxiosError | any) {
         ToastMessage(e.response.data.message);
@@ -48,8 +55,7 @@ const ListAllergy = ({patientId}: PropType) => {
       ToastMessage(response.message);
       setRefresh(!refresh);
     } catch (e: AxiosError | any) {
-      ToastMessage(e.response.data.message);
-      setData([]);
+      ToastMessage(e.response.data.message,true);
     }
     setLoadingAddButton(false);
   };
@@ -64,15 +70,17 @@ const ListAllergy = ({patientId}: PropType) => {
           title=" Add allergy"
         />
       </View>
-      {loading ? (
-        <Text>Loading</Text>
-      ) : (
-        <View style={styles.listContainer}>
-          {data.map((element: IAllergy) => (
-            <AllergyCard {...element} />
-          ))}
-        </View>
-      )}
+
+      <View style={styles.listContainer}>
+        {data.map((element: IAllergy) => (
+          <AllergyCard
+            allergyObj={element}
+            refresh={refresh}
+            setRefresh={setRefresh}
+            key={element.id}
+          />
+        ))}
+      </View>
     </View>
   );
 };

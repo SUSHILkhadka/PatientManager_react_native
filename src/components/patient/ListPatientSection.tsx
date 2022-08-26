@@ -5,7 +5,7 @@ import {useSelector} from 'react-redux';
 import {IPatient} from '../../redux_toolkit/Interfaces/IPatient';
 import {RootState} from '../../redux_toolkit/stores/store';
 import {readAllPatients} from '../../services/backendCallPatient';
-import { sortAscending } from '../../utils/sortBy';
+import {sortAscendingByNameKey} from '../../utils/sort';
 import ToastMessage from '../utils/ToastMessage';
 import PatientCard from './PatientCard';
 
@@ -20,12 +20,12 @@ const ListPatientSection = () => {
     const reader = async () => {
       try {
         const response = await readAllPatients();
-        const sortedAscending = sortAscending(response.data);
+        const sortedAscending = sortAscendingByNameKey(response.data);
         setOriginalData(sortedAscending);
         setDisplayingData(sortedAscending);
         ToastMessage(response.message);
       } catch (e: AxiosError | any) {
-        ToastMessage(e.response.data.message);
+        ToastMessage(e.response.data.message,true);
         setOriginalData([]);
         setDisplayingData([]);
       }
@@ -38,8 +38,6 @@ const ListPatientSection = () => {
     <View>
       <ScrollView>
         <Text>This is list page</Text>
-
-
         <View style={styles.row}>
           <Text>ID</Text>
           <Text>NAME</Text>

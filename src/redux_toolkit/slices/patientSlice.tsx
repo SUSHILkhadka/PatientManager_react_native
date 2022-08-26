@@ -18,6 +18,7 @@ export const patientSlice = createSlice({
   initialState: defaultValue,
   reducers: {
     load: (state, action) => {
+      console.log('type of payload dob',typeof(action.payload.dob))
       state.patientId = action.payload.patientId;
       state.name = action.payload.name;
       state.email = action.payload.email;

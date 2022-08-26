@@ -1,6 +1,6 @@
 import { IPatient } from "../redux_toolkit/Interfaces/IPatient";
 
-export function sortAscending(arrayOfObject:IPatient[]):IPatient[]{
+export function sortAscendingByNameKey(arrayOfObject:IPatient[]):IPatient[]{
         const sorted=arrayOfObject;
         sorted.sort(function (a: IPatient, b: IPatient) {
           const keyA = a.name;

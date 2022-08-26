@@ -35,7 +35,7 @@ const LoginForm = () => {
       navigation.navigate('layout');
       ToastMessage(response.message);
     } catch (e: AxiosError | any) {
-      ToastMessage(e.response.data.message);
+      ToastMessage(e.response.data.message,true);
     }
     setLoading(false);
   };

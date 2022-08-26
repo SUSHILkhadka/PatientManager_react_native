@@ -32,7 +32,7 @@ const RegisterForm = () => {
       const response = await register(body);
       ToastMessage(response.message);
     } catch (e: AxiosError | any) {
-      ToastMessage(e.response.data.message);
+      ToastMessage(e.response.data.message,true);
     }
     setLoading(false);
   };
