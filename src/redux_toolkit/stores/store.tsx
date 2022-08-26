@@ -4,6 +4,7 @@ import {pageReducer} from '../slices/pageSlice';
 import {combineReducers} from 'redux';
 import {persistStore, persistReducer} from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {patientReducer} from '../slices/patientSlice';
 const persistConfig = {
   key: 'KeyForPersistStore',
   storage: AsyncStorage,
@@ -12,6 +13,7 @@ const persistConfig = {
 const reducers = combineReducers({
   auth: authReducer,
   page: pageReducer,
+  patient: patientReducer,
 });
 const persistedAuthReducer = persistReducer(persistConfig, reducers);
 
