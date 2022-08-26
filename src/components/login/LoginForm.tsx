@@ -1,4 +1,4 @@
-import {Button, Text, TextInput, View,ToastAndroid} from 'react-native';
+import {Button, Text, TextInput, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../redux_toolkit/stores/store';
 import React, {useState} from 'react';
@@ -9,9 +9,18 @@ import {
   saveLoginResponse,
   saveRefreshToken,
   setLogStatus,
-} from '../../services/localStorageAndCookies';
-import { AxiosError } from 'axios';
+} from '../../services/asyncStorage';
+import {AxiosError} from 'axios';
+import ToastMessage from '../utils/ToastMessage';
+import { changePage } from '../../redux_toolkit/slices/pageSlice';
+import { useNavigation} from '@react-navigation/native';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { typeOfUseNavigationHook } from '../../navigator/Navigator';
+
+
+
 const LoginForm = () => {
+  const navigation:typeOfUseNavigationHook['navigation']=useNavigation();
   const authInfo = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
   const [name, setName] = useState<string>('give your name here');
@@ -19,7 +28,6 @@ const LoginForm = () => {
   const [password, setPassword] = useState<string>('give your password here');
 
   const [loading, setLoading] = useState<boolean>(false);
-
   const handleLogin = async () => {
     setLoading(true);
     const body = {
@@ -27,7 +35,6 @@ const LoginForm = () => {
       email: email,
       password: password,
     };
-    console.log('gg')
     try {
       const response = await login(body);
       console.log(response);
@@ -40,39 +47,32 @@ const LoginForm = () => {
         response.expiresAtRefreshToken,
       );
       await setLogStatus(true);
-      console.log('fff')
-      ToastAndroid.show(response.message, ToastAndroid.SHORT);
-    } catch (e:AxiosError | any) {
-      console.log(e.response.data.message);
-      ToastAndroid.show(e.response.data.message, ToastAndroid.SHORT);
-
-  }
+      ToastMessage(response.message);
+    } catch (e: AxiosError | any) {
+      ToastMessage(e.response.data.message);
+    }
     setLoading(false);
-
   };
+  const changePageToRegister=()=>{
+    navigation.navigate("register");
+    dispatch(changePage(1));
+  }
 
   return (
     <View>
-      <Text>{authInfo.username}</Text>
-      <Text>ff</Text>
-
+      <Button title='new user Register??' onPress={changePageToRegister}></Button>
+      <Text style={{color:"red"}}>{authInfo.username}</Text>
       <TextInput
         onChangeText={setName}
         value={name}
-        placeholder="useless placeholder"
-        keyboardType="numeric"
       />
       <TextInput
         onChangeText={setEmail}
         value={email}
-        placeholder="useless placeholder"
-        keyboardType="numeric"
       />
       <TextInput
         onChangeText={setPassword}
         value={password}
-        placeholder="useless placeholder"
-        keyboardType="numeric"
       />
       <Button disabled={loading} title="Loginaa" onPress={handleLogin} />
     </View>
