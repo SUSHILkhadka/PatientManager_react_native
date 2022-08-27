@@ -45,7 +45,7 @@ const PatientCard = (props: IPatient) => {
   return (
     <View style={patientCardStyle.row}>
       <Image
-        style={styleImage.avatar}
+        style={patientCardStyle.image}
         source={{
           uri: props.photoUrl
             ? props.photoUrl

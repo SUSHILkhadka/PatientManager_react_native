@@ -9,6 +9,8 @@ import {editPatient} from '../../services/backendCallPatient';
 import AllergyTable from '../allergy/AllergyTable';
 import formStyles from '../styles/Form';
 import CustomDatePicker from '../utils/CustomDatePicker';
+import ImageUploaderAndPreviewer from '../utils/ImageUploaderAndPreviewer';
+import { uploadFile } from '../../services/uploadFile';
 
 const EditPatientForm = () => {
   const patientInfo = useSelector((state: RootState) => state.patient);
@@ -22,6 +24,7 @@ const EditPatientForm = () => {
     patientInfo.specialAttention,
   );
   const [loading, setLoading] = useState<boolean>(false);
+  const [pickerResponse, setPickerResponse] = useState<any>();
 
   const handleCreate = async () => {
     setLoading(true);
@@ -32,7 +35,7 @@ const EditPatientForm = () => {
       dob: dob,
       address: address,
       specialAttention: specialAttention,
-      photoUrl: email,
+      photoUrl: pickerResponse?await uploadFile(pickerResponse): patientInfo.photoUrl,
     };
     try {
       const response = await editPatient(body, patientInfo.patientId);
@@ -50,6 +53,11 @@ const EditPatientForm = () => {
   return (
     <View>
       <View style={formStyles.container}>
+      <ImageUploaderAndPreviewer
+        pickerResponse={pickerResponse}
+        setPickerResponse={setPickerResponse}
+        previousUrl={patientInfo.photoUrl}
+      />
         <Text style={formStyles.elementTextLabel}>Patient Name:</Text>
         <TextInput
           style={formStyles.elementTextInput}
