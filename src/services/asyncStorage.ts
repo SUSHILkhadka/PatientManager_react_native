@@ -12,6 +12,12 @@ export async function saveLoginResponse(response: any) {
   await AsyncStorage.setItem('loginResponse', JSON.stringify(response));
 }
 
+export async function deleteLoginResponse() {
+  await saveAccessToken("");
+  await saveRefreshToken("");
+  await AsyncStorage.setItem('loginResponse', "");
+}
+
 /**
  *
  * @returns login response as string
@@ -20,7 +26,6 @@ export async function getLoginResponse(): Promise<any> {
   const obj = await AsyncStorage.getItem('loginResponse');
   return obj ? obj : '';
 }
-
 
 
 //cookies

@@ -1,4 +1,5 @@
 import api from './api';
+import {getRefreshToken} from './asyncStorage';
 
 /**
  * f
@@ -8,7 +9,6 @@ import api from './api';
 export async function login(body: any): Promise<any> {
   const response = await api.post('/login', body);
   return response.data;
-
 }
 /**
  * f
@@ -25,7 +25,9 @@ export async function register(body: any): Promise<any> {
  * @returns response after logout request
  */
 export async function logout(): Promise<any> {
-  const response = await api.post('/logout');
+  const response = await api.post('/logout', {
+    refreshToken: await getRefreshToken,
+  });
   return response.data;
 }
 

@@ -7,17 +7,17 @@ import {
   StyleSheet,
   TextInput,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import {IAllergy} from '../../redux_toolkit/Interfaces/IAllergy';
 import {
   addAllergy,
   getAllAllergiesByPatientId,
 } from '../../services/backendCallAllergy';
-import { primaryButtonColor } from '../styles/constants';
+import {primaryButtonColor} from '../styles/constants';
 import formStyles from '../styles/Form';
 import ToastMessage from '../utils/ToastMessage';
 import AllergyCard from './AllergyCard';
-
 
 type PropType = {
   patientId: number;
@@ -35,8 +35,6 @@ const AllergyTable = ({patientId}: PropType) => {
       try {
         const response = await getAllAllergiesByPatientId(patientId);
         setData(response.data);
-        console.log('reading allergies', response.data);
-        ToastMessage(response.message);
       } catch (e: AxiosError | any) {
         ToastMessage(e.response.data.message);
         setData([]);
@@ -55,7 +53,7 @@ const AllergyTable = ({patientId}: PropType) => {
     try {
       const response = await addAllergy(body);
       ToastMessage(response.message);
-      setAllergyName('')
+      setAllergyName('');
       setRefresh(!refresh);
     } catch (e: AxiosError | any) {
       ToastMessage(e.response.data.message, true);
@@ -66,11 +64,20 @@ const AllergyTable = ({patientId}: PropType) => {
   return (
     <View>
       <View style={allergyStyles.addContainer}>
-        <TextInput style={formStyles.elementTextInput} onChangeText={setAllergyName} value={allergyName} />
-        <TouchableOpacity style={allergyStyles.elementButton}
+        <TextInput
+          style={formStyles.elementTextInput}
+          onChangeText={setAllergyName}
+          value={allergyName}
+        />
+        <TouchableOpacity
+          style={allergyStyles.elementButton}
           disabled={loadingAddButton}
           onPress={handleAddAllergy}>
-          <Text style={allergyStyles.textInsideButton}>Add allergy</Text>
+          {loadingAddButton ? (
+            <ActivityIndicator />
+          ) : (
+            <Text style={allergyStyles.textInsideButton}>Add allergy</Text>
+          )}
         </TouchableOpacity>
       </View>
 
@@ -90,7 +97,11 @@ const AllergyTable = ({patientId}: PropType) => {
 
 export const allergyStyles = StyleSheet.create({
   addContainer: {},
-  listContainer: {},
+  listContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
   elementButton: {
     display: 'flex',
     width: '20%',
@@ -102,11 +113,11 @@ export const allergyStyles = StyleSheet.create({
     borderRadius: 10,
     fontSize: 20,
     backgroundColor: primaryButtonColor,
-    alignSelf:"center",
+    alignSelf: 'center',
   },
-  textInsideButton:{
+  textInsideButton: {
     fontSize: 10,
-    textAlign: "center",
+    textAlign: 'center',
   },
 });
 export default AllergyTable;

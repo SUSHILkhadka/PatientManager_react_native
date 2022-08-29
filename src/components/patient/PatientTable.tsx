@@ -1,7 +1,12 @@
 import {AxiosError} from 'axios';
 import React, {useEffect, useState} from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
-import {useSelector} from 'react-redux';
+import {
+  ActivityIndicator,
+  ScrollView,
+  Text,
+  View,
+} from 'react-native';
+import { useSelector} from 'react-redux';
 import {IPatient} from '../../redux_toolkit/Interfaces/IPatient';
 import {RootState} from '../../redux_toolkit/stores/store';
 import {readAllPatients} from '../../services/backendCallPatient';
@@ -25,7 +30,7 @@ const PatientTable = () => {
         setDisplayingData(sortedAscending);
         ToastMessage(response.message);
       } catch (e: AxiosError | any) {
-        ToastMessage(e.response.data.message,true);
+        ToastMessage(e.response.data.message, true);
         setOriginalData([]);
         setDisplayingData([]);
       }
@@ -34,41 +39,28 @@ const PatientTable = () => {
     reader();
   }, [pageInfo.refreshFlag]);
 
+
   return (
     <View>
+      
       <ScrollView>
-        <Text>This is list page</Text>
-        <View style={styles.row}>
-          <Text>Photo</Text>
-          <Text>NAME</Text>
-          <Text>EMAIL</Text>
-          <Text>ADDRESS</Text>
-          <Text>Special Attention</Text>
-          <Text>Actions</Text>
+        <View>
+          <Text>This is list page</Text>
+
+          {loading ? (
+            <ActivityIndicator size="large" color="#00ff00" />
+          ) : (
+            <View>
+              {displayingData.map((element: IPatient) => (
+                <PatientCard {...element} key={element.patientId} />
+              ))}
+            </View>
+          )}
         </View>
-        {loading ? (
-          <Text>Loading</Text>
-        ) : (
-          <View>
-            {displayingData.map((element: IPatient) => (
-              <PatientCard {...element} key={element.patientId} />
-            ))}
-          </View>
-        )}
       </ScrollView>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  row: {
-    margin: 10,
-    padding: 5,
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-    alignItems: 'baseline',
-  },
-});
+
 export default PatientTable;

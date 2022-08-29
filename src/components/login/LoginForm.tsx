@@ -1,4 +1,11 @@
-import {Button, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Button,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../redux_toolkit/stores/store';
 import React, {useState} from 'react';
@@ -15,8 +22,8 @@ const LoginForm = () => {
   const navigation: typeOfUseNavigationHook['navigation'] = useNavigation();
   const authInfo = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
-  const [email, setEmail] = useState<string>('A');
-  const [password, setPassword] = useState<string>('a');
+  const [email, setEmail] = useState<string>('R');
+  const [password, setPassword] = useState<string>('r');
 
   const [loading, setLoading] = useState<boolean>(false);
   const handleLogin = async () => {
@@ -27,10 +34,9 @@ const LoginForm = () => {
     };
     try {
       const response = await login(body);
+      console.log("response on login screen",response)
       dispatch(makeLoggedInWithInfo(response));
-
       await saveLoginResponse(response);
-      navigation.navigate('layout');
       ToastMessage(response.message);
     } catch (e: AxiosError | any) {
       ToastMessage(e.response.data.message, true);
@@ -48,7 +54,7 @@ const LoginForm = () => {
         style={formStyles.elementTextInput}
         onChangeText={setEmail}
         value={email}
-        placeholder='give your email here'
+        placeholder="give your email here"
       />
       <Text style={formStyles.elementTextLabel}>Password:</Text>
       <TextInput
@@ -56,13 +62,18 @@ const LoginForm = () => {
         onChangeText={setPassword}
         secureTextEntry={true}
         value={password}
-        placeholder='give your password here'
-
+        placeholder="give your password here"
       />
       <TouchableOpacity style={formStyles.elementButton} onPress={handleLogin}>
-        <Text style={formStyles.textInsideButton}>Login</Text>
+        {loading ? (
+          <ActivityIndicator />
+        ) : (
+          <Text style={formStyles.textInsideButton}>Login</Text>
+        )}
       </TouchableOpacity>
-      <TouchableOpacity style={formStyles.elementButton} onPress={changePageToRegister}>
+      <TouchableOpacity
+        style={formStyles.elementButton}
+        onPress={changePageToRegister}>
         <Text style={formStyles.textInsideButton}>New User Register??</Text>
       </TouchableOpacity>
     </View>
