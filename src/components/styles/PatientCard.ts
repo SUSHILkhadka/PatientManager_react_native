@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import {primaryFontColor, secondaryBackgroundColor } from "./constants";
 
 const patientCardStyle = StyleSheet.create({
     row: {
@@ -8,10 +9,15 @@ const patientCardStyle = StyleSheet.create({
       flexDirection: 'row',
       flexWrap: 'wrap',
       justifyContent: 'space-around',
-      alignItems: 'baseline',
+      alignItems: 'center',
       borderColor: "white",
       borderWidth: 1,
-      borderRadius:50
+      borderRadius:50,
+      backgroundColor:secondaryBackgroundColor
+
+    },
+    row_name:{
+      color:primaryFontColor
 
     },
     image:{
@@ -21,6 +27,16 @@ const patientCardStyle = StyleSheet.create({
       alignSelf: "center",
       backgroundColor: "pink",
       borderRadius:500,
-    }
+    },
+    deleteIcon: {
+      backgroundColor: 'red',
+      width: "10%",
+      borderRadius:500,
+      zIndex: 10,
+    },
+  
+    icon: {
+      textAlign: 'center',
+    },
   });
   export default patientCardStyle;

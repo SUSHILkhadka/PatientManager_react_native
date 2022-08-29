@@ -7,6 +7,7 @@ export async function uploadFile(pickerResponse: any): Promise<any> {
     type: pickerResponse.type,
     name: pickerResponse.name,
   };
+  console.log('sdfsdf')
   formData.append('keyForFileObject', JSON.parse(JSON.stringify(file)));
   const response = await api.post('/upload', formData, {
     headers: {

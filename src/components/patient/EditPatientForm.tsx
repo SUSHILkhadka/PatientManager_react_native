@@ -1,4 +1,4 @@
-import {Switch, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {ActivityIndicator, ScrollView, Switch, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../redux_toolkit/stores/store';
 import React, {useState} from 'react';
@@ -10,7 +10,7 @@ import AllergyTable from '../allergy/AllergyTable';
 import formStyles from '../styles/Form';
 import CustomDatePicker from '../utils/CustomDatePicker';
 import ImageUploaderAndPreviewer from '../utils/ImageUploaderAndPreviewer';
-import { uploadFile } from '../../services/uploadFile';
+import {uploadFile} from '../../services/uploadFile';
 
 const EditPatientForm = () => {
   const patientInfo = useSelector((state: RootState) => state.patient);
@@ -35,7 +35,9 @@ const EditPatientForm = () => {
       dob: dob,
       address: address,
       specialAttention: specialAttention,
-      photoUrl: pickerResponse?await uploadFile(pickerResponse): patientInfo.photoUrl,
+      photoUrl: pickerResponse
+        ? await uploadFile(pickerResponse)
+        : patientInfo.photoUrl,
     };
     try {
       const response = await editPatient(body, patientInfo.patientId);
@@ -52,12 +54,13 @@ const EditPatientForm = () => {
 
   return (
     <View>
+      <ScrollView>
       <View style={formStyles.container}>
-      <ImageUploaderAndPreviewer
-        pickerResponse={pickerResponse}
-        setPickerResponse={setPickerResponse}
-        previousUrl={patientInfo.photoUrl}
-      />
+        <ImageUploaderAndPreviewer
+          pickerResponse={pickerResponse}
+          setPickerResponse={setPickerResponse}
+          previousUrl={patientInfo.photoUrl}
+        />
         <Text style={formStyles.elementTextLabel}>Patient Name:</Text>
         <TextInput
           style={formStyles.elementTextInput}
@@ -99,15 +102,19 @@ const EditPatientForm = () => {
           />
         </View>
         <Text style={formStyles.elementTextLabel}>List of allergius are:</Text>
-
         <AllergyTable patientId={patientInfo.patientId} />
         <TouchableOpacity
           disabled={loading}
           style={formStyles.elementButton}
           onPress={handleCreate}>
-          <Text style={formStyles.textInsideButton}>Tap to Save Changes</Text>
+          {loading ? (
+            <ActivityIndicator />
+          ) : (
+            <Text style={formStyles.textInsideButton}>Tap to Save Changes</Text>
+          )}
         </TouchableOpacity>
       </View>
+      </ScrollView>
     </View>
   );
 };

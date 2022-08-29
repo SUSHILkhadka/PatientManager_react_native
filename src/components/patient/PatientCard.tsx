@@ -1,24 +1,34 @@
+import { useNavigation } from '@react-navigation/native';
 import {AxiosError} from 'axios';
 import React, {useState} from 'react';
-import {Alert, Button, Image, StyleSheet, Text, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Alert,
+  Image,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
+import { typeOfUseNavigationHook } from '../../navigator/Navigator';
 import {IPatient} from '../../redux_toolkit/Interfaces/IPatient';
 import {changePage, refreshPage} from '../../redux_toolkit/slices/pageSlice';
 import {load} from '../../redux_toolkit/slices/patientSlice';
 import {RootState} from '../../redux_toolkit/stores/store';
 import {deletePatient} from '../../services/backendCallPatient';
-import styleImage from '../styles/Image';
 import patientCardStyle from '../styles/PatientCard';
 import ToastMessage from '../utils/ToastMessage';
 
 const PatientCard = (props: IPatient) => {
   const pageInfo = useSelector((state: RootState) => state.page);
   const dispatch = useDispatch();
-  const [deleteButtonLoading, setDeleteButtonLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const navigation:typeOfUseNavigationHook["navigation"]=useNavigation()
 
   const handleEdit = () => {
     dispatch(load(props));
     dispatch(changePage(3));
+    navigation.navigate('edit')
   };
 
   const createDeleteAlertbox = () =>
@@ -31,7 +41,7 @@ const PatientCard = (props: IPatient) => {
     ]);
 
   const handleDelete = async () => {
-    setDeleteButtonLoading(true);
+    setLoading(true);
     try {
       const response = await deletePatient(props.patientId);
       dispatch(refreshPage(!pageInfo.refreshFlag));
@@ -39,11 +49,11 @@ const PatientCard = (props: IPatient) => {
     } catch (e: AxiosError | any) {
       ToastMessage(e.response.data.message);
     }
-    setDeleteButtonLoading(false);
+    setLoading(false);
   };
 
   return (
-    <View style={patientCardStyle.row}>
+    <TouchableOpacity style={patientCardStyle.row} onPress={handleEdit}>
       <Image
         style={patientCardStyle.image}
         source={{
@@ -52,16 +62,21 @@ const PatientCard = (props: IPatient) => {
             : 'https://api.minimalavatars.com/avatar/random/png',
         }}
       />
-      <Text>{props.name}</Text>
-      <Text>{props.email}</Text>
-      <Text>{props.address}</Text>
-      <Text>{props.specialAttention.toString()}</Text>
-      <Text onPress={handleEdit}>Edit</Text>
-      <Button
-        title="Delete"
-        disabled={deleteButtonLoading}
-        onPress={createDeleteAlertbox}></Button>
-    </View>
+      <Text style={patientCardStyle.row_name}>{props.name}</Text>
+      <Text style={patientCardStyle.row_name}>{props.email}</Text>
+      <Text style={patientCardStyle.row_name}>{props.address}</Text>
+      <Text style={patientCardStyle.row_name}>{props.specialAttention.toString()}</Text>
+      <TouchableOpacity
+        style={patientCardStyle.deleteIcon}
+        onPress={createDeleteAlertbox}
+        disabled={loading}>
+        {loading ? (
+          <ActivityIndicator />
+        ) : (
+          <Text style={patientCardStyle.icon}>&#9587;</Text>
+        )}
+      </TouchableOpacity>
+    </TouchableOpacity>
   );
 };
 

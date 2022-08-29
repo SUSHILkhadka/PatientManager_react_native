@@ -1,6 +1,8 @@
 import {
+  ActivityIndicator,
   Button,
   Image,
+  ScrollView,
   Switch,
   Text,
   TextInput,
@@ -57,7 +59,9 @@ const BasicPatientForm = () => {
   };
 
   return (
+
     <View style={formStyles.container}>
+      <ScrollView>
       <ImageUploaderAndPreviewer
         pickerResponse={pickerResponse}
         setPickerResponse={setPickerResponse}
@@ -102,8 +106,13 @@ const BasicPatientForm = () => {
         disabled={loading}
         style={formStyles.elementButton}
         onPress={handleCreate}>
-        <Text style={formStyles.textInsideButton}>Add new Patient</Text>
+        {loading ? (
+          <ActivityIndicator />
+        ) : (
+          <Text style={formStyles.textInsideButton}>Add new Patient</Text>
+        )}
       </TouchableOpacity>
+      </ScrollView>
     </View>
   );
 };
