@@ -7,17 +7,16 @@ import allergyCardStyles from '../styles/AllergyCard';
 import ToastMessage from '../utils/ToastMessage';
 type PropType = {
   allergyObj: IAllergy;
-  refresh: boolean;
   setRefresh: Dispatch<SetStateAction<boolean>>;
 };
-const AllergyCard = ({allergyObj, refresh, setRefresh}: PropType) => {
+const AllergyCard = ({allergyObj, setRefresh}: PropType) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleDeleteAllergy = async () => {
     setLoading(true);
     try {
       const response = await deleteAllergy(allergyObj.id);
-      setRefresh(!refresh);
+      setRefresh(prevState => !prevState);
     } catch (e: AxiosError | any) {
       ToastMessage(e.response.data.message, true);
     }

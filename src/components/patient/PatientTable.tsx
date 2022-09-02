@@ -1,16 +1,13 @@
 import {AxiosError} from 'axios';
 import React, {useEffect, useState} from 'react';
-import {
-  ActivityIndicator,
-  ScrollView,
-  Text,
-  View,
-} from 'react-native';
-import { useSelector} from 'react-redux';
+import {ActivityIndicator, ScrollView, Text, View} from 'react-native';
+import {useSelector} from 'react-redux';
 import {IPatient} from '../../redux_toolkit/Interfaces/IPatient';
 import {RootState} from '../../redux_toolkit/stores/store';
 import {readAllPatients} from '../../services/backendCallPatient';
-import {sortAscendingByNameKey} from '../../utils/sort';
+import {sortBySpecialFirstThenRest} from '../../utils/sort';
+import {COLOR} from '../styles/constants';
+import {patientTable} from '../styles/PatientTable';
 import ToastMessage from '../utils/ToastMessage';
 import PatientCard from './PatientCard';
 
@@ -25,10 +22,9 @@ const PatientTable = () => {
     const reader = async () => {
       try {
         const response = await readAllPatients();
-        const sortedAscending = sortAscendingByNameKey(response.data);
-        setOriginalData(sortedAscending);
-        setDisplayingData(sortedAscending);
-        ToastMessage(response.message);
+        const sorted = sortBySpecialFirstThenRest(response.data);
+        setOriginalData(sorted);
+        setDisplayingData(sorted);
       } catch (e: AxiosError | any) {
         ToastMessage(e.response.data.message, true);
         setOriginalData([]);
@@ -39,16 +35,14 @@ const PatientTable = () => {
     reader();
   }, [pageInfo.refreshFlag]);
 
-
   return (
     <View>
-      
       <ScrollView>
-        <View>
-          <Text>This is list page</Text>
-
+        <View style={patientTable.container}>
           {loading ? (
-            <ActivityIndicator size="large" color="#00ff00" />
+            <View style={{height: 300, alignItems: 'center'}}>
+              <ActivityIndicator size="large" color={COLOR.pink2} />
+            </View>
           ) : (
             <View>
               {displayingData.map((element: IPatient) => (
@@ -61,6 +55,5 @@ const PatientTable = () => {
     </View>
   );
 };
-
 
 export default PatientTable;

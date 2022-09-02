@@ -8,11 +8,13 @@ import ListPatientPage from '../screens/patient/ListPatientPage';
 import AddPatientPage from '../screens/patient/AddPatientPage';
 import EditPatientPage from '../screens/patient/EditPatientPage';
 import SplashScreen from '../screens/SplashScreen';
-import axios from 'axios';
 import {getRefreshToken} from '../services/asyncStorage';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../redux_toolkit/stores/store';
-import {makeLoggedInWithInfo, makeLoggedOut} from '../redux_toolkit/slices/authSlice';
+import {
+  makeLoggedInWithInfo,
+  makeLoggedOut,
+} from '../redux_toolkit/slices/authSlice';
 import instance from '../services/api';
 type RootStackParamList = {
   login: undefined;
@@ -27,8 +29,6 @@ export type typeOfUseNavigationHook =
 
 const Navigator = () => {
   const Stack = createNativeStackNavigator<RootStackParamList>();
-  const Tab = createNativeStackNavigator();
-
   const authInfo = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
@@ -41,8 +41,8 @@ const Navigator = () => {
           refreshToken: await getRefreshToken(),
         });
         dispatch(makeLoggedInWithInfo(response));
-      } catch (e:any) {
-        dispatch(makeLoggedOut())
+      } catch (e: any) {
+        dispatch(makeLoggedOut());
       }
       setLoading(false);
     };
@@ -57,25 +57,11 @@ const Navigator = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-          gestureEnabled: true,
-          gestureDirection: 'horizontal',
+          headerShown: false,
         }}>
         {!authInfo.login ? (
           <>
-            <Stack.Screen
-              name="login"
-              options={{
-                title: 'login',
-                headerStyle: {
-                  backgroundColor: '#f4511e',
-                },
-                headerTintColor: '#fff',
-                headerTitleStyle: {
-                  fontWeight: 'bold',
-                },
-              }}
-              component={LoginPage}
-            />
+            <Stack.Screen name="login" component={LoginPage} />
             <Stack.Screen name="register" component={RegisterPage} />
           </>
         ) : (

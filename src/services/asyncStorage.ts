@@ -28,11 +28,11 @@ export async function getLoginResponse(): Promise<any> {
 }
 
 
-//cookies
+//storage
 /**
  *
  * @param response accesstoken itself
- * saves accesstoken in cookie
+ * saves accesstoken in storage
  */
 export async function saveAccessToken(response: string) {
   await AsyncStorage.setItem('accessToken', response);
@@ -51,7 +51,7 @@ export async function getAccessToken(): Promise<string> {
  *
  * @param response refreshtoken as string
  * @param date expiry date of refreshtoken as number
- * saves in cookie
+ * saves in storage
  */
 export async function saveRefreshToken(response: string, date?: number) {
   await AsyncStorage.setItem('refreshToken', response);
@@ -63,7 +63,7 @@ export async function saveRefreshToken(response: string, date?: number) {
 
 /**
  *
- * @returns refreshtoken as string from cookie
+ * @returns refreshtoken as string from storage
  */
 export async function getRefreshToken(): Promise<string> {
   const obj = await AsyncStorage.getItem('refreshToken');
@@ -72,7 +72,7 @@ export async function getRefreshToken(): Promise<string> {
 
 /**
  *
- * @returns expiry time of refreshtoken as number from cookie
+ * @returns expiry time of refreshtoken as number from storage
  */
 export async function getExpiresAtRefreshToken(): Promise<number> {
   const obj = await AsyncStorage.getItem('expiresAtRefreshToken');

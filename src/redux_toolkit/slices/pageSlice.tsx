@@ -15,7 +15,6 @@ export const pageSlice = createSlice({
     },
     refreshPage: (state, action) => {
       state.refreshFlag = action.payload;
-      console.log('in refreshpage dispacth', state.refreshFlag);
     },
   },
 });

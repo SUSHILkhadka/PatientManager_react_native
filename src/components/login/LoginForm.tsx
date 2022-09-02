@@ -17,52 +17,72 @@ import ToastMessage from '../utils/ToastMessage';
 import {useNavigation} from '@react-navigation/native';
 import {typeOfUseNavigationHook} from '../../navigator/Navigator';
 import formStyles from '../styles/Form';
-
+import CustomInput from '../utils/CustomInput';
+import loginSchema from '../../validations/loginSchema';
+import Validator from '../../validations/Validator';
 const LoginForm = () => {
   const navigation: typeOfUseNavigationHook['navigation'] = useNavigation();
   const authInfo = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
-  const [email, setEmail] = useState<string>('R');
-  const [password, setPassword] = useState<string>('r');
-
   const [loading, setLoading] = useState<boolean>(false);
+  const [inputs, setInputs] = useState({
+    email: '',
+    password: '',
+  });
+
+  const handleSetInput = (text: string, label: string) => {
+    setInputs(prevState => ({...prevState, [label]: text}));
+  };
+  const [errors, setErrors] = useState({
+    email: '',
+    password: '',
+  });
+  const handleErrors = (error: string, label: string) => {
+    setErrors(prevState => ({...prevState, [label]: error}));
+  };
+
   const handleLogin = async () => {
-    setLoading(true);
-    const body = {
-      email: email,
-      password: password,
-    };
-    try {
-      const response = await login(body);
-      console.log("response on login screen",response)
-      dispatch(makeLoggedInWithInfo(response));
-      await saveLoginResponse(response);
-      ToastMessage(response.message);
-    } catch (e: AxiosError | any) {
-      ToastMessage(e.response.data.message, true);
+    if (Validator(inputs, loginSchema, handleErrors)) {
+      console.log(inputs);
+      setLoading(true);
+      const body = {
+        email: inputs.email,
+        password: inputs.password,
+      };
+      try {
+        const response = await login(body);
+        dispatch(makeLoggedInWithInfo(response));
+        await saveLoginResponse(response);
+        ToastMessage(response.message);
+      } catch (e: AxiosError | any) {
+        ToastMessage(e.response.data.message, true);
+      }
+      setLoading(false);
     }
-    setLoading(false);
   };
   const changePageToRegister = () => {
     navigation.navigate('register');
   };
 
   return (
-    <View style={formStyles.container}>
-      <Text style={formStyles.elementTextLabel}>Email:</Text>
-      <TextInput
-        style={formStyles.elementTextInput}
-        onChangeText={setEmail}
-        value={email}
-        placeholder="give your email here"
+    <View>
+      <CustomInput
+        placeholder="Enter your email address"
+        label="Email"
+        iconName="email-outline"
+        keyboardType="default"
+        handleSetInput={(text: string) => handleSetInput(text, 'email')}
+        error={errors.email}
+        clearError={() => handleErrors('', 'email')}
       />
-      <Text style={formStyles.elementTextLabel}>Password:</Text>
-      <TextInput
-        style={formStyles.elementTextInput}
-        onChangeText={setPassword}
-        secureTextEntry={true}
-        value={password}
-        placeholder="give your password here"
+      <CustomInput
+        placeholder="Enter your password"
+        label="Password"
+        iconName="lock-outline"
+        hide={true}
+        handleSetInput={(text: string) => handleSetInput(text, 'password')}
+        error={errors.password}
+        clearError={() => handleErrors('', 'password')}
       />
       <TouchableOpacity style={formStyles.elementButton} onPress={handleLogin}>
         {loading ? (

@@ -26,7 +26,7 @@ export async function register(body: any): Promise<any> {
  */
 export async function logout(): Promise<any> {
   const response = await api.post('/logout', {
-    refreshToken: await getRefreshToken,
+    refreshToken: await getRefreshToken(),
   });
   return response.data;
 }

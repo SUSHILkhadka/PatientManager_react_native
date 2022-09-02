@@ -21,8 +21,6 @@ export async function readAllPatients(): Promise<any> {
   return response.data;
 }
 
-
-
 /**
  * 
  * @param body request's body for editing existing patient

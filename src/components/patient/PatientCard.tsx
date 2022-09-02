@@ -1,6 +1,6 @@
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {AxiosError} from 'axios';
-import React, {useState} from 'react';
+import React, {RefObject, useRef, useState} from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -8,27 +8,30 @@ import {
   Text,
   TouchableOpacity,
   View,
+  StyleSheet,
 } from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import { typeOfUseNavigationHook } from '../../navigator/Navigator';
+import {typeOfUseNavigationHook} from '../../navigator/Navigator';
 import {IPatient} from '../../redux_toolkit/Interfaces/IPatient';
 import {changePage, refreshPage} from '../../redux_toolkit/slices/pageSlice';
 import {load} from '../../redux_toolkit/slices/patientSlice';
 import {RootState} from '../../redux_toolkit/stores/store';
-import {deletePatient} from '../../services/backendCallPatient';
+import {deletePatient, editPatient} from '../../services/backendCallPatient';
 import patientCardStyle from '../styles/PatientCard';
 import ToastMessage from '../utils/ToastMessage';
+import {patientFormStyles} from './BasicPatientForm';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const PatientCard = (props: IPatient) => {
   const pageInfo = useSelector((state: RootState) => state.page);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  const navigation:typeOfUseNavigationHook["navigation"]=useNavigation()
+  const [loadingFavourite, setLoadingFavourite] = useState(false);
+  const navigation: typeOfUseNavigationHook['navigation'] = useNavigation();
 
   const handleEdit = () => {
     dispatch(load(props));
-    dispatch(changePage(3));
-    navigation.navigate('edit')
+    navigation.navigate('edit');
   };
 
   const createDeleteAlertbox = () =>
@@ -51,9 +54,24 @@ const PatientCard = (props: IPatient) => {
     }
     setLoading(false);
   };
+  const handleFovouriteChange = async () => {
+    setLoadingFavourite(true);
+    const body = {
+      ...props,
+      specialAttention: !props.specialAttention,
+    };
+    try {
+      const response = await editPatient(body, props.patientId);
+      dispatch(refreshPage(!pageInfo.refreshFlag));
+      ToastMessage(response.message);
+    } catch (e: AxiosError | any) {
+      ToastMessage(e.response.data.message);
+    }
+    setLoadingFavourite(false);
+  };
 
   return (
-    <TouchableOpacity style={patientCardStyle.row} onPress={handleEdit}>
+    <TouchableOpacity style={[patientCardStyle.row]} onPress={handleEdit}>
       <Image
         style={patientCardStyle.image}
         source={{
@@ -62,10 +80,23 @@ const PatientCard = (props: IPatient) => {
             : 'https://api.minimalavatars.com/avatar/random/png',
         }}
       />
-      <Text style={patientCardStyle.row_name}>{props.name}</Text>
-      <Text style={patientCardStyle.row_name}>{props.email}</Text>
-      <Text style={patientCardStyle.row_name}>{props.address}</Text>
-      <Text style={patientCardStyle.row_name}>{props.specialAttention.toString()}</Text>
+      <View style={patientCardStyle.row_texts}>
+        <Text style={patientCardStyle.row_name}>{props.name}</Text>
+        <Text style={patientCardStyle.row_email}>{props.email}</Text>
+      </View>
+      <TouchableOpacity
+        style={patientCardStyle.favouriteIcon}
+        onPress={handleFovouriteChange}
+        disabled={loadingFavourite}>
+        {loadingFavourite ? (
+          <ActivityIndicator />
+        ) : (
+          <Icon
+            name={props.specialAttention ? 'star' : 'star-outline'}
+            style={patientFormStyles.icon}
+          />
+        )}
+      </TouchableOpacity>
       <TouchableOpacity
         style={patientCardStyle.deleteIcon}
         onPress={createDeleteAlertbox}
@@ -73,7 +104,7 @@ const PatientCard = (props: IPatient) => {
         {loading ? (
           <ActivityIndicator />
         ) : (
-          <Text style={patientCardStyle.icon}>&#9587;</Text>
+          <Text style={patientCardStyle.deleteIcon_text}>&#9587;</Text>
         )}
       </TouchableOpacity>
     </TouchableOpacity>

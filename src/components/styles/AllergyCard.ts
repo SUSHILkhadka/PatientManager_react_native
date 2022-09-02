@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { COLOR } from "./constants";
 
 const allergyCardStyles = StyleSheet.create({
     text: {
@@ -7,7 +8,7 @@ const allergyCardStyles = StyleSheet.create({
       display: 'flex',
       flexDirection: 'row',
       justifyContent: 'space-evenly',
-      borderColor: 'white',
+      borderColor: COLOR.pink2,
       borderWidth: 1,
       borderRadius: 10,
     },
@@ -17,7 +18,7 @@ const allergyCardStyles = StyleSheet.create({
     },
   
     deleteIcon: {
-      backgroundColor: 'red',
+      backgroundColor: COLOR.pink1,
       width: 20,
       position: 'absolute',
       right: -10,

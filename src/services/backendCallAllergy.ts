@@ -2,7 +2,6 @@ import { IAllergy } from '../redux_toolkit/Interfaces/IAllergy';
 import api from './api';
 
 const routeName='/allergy/'
-
 /**
  *
  * @param body request's body for adding new patient

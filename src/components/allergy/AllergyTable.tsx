@@ -5,7 +5,6 @@ import {
   View,
   Text,
   StyleSheet,
-  TextInput,
   TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
@@ -14,8 +13,8 @@ import {
   addAllergy,
   getAllAllergiesByPatientId,
 } from '../../services/backendCallAllergy';
-import {primaryButtonColor} from '../styles/constants';
-import formStyles from '../styles/Form';
+import {COLOR, primaryButtonColor} from '../styles/constants';
+import CustomInput from '../utils/CustomInput';
 import ToastMessage from '../utils/ToastMessage';
 import AllergyCard from './AllergyCard';
 
@@ -25,10 +24,27 @@ type PropType = {
 const AllergyTable = ({patientId}: PropType) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<IAllergy[]>([]);
-  const [allergyName, setAllergyName] = useState<string>();
   const [refresh, setRefresh] = useState<boolean>(false);
   const [loadingAddButton, setLoadingAddButton] = useState<boolean>(false);
-
+  const [inputs, setInputs] = useState({
+    allergyName: '',
+  });
+  const handleSetInput = (text: string, label: string) => {
+    setInputs(prevState => ({...prevState, [label]: text}));
+  };
+  const [errors, setErrors] = useState({
+    allergyName: '',
+  });
+  const handleErrors = (error: string, label: string) => {
+    setErrors(prevState => ({...prevState, [label]: error}));
+  };
+  const validate = (): boolean => {
+    if (!inputs.allergyName) {
+      handleErrors('allergy name is required', 'allergyName');
+      return false;
+    }
+    return true;
+  };
   useEffect(() => {
     setLoading(true);
     const reader = async () => {
@@ -45,29 +61,41 @@ const AllergyTable = ({patientId}: PropType) => {
   }, [refresh]);
 
   const handleAddAllergy = async () => {
-    setLoadingAddButton(true);
-    const body = {
-      name: allergyName,
-      patientId: patientId,
-    };
-    try {
-      const response = await addAllergy(body);
-      ToastMessage(response.message);
-      setAllergyName('');
-      setRefresh(!refresh);
-    } catch (e: AxiosError | any) {
-      ToastMessage(e.response.data.message, true);
+    if (validate()) {
+      setLoadingAddButton(true);
+      if (!inputs.allergyName) {
+        ToastMessage('allergyName cannot be empty', true);
+        setLoadingAddButton(false);
+        return 0;
+      }
+      const body = {
+        name: inputs.allergyName,
+        patientId: patientId,
+      };
+      try {
+        const response = await addAllergy(body);
+        ToastMessage(response.message);
+        handleSetInput('', 'allergyName');
+        setRefresh(!refresh);
+      } catch (e: AxiosError | any) {
+        console.log(e);
+        ToastMessage(e.response.data.message, true);
+      }
+      setLoadingAddButton(false);
     }
-    setLoadingAddButton(false);
   };
 
   return (
-    <View>
-      <View style={allergyStyles.addContainer}>
-        <TextInput
-          style={formStyles.elementTextInput}
-          onChangeText={setAllergyName}
-          value={allergyName}
+    <View style={allergyStyles.wholeContainer}>
+      <View>
+        <CustomInput
+          placeholder="Enter new allergy name"
+          label="Allergy"
+          iconName="virus-outline"
+          keyboardType="default"
+          handleSetInput={(text: string) => handleSetInput(text, 'allergyName')}
+          error={errors.allergyName}
+          clearError={() => handleErrors('', 'allergyName')}
         />
         <TouchableOpacity
           style={allergyStyles.elementButton}
@@ -85,7 +113,6 @@ const AllergyTable = ({patientId}: PropType) => {
         {data.map((element: IAllergy) => (
           <AllergyCard
             allergyObj={element}
-            refresh={refresh}
             setRefresh={setRefresh}
             key={element.id}
           />
@@ -96,7 +123,12 @@ const AllergyTable = ({patientId}: PropType) => {
 };
 
 export const allergyStyles = StyleSheet.create({
-  addContainer: {},
+  wholeContainer: {
+    backgroundColor: COLOR.black2,
+    borderWidth: 0.4,
+    margin: 5,
+    borderRadius: 10,
+  },
   listContainer: {
     display: 'flex',
     flexDirection: 'row',
@@ -104,15 +136,14 @@ export const allergyStyles = StyleSheet.create({
   },
   elementButton: {
     display: 'flex',
-    width: '20%',
+    width: '25%',
     textAlign: 'center',
     margin: 10,
     padding: 10,
-    borderColor: primaryButtonColor,
-    borderWidth: 3,
+    borderColor: COLOR.white1,
+    borderWidth: 0.5,
     borderRadius: 10,
-    fontSize: 20,
-    backgroundColor: primaryButtonColor,
+    backgroundColor: COLOR.pink2,
     alignSelf: 'center',
   },
   textInsideButton: {
