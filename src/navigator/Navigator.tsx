@@ -10,8 +10,9 @@ import EditPatientPage from '../screens/patient/EditPatientPage';
 import SplashScreen from '../screens/SplashScreen';
 import {getRefreshToken} from '../services/asyncStorage';
 import {useDispatch, useSelector} from 'react-redux';
-import {RootState} from '../redux_toolkit/stores/store';
+import {AppDispatch, RootState} from '../redux_toolkit/stores/store';
 import {
+  checkToken,
   makeLoggedInWithInfo,
   makeLoggedOut,
 } from '../redux_toolkit/slices/authSlice';
@@ -30,26 +31,32 @@ export type typeOfUseNavigationHook =
 const Navigator = () => {
   const Stack = createNativeStackNavigator<RootStackParamList>();
   const authInfo = useSelector((state: RootState) => state.auth);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const [loading, setLoading] = useState(false);
 
   //checking whether the refreshToken in storage is valid or not
+  // useEffect(() => {
+  //   const checkRefreshToken = async () => {
+  //     try {
+  //       const response = await instance.post('/token', {
+  //         refreshToken: await getRefreshToken(),
+  //       });
+  //       dispatch(makeLoggedInWithInfo(response));
+  //     } catch (e: any) {
+  //       dispatch(makeLoggedOut());
+  //     }
+  //     setLoading(false);
+  //   };
+  //   checkRefreshToken();
+  // }, []);
+
   useEffect(() => {
-    const checkRefreshToken = async () => {
-      try {
-        const response = await instance.post('/token', {
-          refreshToken: await getRefreshToken(),
-        });
-        dispatch(makeLoggedInWithInfo(response));
-      } catch (e: any) {
-        dispatch(makeLoggedOut());
-      }
-      setLoading(false);
-    };
-    checkRefreshToken();
+    console.log('ff');
+    dispatch(checkToken());
+
   }, []);
 
-  if (loading) {
+  if (authInfo.isLoading == 'loading') {
     return <SplashScreen />;
   }
 

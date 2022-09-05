@@ -20,7 +20,6 @@ export const checkToken = createAsyncThunk(
     return response;
   },
 );
-
 export const authSlice = createSlice({
   name: 'authInfo',
   initialState: defaultValue,
@@ -34,30 +33,30 @@ export const authSlice = createSlice({
     },
     makeLoggedOut: state => {
       state.login = false;
-      state.id = 1;
+      state.id = 0;
       state.username = '';
       state.email = '';
     },
   },
-  // extraReducers: {
-  //   [checkToken.pending.toString()]: (state: IAuth) => {
-  //     state.isLoading = 'loading';
-  //   },
-  //   [checkToken.fulfilled]:(state:any,action:any)=>{
-  //     makeLoggedInWithInfo(action);
-  //   }
-  // },
   extraReducers: builder => {
     builder
       .addCase(checkToken.pending, state => {
-        state.isLoading='loading'
+        state.isLoading = 'loading';
       })
       .addCase(checkToken.fulfilled, (state, action) => {
-        state.isLoading='fulfilled'
-        makeLoggedInWithInfo(action)
-      }).addCase(checkToken.rejected,(state)=>{
-        state.isLoading='failed'
+        state.isLoading = 'fulfilled';
+        state.login = true;
+        state.id = action.payload.data.id;
+        state.username = action.payload.data.name;
+        state.email = action.payload.data.email;
       })
+      .addCase(checkToken.rejected, state => {
+        state.isLoading = 'failed';
+        state.login = false;
+        state.id = 0;
+        state.username = '';
+        state.email = '';
+      });
   },
 });
 

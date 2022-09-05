@@ -26,8 +26,8 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState<boolean>(false);
   const [inputs, setInputs] = useState({
-    email: '',
-    password: '',
+    email: 'a@gmail.com',
+    password: 'aaa',
   });
 
   const handleSetInput = (text: string, label: string) => {
