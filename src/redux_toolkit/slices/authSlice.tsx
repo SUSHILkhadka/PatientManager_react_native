@@ -4,7 +4,6 @@ import {getRefreshToken} from '../../services/asyncStorage';
 import {IAuth} from '../Interfaces/IAuth';
 
 const defaultValue: IAuth = {
-  login: false,
   id: 0,
   username: '',
   email: '',
@@ -25,17 +24,16 @@ export const authSlice = createSlice({
   initialState: defaultValue,
   reducers: {
     makeLoggedInWithInfo: (state, action) => {
-      state.login = true;
       state.id = action.payload.data.id;
       state.username = action.payload.data.name;
       state.email = action.payload.data.email;
       state.isLoading = 'fulfilled';
     },
     makeLoggedOut: state => {
-      state.login = false;
       state.id = 0;
       state.username = '';
       state.email = '';
+      state.isLoading = 'failed';
     },
   },
   extraReducers: builder => {
@@ -45,14 +43,12 @@ export const authSlice = createSlice({
       })
       .addCase(checkToken.fulfilled, (state, action) => {
         state.isLoading = 'fulfilled';
-        state.login = true;
         state.id = action.payload.data.id;
         state.username = action.payload.data.name;
         state.email = action.payload.data.email;
       })
       .addCase(checkToken.rejected, state => {
         state.isLoading = 'failed';
-        state.login = false;
         state.id = 0;
         state.username = '';
         state.email = '';

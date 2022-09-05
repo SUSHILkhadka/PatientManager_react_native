@@ -1,35 +1,41 @@
 import React from 'react';
 import {
+  ActivityIndicator,
   Dimensions,
-  Image,
   SafeAreaView,
   StyleSheet,
   Text,
-  useWindowDimensions,
   View,
 } from 'react-native';
+import { COLOR } from '../components/styles/constants';
 import {safeAreaStyles} from './login/LoginPage';
 
 const SplashScreen = () => {
   return (
     <SafeAreaView style={safeAreaStyles.page}>
-      <View>
-        <Text>This is splash screen</Text>
-        <Image
-          source={{
-            uri: 'https://api.minimalavatars.com/avatar/random/png',
-          }}
-        />
-        <Text>ff</Text>
+      <View style={splashScreenStyle.textContainer}>
+        <Text style={splashScreenStyle.title}>Patient PM</Text>
+        <ActivityIndicator size={40} color={COLOR.pink2}/>
       </View>
     </SafeAreaView>
   );
 };
 
 const splashScreenStyle = StyleSheet.create({
-  imageContainer: {
+  textContainer: {
     width: '100%',
     height: Dimensions.get('window').height,
+    backgroundColor:COLOR.black1,
+    display:"flex",
+    flexDirection:"column",
+    alignItems:"center",
+    justifyContent:"center"
   },
+  title:{
+    color:COLOR.pink1,
+    fontSize:40,
+    fontWeight:"bold"
+    
+  }
 });
 export default SplashScreen;
