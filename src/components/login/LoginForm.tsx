@@ -1,8 +1,6 @@
 import {
   ActivityIndicator,
-  Button,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';

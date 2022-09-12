@@ -2,7 +2,6 @@ import {StyleSheet} from 'react-native';
 
 const styleImage = StyleSheet.create({
   container:{
-
   },
   avatar: {
     width: "50%",
@@ -12,7 +11,6 @@ const styleImage = StyleSheet.create({
     borderWidth: 2,
     backgroundColor: "pink",
     borderRadius:500
-
   },
   addIcon: {
     width: 200,

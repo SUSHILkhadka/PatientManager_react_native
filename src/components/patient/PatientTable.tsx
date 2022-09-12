@@ -36,7 +36,7 @@ const PatientTable = () => {
   }, [pageInfo.refreshFlag]);
 
   return (
-    <View>
+    <View testID="card">
       <ScrollView>
         <View style={patientTable.container}>
           {loading ? (

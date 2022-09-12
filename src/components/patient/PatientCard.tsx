@@ -98,6 +98,7 @@ const PatientCard = (props: IPatient) => {
         )}
       </TouchableOpacity>
       <TouchableOpacity
+      
         style={patientCardStyle.deleteIcon}
         onPress={createDeleteAlertbox}
         disabled={loading}>

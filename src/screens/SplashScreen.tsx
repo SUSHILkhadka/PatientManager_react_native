@@ -14,7 +14,7 @@ const SplashScreen = () => {
   return (
     <SafeAreaView style={safeAreaStyles.page}>
       <View style={splashScreenStyle.textContainer}>
-        <Text style={splashScreenStyle.title}>Patient PM</Text>
+        <Text testID='ff' style={splashScreenStyle.title}>Patient PM</Text>
         <ActivityIndicator size={40} color={COLOR.pink2}/>
       </View>
     </SafeAreaView>

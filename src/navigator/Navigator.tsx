@@ -8,7 +8,6 @@ import ListPatientPage from '../screens/patient/ListPatientPage';
 import AddPatientPage from '../screens/patient/AddPatientPage';
 import EditPatientPage from '../screens/patient/EditPatientPage';
 import SplashScreen from '../screens/SplashScreen';
-import {getRefreshToken} from '../services/asyncStorage';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, RootState} from '../redux_toolkit/stores/store';
 import {checkToken} from '../redux_toolkit/slices/authSlice';
