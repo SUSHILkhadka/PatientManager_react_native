@@ -79,15 +79,9 @@ const LoginForm = () => {
         clearError={() => handleErrors('', 'password')}
       />
       <TouchableOpacity style={formStyles.elementButton} onPress={handleLogin}>
-        {loading ? (
-          <ActivityIndicator />
-        ) : (
-          <Text style={formStyles.textInsideButton}>Login</Text>
-        )}
+        {loading ? <ActivityIndicator /> : <Text style={formStyles.textInsideButton}>Login</Text>}
       </TouchableOpacity>
-      <TouchableOpacity
-        style={formStyles.elementButton}
-        onPress={changePageToRegister}>
+      <TouchableOpacity style={formStyles.elementButton} onPress={changePageToRegister}>
         <Text style={formStyles.textInsideButton}>New User Register??</Text>
       </TouchableOpacity>
     </View>

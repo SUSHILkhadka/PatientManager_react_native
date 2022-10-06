@@ -1,5 +1,5 @@
-export interface IAllergy {
+export type IAllergy = {
   id: number;
   name: string;
-  patientId: number;
-}
+  status: 'read' | 'added' | 'edited' | 'deleted';
+};

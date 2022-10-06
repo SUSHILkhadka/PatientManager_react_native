@@ -1,50 +1,44 @@
-import {
-  ActivityIndicator,
-  ScrollView,
-  StyleSheet,
-  Switch,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import React, {useState} from 'react';
-import {AxiosError} from 'axios';
-import ToastMessage from '../utils/ToastMessage';
-import {refreshPage} from '../../redux_toolkit/slices/pageSlice';
 import {useNavigation} from '@react-navigation/native';
+import {AxiosError} from 'axios';
+import React, {useState} from 'react';
+import {ActivityIndicator, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useDispatch, useSelector} from 'react-redux';
 import {typeOfUseNavigationHook} from '../../navigator/Navigator';
-import {addPatient} from '../../services/backendCallPatient';
+import {IPatient} from '../../redux_toolkit/Interfaces/IPatient';
+import {refreshPage} from '../../redux_toolkit/slices/pageSlice';
+import {RootState} from '../../redux_toolkit/stores/store';
+import {sentArrayOfAllergyToBackend} from '../../services/backendCallAllergy';
+import {addPatient, editPatient} from '../../services/backendCallPatient';
+import {uploadFile} from '../../services/uploadFile';
+import patientSchema from '../../validations/patientSchema';
+import Validator from '../../validations/Validator';
+import AllergySection from '../allergy/AllergySection';
+import {COLOR} from '../styles/constants';
 import formStyles from '../styles/Form';
 import CustomDatePicker from '../utils/CustomDatePicker';
-import {uploadFile} from '../../services/uploadFile';
+import CustomInput, {styles as customInputStyles} from '../utils/CustomInput';
 import ImageUploaderAndPreviewer from '../utils/ImageUploaderAndPreviewer';
-import {RootState} from '../../redux_toolkit/stores/store';
-import CustomInput from '../utils/CustomInput';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {styles as customInputStyles} from '../utils/CustomInput';
-import {COLOR} from '../styles/constants';
-import Validator from '../../validations/Validator';
-import patientSchema from '../../validations/patientSchema';
+import ToastMessage from '../utils/ToastMessage';
 
-const BasicPatientForm = () => {
+type PropType = {
+  initialValue: IPatient;
+};
+const PatientForm = ({initialValue}: PropType) => {
   const navigation: typeOfUseNavigationHook['navigation'] = useNavigation();
   const pageInfo = useSelector((state: RootState) => state.page);
+  const allergyArrayInfo = useSelector((state: RootState) => state.allergy);
   const dispatch = useDispatch();
-  const [dob, setDob] = useState<Date>(new Date());
-  const [specialAttention, setSpecialAttention] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
+
+  const [inputs, setInputs] = useState(initialValue);
+  const [dob, setDob] = useState<Date>(new Date(initialValue.dob ? initialValue.dob : Date.now()));
+  const [specialAttention, setSpecialAttention] = useState<boolean>(initialValue.specialAttention);
   const [pickerResponse, setPickerResponse] = useState<any>();
-  const [inputs, setInputs] = useState({
-    name: '',
-    email: '',
-    contact: '',
-    address: '',
-  });
   const handleSetInput = (text: string, label: string) => {
     setInputs(prevState => ({...prevState, [label]: text}));
   };
+
   const [errors, setErrors] = useState({
     name: '',
     email: '',
@@ -55,24 +49,33 @@ const BasicPatientForm = () => {
     setErrors(prevState => ({...prevState, [label]: error}));
   };
 
-  const handleCreate = async () => {
-    if (Validator({...inputs, dob}, patientSchema, handleErrors)) {
+  const handleEdit = async () => {
+    const body = {
+      name: inputs.name,
+      email: inputs.email,
+      contact: inputs.contact,
+      dob: dob,
+      address: inputs.address,
+      specialAttention: specialAttention,
+      photoUrl: pickerResponse ? await uploadFile(pickerResponse) : initialValue.photoUrl,
+    };
+    if (Validator(body, patientSchema, handleErrors)) {
       setLoading(true);
-      const body = {
-        name: inputs.name,
-        email: inputs.email,
-        contact: inputs.contact,
-        dob: dob,
-        address: inputs.address,
-        specialAttention: specialAttention,
-        photoUrl: pickerResponse ? await uploadFile(pickerResponse) : '',
-      };
+
       try {
-        const response = await addPatient(body);
-        ToastMessage(response.message);
+        if (initialValue.name == '') {
+          const response = await addPatient(body);
+          console.log(response.data);
+          const responseAfterAllergy = await sentArrayOfAllergyToBackend(allergyArrayInfo, response.data.patientId);
+          ToastMessage('Patient added Successfully');
+        } else {
+          const response = await editPatient(body, initialValue.patientId);
+          const responseAfterAllergy = await sentArrayOfAllergyToBackend(allergyArrayInfo, initialValue.patientId);
+          ToastMessage('Patient edited Successfully');
+        }
         changePageToListPatient();
       } catch (e: AxiosError | any) {
-        ToastMessage(e.response.data.message, true);
+        ToastMessage(e.response.data.message);
       }
       setLoading(false);
     }
@@ -86,10 +89,12 @@ const BasicPatientForm = () => {
   return (
     <View>
       <ImageUploaderAndPreviewer
+        previousUrl={initialValue.photoUrl}
         pickerResponse={pickerResponse}
         setPickerResponse={setPickerResponse}
       />
       <CustomInput
+        defaultValue={inputs.name}
         placeholder="Enter patient name"
         label="Patient Name"
         iconName="email-outline"
@@ -99,6 +104,7 @@ const BasicPatientForm = () => {
         clearError={() => handleErrors('', 'name')}
       />
       <CustomInput
+        defaultValue={inputs.email}
         placeholder="Enter patient email address"
         label="Patient Email"
         iconName="email-outline"
@@ -108,6 +114,7 @@ const BasicPatientForm = () => {
         clearError={() => handleErrors('', 'email')}
       />
       <CustomInput
+        defaultValue={inputs.contact}
         placeholder="Enter patient phone number"
         label="Patient Contact"
         iconName="phone-outline"
@@ -117,6 +124,7 @@ const BasicPatientForm = () => {
         clearError={() => handleErrors('', 'contact')}
       />
       <CustomInput
+        defaultValue={inputs.address}
         placeholder="Enter patient address"
         label="Patient Address"
         iconName="phone-outline"
@@ -134,22 +142,22 @@ const BasicPatientForm = () => {
           onPress={() => setSpecialAttention(!specialAttention)}
           style={styles.icon}></Icon>
       </View>
-
+      <AllergySection />
       <TouchableOpacity
         disabled={loading}
         style={[formStyles.elementButton, formStyles.lastElementButton]}
-        onPress={handleCreate}>
+        onPress={handleEdit}>
         {loading ? (
           <ActivityIndicator />
         ) : (
-          <Text style={formStyles.textInsideButton}>Add new Patient</Text>
+          <Text style={formStyles.textInsideButton}>{initialValue.name != '' ? 'Tap to Save Changes' : 'add'}</Text>
         )}
       </TouchableOpacity>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
   container: {
     backgroundColor: 'transparent',
     marginHorizontal: 10,
@@ -163,5 +171,5 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
 });
-export {styles as patientFormStyles};
-export default BasicPatientForm;
+
+export default PatientForm;

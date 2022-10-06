@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  ActivityIndicator,
-  Dimensions,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {ActivityIndicator, Dimensions, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {COLOR} from '../components/styles/constants';
 import {safeAreaStyles} from './login/LoginPage';
 

@@ -19,8 +19,7 @@ type RootStackParamList = {
   add: undefined;
   edit: undefined;
 };
-export type typeOfUseNavigationHook =
-  NativeStackScreenProps<RootStackParamList>;
+export type typeOfUseNavigationHook = NativeStackScreenProps<RootStackParamList>;
 
 const Navigator = () => {
   const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -45,7 +44,7 @@ const Navigator = () => {
             <Stack.Screen name="login" component={LoginPage} />
             <Stack.Screen name="register" component={RegisterPage} />
           </>
-        ) : ( 
+        ) : (
           <>
             <Stack.Screen name="list" component={ListPatientPage} />
             <Stack.Screen name="add" component={AddPatientPage} />

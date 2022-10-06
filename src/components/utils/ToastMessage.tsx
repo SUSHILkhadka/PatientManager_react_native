@@ -11,4 +11,8 @@ const ToastMessage = (message: string, error?: boolean) => {
   });
 };
 
+export const showDefaultErrorMessage = () => {
+  ToastMessage('Something went wrong. Please try later', true);
+};
+
 export default ToastMessage;

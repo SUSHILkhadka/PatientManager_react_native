@@ -13,7 +13,6 @@ const defaultValue: IPatient = {
   address: 'asdfas',
   photoUrl: 'asdfas',
   specialAttention: false,
-  allergies: 'asdfas',
 };
 const array = [defaultValue, defaultValue];
 jest.mock('../services/backendCallPatient', () => {

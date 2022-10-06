@@ -1,20 +1,13 @@
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import styleImage from '../styles/Image';
-import DocumentPicker, {
-  DirectoryPickerResponse,
-  DocumentPickerResponse,
-} from 'react-native-document-picker';
+import DocumentPicker, {DirectoryPickerResponse, DocumentPickerResponse} from 'react-native-document-picker';
 type Prop = {
   pickerResponse: any;
   setPickerResponse: any;
   previousUrl?: string;
 };
-const ImageUploaderAndPreviewer = ({
-  pickerResponse,
-  setPickerResponse,
-  previousUrl,
-}: Prop) => {
+const ImageUploaderAndPreviewer = ({pickerResponse, setPickerResponse, previousUrl}: Prop) => {
   const selectOneFile = async () => {
     try {
       const res = await DocumentPicker.pickSingle({
@@ -50,7 +43,7 @@ const styles = StyleSheet.create({
     fontSize: 50,
     width: '30%',
     color: 'black',
-    opacity:0.7,
+    opacity: 0.7,
     borderRadius: 50,
   },
 });

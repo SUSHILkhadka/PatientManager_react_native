@@ -1,11 +1,4 @@
-import {
-  ActivityIndicator,
-  Button,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {ActivityIndicator, Button, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import {register} from '../../services/backendCallUser';
 
@@ -94,25 +87,15 @@ const RegisterForm = () => {
         label="Confirm Password"
         iconName="lock-outline"
         hide={true}
-        handleSetInput={(text: string) =>
-          handleSetInput(text, 'confirmPassword')
-        }
+        handleSetInput={(text: string) => handleSetInput(text, 'confirmPassword')}
         error={errors.confirmPassword}
         clearError={() => handleErrors('', 'confirmPassword')}
       />
 
-      <TouchableOpacity
-        style={formStyles.elementButton}
-        onPress={handleRegister}>
-        {loading ? (
-          <ActivityIndicator />
-        ) : (
-          <Text style={formStyles.textInsideButton}>Register</Text>
-        )}
+      <TouchableOpacity style={formStyles.elementButton} onPress={handleRegister}>
+        {loading ? <ActivityIndicator /> : <Text style={formStyles.textInsideButton}>Register</Text>}
       </TouchableOpacity>
-      <TouchableOpacity
-        style={formStyles.elementButton}
-        onPress={changePageToLogin}>
+      <TouchableOpacity style={formStyles.elementButton} onPress={changePageToLogin}>
         <Text style={formStyles.textInsideButton}>Already has account??</Text>
       </TouchableOpacity>
     </View>

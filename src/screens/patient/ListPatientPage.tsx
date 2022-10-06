@@ -33,32 +33,28 @@ const ListPatientPage = () => {
   const goToAddPatientPage = () => {
     navigation.navigate('add');
   };
-  const [loading,setLoading]=useState(false)
+  const [loading, setLoading] = useState(false);
 
   const handleLogout = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
       const response = await logout();
       ToastMessage(response.message);
     } catch (e: AxiosError | any) {}
     dispatch(makeLoggedOut());
     await deleteLoginResponse();
-    setLoading(false)
-
+    setLoading(false);
   };
 
   const drawer = useRef<any>(null);
   const navigationView = () => (
     <TouchableOpacity style={formStyles.elementButton} onPress={handleLogout}>
-     {loading?<ActivityIndicator/>:<Text style={formStyles.textInsideButton}>Logout</Text>}
+      {loading ? <ActivityIndicator /> : <Text style={formStyles.textInsideButton}>Logout</Text>}
     </TouchableOpacity>
   );
 
   return (
-    <DrawerLayoutAndroid
-      ref={drawer}
-      drawerWidth={200}
-      renderNavigationView={navigationView}>
+    <DrawerLayoutAndroid ref={drawer} drawerWidth={200} renderNavigationView={navigationView}>
       <SafeAreaView style={safeAreaStyles.page}>
         <View>
           <TouchableOpacity style={styles.addIcon} onPress={goToAddPatientPage}>
@@ -91,14 +87,17 @@ const stylesDrawer = StyleSheet.create({
 const styles = StyleSheet.create({
   addIcon: {
     fontSize: 40,
-    width: "20%",
+    width: '20%',
     alignSelf: 'center',
     zIndex: 2,
     borderRadius: 400,
     position: 'absolute',
     backgroundColor: COLOR.pink2,
     opacity: 0.7,
-    top: Dimensions.get('window').height>500?Dimensions.get('window').height*0.85:Dimensions.get('window').height * 0.70,
+    top:
+      Dimensions.get('window').height > 500
+        ? Dimensions.get('window').height * 0.85
+        : Dimensions.get('window').height * 0.7,
     right: 40,
   },
   addIcon_text: {

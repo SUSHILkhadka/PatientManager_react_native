@@ -10,15 +10,12 @@ const defaultValue: IAuth = {
   isLoading: 'loading',
 };
 
-export const checkToken = createAsyncThunk(
-  'authInfo/checkRefreshToken',
-  async (): Promise<any> => {
-    const response = await instance.post('/token', {
-      refreshToken: await getRefreshToken(),
-    });
-    return response;
-  },
-);
+export const checkToken = createAsyncThunk('authInfo/checkRefreshToken', async (): Promise<any> => {
+  const response = await instance.post('/token', {
+    refreshToken: await getRefreshToken(),
+  });
+  return response;
+});
 export const authSlice = createSlice({
   name: 'authInfo',
   initialState: defaultValue,

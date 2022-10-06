@@ -1,26 +1,18 @@
 import {useNavigation} from '@react-navigation/native';
 import {AxiosError} from 'axios';
-import React, { useState} from 'react';
-import {
-  ActivityIndicator,
-  Alert,
-  Image,
-  Text,
-  TouchableOpacity,
-  View,
-  StyleSheet,
-} from 'react-native';
+import React, {useState} from 'react';
+import {ActivityIndicator, Alert, Image, Text, TouchableOpacity, View} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useDispatch, useSelector} from 'react-redux';
 import {typeOfUseNavigationHook} from '../../navigator/Navigator';
 import {IPatient} from '../../redux_toolkit/Interfaces/IPatient';
-import {changePage, refreshPage} from '../../redux_toolkit/slices/pageSlice';
-import {load} from '../../redux_toolkit/slices/patientSlice';
+import {refreshPage} from '../../redux_toolkit/slices/pageSlice';
+import {loadPatient} from '../../redux_toolkit/slices/patientSlice';
 import {RootState} from '../../redux_toolkit/stores/store';
 import {deletePatient, editPatient} from '../../services/backendCallPatient';
 import patientCardStyle from '../styles/PatientCard';
 import ToastMessage from '../utils/ToastMessage';
-import {patientFormStyles} from './BasicPatientForm';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {styles as patientFormStyles} from './PatientForm';
 
 const PatientCard = (props: IPatient) => {
   const pageInfo = useSelector((state: RootState) => state.page);
@@ -30,7 +22,7 @@ const PatientCard = (props: IPatient) => {
   const navigation: typeOfUseNavigationHook['navigation'] = useNavigation();
 
   const handleEdit = () => {
-    dispatch(load(props));
+    dispatch(loadPatient(props));
     navigation.navigate('edit');
   };
 
@@ -75,9 +67,7 @@ const PatientCard = (props: IPatient) => {
       <Image
         style={patientCardStyle.image}
         source={{
-          uri: props.photoUrl
-            ? props.photoUrl
-            : 'https://api.minimalavatars.com/avatar/random/png',
+          uri: props.photoUrl ? props.photoUrl : 'https://api.minimalavatars.com/avatar/random/png',
         }}
       />
       <View style={patientCardStyle.row_texts}>
@@ -85,29 +75,22 @@ const PatientCard = (props: IPatient) => {
         <Text style={patientCardStyle.row_email}>{props.email}</Text>
       </View>
       <TouchableOpacity
-        testID='favouriteIcon'
+        testID="favouriteIcon"
         style={patientCardStyle.favouriteIcon}
         onPress={handleFovouriteChange}
         disabled={loadingFavourite}>
         {loadingFavourite ? (
           <ActivityIndicator />
         ) : (
-          <Icon
-            name={props.specialAttention ? 'star' : 'star-outline'}
-            style={patientFormStyles.icon}
-          />
+          <Icon name={props.specialAttention ? 'star' : 'star-outline'} style={patientFormStyles.icon} />
         )}
       </TouchableOpacity>
       <TouchableOpacity
-        testID='deleteIcon'
+        testID="deleteIcon"
         style={patientCardStyle.deleteIcon}
         onPress={createDeleteAlertbox}
         disabled={loading}>
-        {loading ? (
-          <ActivityIndicator />
-        ) : (
-          <Text  style={patientCardStyle.deleteIcon_text}>&#9587;</Text>
-        )}
+        {loading ? <ActivityIndicator /> : <Text style={patientCardStyle.deleteIcon_text}>&#9587;</Text>}
       </TouchableOpacity>
     </TouchableOpacity>
   );

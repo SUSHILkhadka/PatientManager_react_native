@@ -1,11 +1,5 @@
 import React, {useState} from 'react';
-import {
-  KeyboardTypeOptions,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import {KeyboardTypeOptions, StyleSheet, Text, TextInput, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {COLOR} from '../styles/constants';
 type PropType = {
@@ -14,10 +8,10 @@ type PropType = {
   iconName: string;
   clearError?: () => void;
   error?: string;
-  hide?:boolean
+  hide?: boolean;
   keyboardType?: KeyboardTypeOptions;
   handleSetInput: (text: string) => void;
-  defaultValue?:string
+  defaultValue?: string;
 };
 const CustomInput = ({
   placeholder,
@@ -28,21 +22,17 @@ const CustomInput = ({
   hide,
   keyboardType,
   handleSetInput,
-  defaultValue
+  defaultValue,
 }: PropType) => {
   const [isFocused, setIsFocused] = useState(false);
   const [hidePassword, setHidePassword] = useState(true);
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
-      <View
-        style={[
-          styles.inputContainer,
-          {borderColor: error ? 'red' : isFocused ? COLOR.pink2 : '#4c4c4c'},
-        ]}>
+      <View style={[styles.inputContainer, {borderColor: error ? 'red' : isFocused ? COLOR.pink2 : '#4c4c4c'}]}>
         <Icon style={styles.icon} name={iconName} />
         <TextInput
-        defaultValue={defaultValue}
+          defaultValue={defaultValue}
           style={styles.textinput}
           placeholder={placeholder}
           onFocus={() => {

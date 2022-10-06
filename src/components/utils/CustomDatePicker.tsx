@@ -26,11 +26,7 @@ const CustomDatePicker = ({label, dob, setDob}: Prop) => {
   return (
     <View style={customInputStyles.container}>
       <Text style={customInputStyles.label}>{label}</Text>
-      <View
-        style={[
-          customInputStyles.inputContainer,
-          {borderColor: isFocused ? COLOR.pink2 : '#4c4c4c'},
-        ]}>
+      <View style={[customInputStyles.inputContainer, {borderColor: isFocused ? COLOR.pink2 : '#4c4c4c'}]}>
         <Icon style={customInputStyles.icon} name="calendar" />
         <TextInput
           style={customInputStyles.textinput}

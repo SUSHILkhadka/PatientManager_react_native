@@ -28,7 +28,7 @@ export async function getAllAllergiesByPatientId(patientId: number): Promise<any
  * @param allergyId for targeting specific allergy from allergy's table
  * @returns response from server
  */
-export async function updateAllergy(body: IAllergy): Promise<any> {
+export async function updateAllergy(body: any): Promise<any> {
   const response = await api.put(routeName + body.id, body);
   return response.data;
 }
@@ -41,4 +41,28 @@ export async function updateAllergy(body: IAllergy): Promise<any> {
 export async function deleteAllergy(allergyId: number): Promise<any> {
   const response = await api.delete(routeName + allergyId);
   return response.data;
+}
+
+export async function sentArrayOfAllergyToBackend(array: IAllergy[], patientId: number): Promise<any> {
+  let responseArray = [];
+
+  for (let i = 0; i < array.length; i++) {
+    const body = {
+      id: array[i].id,
+      name: array[i].name,
+      patientId: patientId,
+    };
+
+    if (array[i].status === 'added') {
+      const response = await addAllergy(body);
+      responseArray.push(response.data);
+    } else if (array[i].status === 'edited') {
+      const response = await updateAllergy(body);
+      responseArray.push(response.data);
+    } else if (array[i].status === 'deleted') {
+      const response = await deleteAllergy(body.id);
+      responseArray.push(response.data);
+    }
+  }
+  return responseArray;
 }
