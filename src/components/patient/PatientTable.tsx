@@ -1,6 +1,10 @@
 import {AxiosError} from 'axios';
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, ScrollView, Text, View} from 'react-native';
+import {
+  ActivityIndicator,
+  ScrollView,
+  View,
+} from 'react-native';
 import {useSelector} from 'react-redux';
 import {IPatient} from '../../redux_toolkit/Interfaces/IPatient';
 import {RootState} from '../../redux_toolkit/stores/store';
@@ -37,14 +41,14 @@ const PatientTable = () => {
 
   return (
     <View testID="card">
-      <ScrollView>
+      <ScrollView testID="card">
         <View style={patientTable.container}>
           {loading ? (
-            <View style={{height: 300, alignItems: 'center'}}>
+            <View testID="loading" style={{height: 300, alignItems: 'center'}}>
               <ActivityIndicator size="large" color={COLOR.pink2} />
             </View>
           ) : (
-            <View>
+            <View testID="table">
               {displayingData.map((element: IPatient) => (
                 <PatientCard {...element} key={element.patientId} />
               ))}

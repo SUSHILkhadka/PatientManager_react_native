@@ -12,9 +12,7 @@ export function sortAscendingByNameKey(arrayOfObject: IPatient[]): IPatient[] {
   return sorted;
 }
 
-export function sortBySpecialFirstThenRest(
-  arrayOfObject: IPatient[],
-): IPatient[] {
+export function sortBySpecialFirstThenRest(arrayOfObject: IPatient[]): IPatient[] {
   const sorted = sortAscendingByNameKey(arrayOfObject);
   const specialList: IPatient[] = [];
   const nonSpecialList: IPatient[] = [];

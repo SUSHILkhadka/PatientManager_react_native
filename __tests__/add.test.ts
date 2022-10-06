@@ -1,4 +1,6 @@
 import { add } from "../src/utils/add"
+import React from "react";
+
 // import {it,expect } from "vitest"
 it('should add array of numbers',()=>{
     const numbers=[1,3,10]

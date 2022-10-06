@@ -33,7 +33,7 @@ export const authSlice = createSlice({
       state.id = 0;
       state.username = '';
       state.email = '';
-      state.isLoading = 'failed';
+      state.isLoading = 'rejected';
     },
   },
   extraReducers: builder => {
@@ -48,7 +48,7 @@ export const authSlice = createSlice({
         state.email = action.payload.data.email;
       })
       .addCase(checkToken.rejected, state => {
-        state.isLoading = 'failed';
+        state.isLoading = 'rejected';
         state.id = 0;
         state.username = '';
         state.email = '';

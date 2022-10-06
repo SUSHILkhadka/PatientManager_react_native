@@ -25,3 +25,34 @@ jest.mock('react-native-snackbar', () => {});
 //     useDispatch: jest.fn(() => {}),
 //   };
 // });
+
+
+// export default jest.mock("../../services/api", () => {
+//     console.log('about')
+//   return {
+//     post: (url: string, body: any = "without any body") => {
+//         console.log('in mock')
+//       return {
+//         data: {
+//           data: body,
+//         },
+//       };
+//     },
+//     put: (url: string, body: any) => {
+//       return {
+//         data: {
+//           data: body,
+//         },
+//       };
+//     },
+//     get: (url: string) => {
+//         console.log('in mock')
+
+//       return {
+//         data: {
+//           data: contactArray,
+//         },
+//       };
+//     },
+//   };
+// });

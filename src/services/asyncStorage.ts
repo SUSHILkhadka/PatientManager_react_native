@@ -13,9 +13,9 @@ export async function saveLoginResponse(response: any) {
 }
 
 export async function deleteLoginResponse() {
-  await saveAccessToken("");
-  await saveRefreshToken("");
-  await AsyncStorage.setItem('loginResponse', "");
+  await saveAccessToken('');
+  await saveRefreshToken('');
+  await AsyncStorage.setItem('loginResponse', '');
 }
 
 /**
@@ -26,7 +26,6 @@ export async function getLoginResponse(): Promise<any> {
   const obj = await AsyncStorage.getItem('loginResponse');
   return obj ? obj : '';
 }
-
 
 //storage
 /**
@@ -55,10 +54,7 @@ export async function getAccessToken(): Promise<string> {
  */
 export async function saveRefreshToken(response: string, date?: number) {
   await AsyncStorage.setItem('refreshToken', response);
-  await AsyncStorage.setItem(
-    'expiresAtRefreshToken',
-    date ? date.toString() : '',
-  );
+  await AsyncStorage.setItem('expiresAtRefreshToken', date ? date.toString() : '');
 }
 
 /**

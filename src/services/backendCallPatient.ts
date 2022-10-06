@@ -1,6 +1,6 @@
 import api from './api';
 
-const routeName='/patient/'
+const routeName = '/patient/';
 
 /**
  *
@@ -22,7 +22,7 @@ export async function readAllPatients(): Promise<any> {
 }
 
 /**
- * 
+ *
  * @param body request's body for editing existing patient
  * @param patientId for targeting specific patient from patient's table
  * @returns response from server

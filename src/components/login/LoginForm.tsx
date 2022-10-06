@@ -1,9 +1,4 @@
-import {
-  ActivityIndicator,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {ActivityIndicator, Text, TouchableOpacity, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {RootState} from '../../redux_toolkit/stores/store';
 import React, {useState} from 'react';
@@ -58,6 +53,7 @@ const LoginForm = () => {
       setLoading(false);
     }
   };
+
   const changePageToRegister = () => {
     navigation.navigate('register');
   };

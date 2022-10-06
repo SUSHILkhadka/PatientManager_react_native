@@ -9,7 +9,7 @@ const LoginPage = () => {
       <LoginForm />
     </SafeAreaView>
   );
-};p
+};
 export const safeAreaStyles = StyleSheet.create({
   page: {
     flex: 1,

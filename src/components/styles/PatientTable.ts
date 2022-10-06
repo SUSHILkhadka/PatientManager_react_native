@@ -1,7 +1,14 @@
-import { StyleSheet } from "react-native";
+import {StyleSheet} from 'react-native';
+import {COLOR} from './constants';
 
-export const patientTable=StyleSheet.create({
-    container:{
-        marginTop:10,
-    }
-})
+export const patientTable = StyleSheet.create({
+  percentableIndicator: {
+    // position:"absolute",
+    zIndex: 10,
+    backgroundColor: COLOR.pink1,
+    height: 3,
+  },
+  container: {
+    marginTop: 10,
+  },
+});

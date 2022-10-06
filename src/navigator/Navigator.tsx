@@ -45,7 +45,7 @@ const Navigator = () => {
             <Stack.Screen name="login" component={LoginPage} />
             <Stack.Screen name="register" component={RegisterPage} />
           </>
-        ) : (
+        ) : ( 
           <>
             <Stack.Screen name="list" component={ListPatientPage} />
             <Stack.Screen name="add" component={AddPatientPage} />

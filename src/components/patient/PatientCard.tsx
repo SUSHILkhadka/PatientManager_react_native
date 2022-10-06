@@ -1,6 +1,6 @@
 import {useNavigation} from '@react-navigation/native';
 import {AxiosError} from 'axios';
-import React, {RefObject, useRef, useState} from 'react';
+import React, { useState} from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -85,6 +85,7 @@ const PatientCard = (props: IPatient) => {
         <Text style={patientCardStyle.row_email}>{props.email}</Text>
       </View>
       <TouchableOpacity
+        testID='favouriteIcon'
         style={patientCardStyle.favouriteIcon}
         onPress={handleFovouriteChange}
         disabled={loadingFavourite}>
@@ -98,14 +99,14 @@ const PatientCard = (props: IPatient) => {
         )}
       </TouchableOpacity>
       <TouchableOpacity
-      
+        testID='deleteIcon'
         style={patientCardStyle.deleteIcon}
         onPress={createDeleteAlertbox}
         disabled={loading}>
         {loading ? (
           <ActivityIndicator />
         ) : (
-          <Text style={patientCardStyle.deleteIcon_text}>&#9587;</Text>
+          <Text  style={patientCardStyle.deleteIcon_text}>&#9587;</Text>
         )}
       </TouchableOpacity>
     </TouchableOpacity>

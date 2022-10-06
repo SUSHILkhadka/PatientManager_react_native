@@ -6,9 +6,12 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "start": "react-native start",
-    "test": "vitest --run --reporter verbose",
-    "test2": "jest",
-    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
+    "test2": "vitest --run --reporter verbose",
+    "test": "jest",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
+    "prettify": "prettier --single-quote --print-width 120 --write {src,test}/**/*.ts",
+    "git":"npm run prettify && git add . && git commit -m",
+    "git:rename":"npm run prettify && git add . && git commit --amend -m"
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.17.9",
@@ -64,6 +67,7 @@
     "vitest": "^0.22.1"
   },
   "jest": {
+    "testTimeout":20000,
     "preset": "react-native",
     "setupFiles": [
       "./jestConfigFile.ts"
