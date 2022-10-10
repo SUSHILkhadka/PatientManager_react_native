@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/native';
 import {AxiosError} from 'axios';
 import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, ScrollView, View} from 'react-native';
@@ -17,6 +18,7 @@ const PatientTable = () => {
   const [originalData, setOriginalData] = useState<IPatient[]>([]);
   const [displayingData, setDisplayingData] = useState<IPatient[]>([]);
 
+  const navigation = useNavigation();
   useEffect(() => {
     setLoading(true);
     const reader = async () => {
@@ -33,7 +35,7 @@ const PatientTable = () => {
       setLoading(false);
     };
     reader();
-  }, [pageInfo.refreshFlag]);
+  }, []);
 
   return (
     <View testID="card">

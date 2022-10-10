@@ -14,8 +14,9 @@ export const checkToken = createAsyncThunk('authInfo/checkRefreshToken', async (
   const response = await instance.post('/token', {
     refreshToken: await getRefreshToken(),
   });
-  return response;
+  return response.data;
 });
+
 export const authSlice = createSlice({
   name: 'authInfo',
   initialState: defaultValue,
@@ -26,7 +27,7 @@ export const authSlice = createSlice({
       state.email = action.payload.data.email;
       state.isLoading = 'fulfilled';
     },
-    makeLoggedOut: state => {
+    logoutAuthInfo: state => {
       state.id = 0;
       state.username = '';
       state.email = '';
@@ -39,6 +40,7 @@ export const authSlice = createSlice({
         state.isLoading = 'loading';
       })
       .addCase(checkToken.fulfilled, (state, action) => {
+        console.log('paylod is ', action.payload.data);
         state.isLoading = 'fulfilled';
         state.id = action.payload.data.id;
         state.username = action.payload.data.name;
@@ -53,5 +55,5 @@ export const authSlice = createSlice({
   },
 });
 
-export const {makeLoggedInWithInfo, makeLoggedOut} = authSlice.actions;
+export const {makeLoggedInWithInfo, logoutAuthInfo} = authSlice.actions;
 export const authReducer = authSlice.reducer;

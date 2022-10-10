@@ -45,9 +45,11 @@ const LoginForm = () => {
       try {
         const response = await login(body);
         dispatch(makeLoggedInWithInfo(response));
+
         await saveLoginResponse(response);
         ToastMessage(response.message);
       } catch (e: AxiosError | any) {
+        console.log('in error', e);
         ToastMessage(e.response.data.message, true);
       }
       setLoading(false);

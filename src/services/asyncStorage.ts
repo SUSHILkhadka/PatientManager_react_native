@@ -9,22 +9,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export async function saveLoginResponse(response: any) {
   await saveAccessToken(response.accessToken);
   await saveRefreshToken(response.refreshToken, response.expiresAtRefreshToken);
-  await AsyncStorage.setItem('loginResponse', JSON.stringify(response));
 }
 
 export async function deleteLoginResponse() {
   await saveAccessToken('');
   await saveRefreshToken('');
-  await AsyncStorage.setItem('loginResponse', '');
-}
-
-/**
- *
- * @returns login response as string
- */
-export async function getLoginResponse(): Promise<any> {
-  const obj = await AsyncStorage.getItem('loginResponse');
-  return obj ? obj : '';
 }
 
 //storage
@@ -62,7 +51,11 @@ export async function saveRefreshToken(response: string, date?: number) {
  * @returns refreshtoken as string from storage
  */
 export async function getRefreshToken(): Promise<string> {
+  const expiryTime = await getExpiresAtRefreshToken();
   const obj = await AsyncStorage.getItem('refreshToken');
+  if (Date.now() > expiryTime) {
+    return '';
+  }
   return obj ? obj : '';
 }
 

@@ -55,6 +55,7 @@ const CustomInput = ({
         )}
       </View>
       {error && <Text style={styles.errorText}>{error}</Text>}
+      {!error && <Text style={styles.errorText}>{}</Text>}
     </View>
   );
 };
@@ -64,6 +65,7 @@ export const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     marginHorizontal: 10,
     marginVertical: 10,
+    // position:"relative",
   },
   label: {
     color: COLOR.white1,
