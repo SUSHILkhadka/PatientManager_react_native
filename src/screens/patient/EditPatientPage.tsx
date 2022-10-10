@@ -2,7 +2,6 @@ import React, {useEffect} from 'react';
 import {SafeAreaView, ScrollView} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import PatientForm from '../../components/patient/PatientForm';
-import EditPatientForm from '../../components/patient/PatientForm';
 import ToastMessage, {showDefaultErrorMessage} from '../../components/utils/ToastMessage';
 import {loadAllergyList, resetAllergyList} from '../../redux_toolkit/slices/allergySlice';
 import {RootState} from '../../redux_toolkit/stores/store';

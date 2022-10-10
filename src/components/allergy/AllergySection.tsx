@@ -4,6 +4,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {IAllergy} from '../../redux_toolkit/Interfaces/IAllergy';
 import {addNewAllergy} from '../../redux_toolkit/slices/allergySlice';
 import {RootState} from '../../redux_toolkit/stores/store';
+import allerygySchema from '../../validations/schemas/allergySchema';
+import Validator from '../../validations/Validator';
 import {COLOR} from '../styles/constants';
 import CustomInput from '../utils/CustomInput';
 import AllergyCard from './AllergyCard';
@@ -24,16 +26,9 @@ const AllergySection = () => {
   const handleErrors = (error: string, label: string) => {
     setErrors(prevState => ({...prevState, [label]: error}));
   };
-  const validate = (): boolean => {
-    if (!inputs.allergyName) {
-      handleErrors('allergy name is required', 'allergyName');
-      return false;
-    }
-    return true;
-  };
 
   const handleAddAllergy = async () => {
-    if (validate()) {
+    if (Validator(inputs, allerygySchema, handleErrors)) {
       dispatch(addNewAllergy(inputs.allergyName.trim()));
     }
   };

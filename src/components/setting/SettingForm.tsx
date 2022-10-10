@@ -1,18 +1,18 @@
-import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {AxiosError} from 'axios';
+import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, Text, TouchableOpacity, View} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 import {typeOfUseNavigationHook} from '../../navigator/Navigator';
+import {logoutAuthInfo} from '../../redux_toolkit/slices/authSlice';
+import {RootState} from '../../redux_toolkit/stores/store';
+import {deleteLoginResponse} from '../../services/asyncStorage';
 import {editUser} from '../../services/backendCallUser';
-import editUserSchema, {editNameSchema} from '../../validations/editUserSchema';
+import editUserSchema, {editNameSchema} from '../../validations/schemas/editUserSchema';
 import Validator from '../../validations/Validator';
 import formStyles from '../styles/Form';
 import CustomInput from '../utils/CustomInput';
 import ToastMessage from '../utils/ToastMessage';
-import {useDispatch, useSelector} from 'react-redux';
-import {RootState} from '../../redux_toolkit/stores/store';
-import {logoutAuthInfo} from '../../redux_toolkit/slices/authSlice';
-import {deleteLoginResponse} from '../../services/asyncStorage';
 
 const SettingForm = () => {
   const authInfo = useSelector((state: RootState) => state.auth);

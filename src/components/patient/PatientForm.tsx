@@ -11,7 +11,7 @@ import {RootState} from '../../redux_toolkit/stores/store';
 import {sentArrayOfAllergyToBackend} from '../../services/backendCallAllergy';
 import {addPatient, editPatient} from '../../services/backendCallPatient';
 import {uploadFile} from '../../services/uploadFile';
-import patientSchema from '../../validations/patientSchema';
+import patientSchema from '../../validations/schemas/patientSchema';
 import Validator from '../../validations/Validator';
 import AllergySection from '../allergy/AllergySection';
 import {COLOR} from '../styles/constants';
@@ -83,7 +83,7 @@ const PatientForm = ({initialValue}: PropType) => {
 
   const changePageToListPatient = () => {
     dispatch(refreshPage(!pageInfo.refreshFlag));
-    navigation.navigate('list');
+    navigation.push('list');
   };
 
   return (

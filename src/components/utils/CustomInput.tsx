@@ -54,8 +54,7 @@ const CustomInput = ({
           />
         )}
       </View>
-      {error && <Text style={styles.errorText}>{error}</Text>}
-      {!error && <Text style={styles.errorText}>{}</Text>}
+      <Text style={styles.errorText}>{error ? error : ''}</Text>
     </View>
   );
 };
@@ -64,8 +63,6 @@ export const styles = StyleSheet.create({
   container: {
     backgroundColor: 'transparent',
     marginHorizontal: 10,
-    marginVertical: 10,
-    // position:"relative",
   },
   label: {
     color: COLOR.white1,
@@ -93,8 +90,9 @@ export const styles = StyleSheet.create({
   errorText: {
     fontSize: 12,
     color: 'red',
-    marginVertical: 5,
+    marginVertical: 0,
     marginHorizontal: 15,
+    zIndex: 2,
   },
 });
 export default CustomInput;

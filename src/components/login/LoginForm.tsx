@@ -1,18 +1,18 @@
+import {useNavigation} from '@react-navigation/native';
+import {AxiosError} from 'axios';
+import React, {useState} from 'react';
 import {ActivityIndicator, Text, TouchableOpacity, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {RootState} from '../../redux_toolkit/stores/store';
-import React, {useState} from 'react';
-import {login} from '../../services/backendCallUser';
-import {makeLoggedInWithInfo} from '../../redux_toolkit/slices/authSlice';
-import {saveLoginResponse} from '../../services/asyncStorage';
-import {AxiosError} from 'axios';
-import ToastMessage from '../utils/ToastMessage';
-import {useNavigation} from '@react-navigation/native';
 import {typeOfUseNavigationHook} from '../../navigator/Navigator';
+import {loadAuthInfoWithLoginInfo} from '../../redux_toolkit/slices/authSlice';
+import {RootState} from '../../redux_toolkit/stores/store';
+import {saveLoginResponse} from '../../services/asyncStorage';
+import {login} from '../../services/backendCallUser';
+import loginSchema from '../../validations/schemas/loginSchema';
+import Validator from '../../validations/Validator';
 import formStyles from '../styles/Form';
 import CustomInput from '../utils/CustomInput';
-import loginSchema from '../../validations/loginSchema';
-import Validator from '../../validations/Validator';
+import ToastMessage from '../utils/ToastMessage';
 const LoginForm = () => {
   const navigation: typeOfUseNavigationHook['navigation'] = useNavigation();
   const authInfo = useSelector((state: RootState) => state.auth);
@@ -44,7 +44,7 @@ const LoginForm = () => {
       };
       try {
         const response = await login(body);
-        dispatch(makeLoggedInWithInfo(response));
+        dispatch(loadAuthInfoWithLoginInfo(response));
 
         await saveLoginResponse(response);
         ToastMessage(response.message);

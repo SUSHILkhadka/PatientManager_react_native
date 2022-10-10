@@ -8,8 +8,8 @@ import {useNavigation} from '@react-navigation/native';
 import {typeOfUseNavigationHook} from '../../navigator/Navigator';
 import formStyles from '../styles/Form';
 import CustomInput from '../utils/CustomInput';
-import registerSchema from '../../validations/registerSchema';
 import Validator from '../../validations/Validator';
+import registerSchema from '../../validations/schemas/registerSchema';
 
 const RegisterForm = () => {
   const navigation: typeOfUseNavigationHook['navigation'] = useNavigation();
@@ -39,7 +39,7 @@ const RegisterForm = () => {
     if (Validator(inputs, registerSchema, handleErrors)) {
       setLoading(true);
       const body = {
-        name: inputs.name,
+        name: inputs.name.trim(),
         email: inputs.email,
         password: inputs.password,
       };
