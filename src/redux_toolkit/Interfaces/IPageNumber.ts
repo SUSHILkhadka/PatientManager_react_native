@@ -1,4 +1,4 @@
 export interface IPageNumber {
-    page: number;
-    refreshFlag:boolean;
-  }
+  page: number;
+  refreshFlag: boolean;
+}

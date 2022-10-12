@@ -1,40 +1,24 @@
-import {AxiosError} from 'axios';
-import React, {Dispatch, SetStateAction, useState} from 'react';
-import {View, Text, TouchableOpacity, ActivityIndicator} from 'react-native';
-import {IAllergy} from '../../redux_toolkit/Interfaces/IAllergy';
-import {deleteAllergy} from '../../services/backendCallAllergy';
+import {Text, TouchableOpacity, View} from 'react-native';
+import React from 'react';
+import {useDispatch} from 'react-redux';
+import {deleteAllergy} from '../../redux_toolkit/slices/allergySlice';
 import allergyCardStyles from '../styles/AllergyCard';
-import ToastMessage from '../utils/ToastMessage';
 type PropType = {
-  allergyObj: IAllergy;
-  refresh: boolean;
-  setRefresh: Dispatch<SetStateAction<boolean>>;
+  index: number;
+  name: string;
 };
-const AllergyCard = ({allergyObj, refresh, setRefresh}: PropType) => {
-  const [loading, setLoading] = useState<boolean>(false);
+const AllergyCard = ({index, name}: PropType) => {
+  const dispatch = useDispatch();
 
-  const handleDeleteAllergy = async () => {
-    setLoading(true);
-    try {
-      const response = await deleteAllergy(allergyObj.id);
-      setRefresh(!refresh);
-    } catch (e: AxiosError | any) {
-      ToastMessage(e.response.data.message, true);
-    }
-    setLoading(false);
+  const handleDeleteAllergy = () => {
+    dispatch(deleteAllergy(index));
   };
+
   return (
     <View style={allergyCardStyles.cardContainer}>
-      <Text style={allergyCardStyles.text}>{allergyObj.name}</Text>
-      <TouchableOpacity
-        style={allergyCardStyles.deleteIcon}
-        onPress={handleDeleteAllergy}
-        disabled={loading}>
-        {loading ? (
-          <ActivityIndicator />
-        ) : (
-          <Text style={allergyCardStyles.icon}>&#9587;</Text>
-        )}
+      <Text style={allergyCardStyles.text}>{name}</Text>
+      <TouchableOpacity style={allergyCardStyles.deleteIcon} onPress={handleDeleteAllergy}>
+        <Text style={allergyCardStyles.icon}>&#9587;</Text>
       </TouchableOpacity>
     </View>
   );

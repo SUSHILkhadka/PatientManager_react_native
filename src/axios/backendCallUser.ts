@@ -1,5 +1,5 @@
 import api from './api';
-import {getRefreshToken} from './asyncStorage';
+import {getRefreshToken} from '../async_storage/asyncStorage';
 
 /**
  * f
@@ -26,7 +26,7 @@ export async function register(body: any): Promise<any> {
  */
 export async function logout(): Promise<any> {
   const response = await api.post('/logout', {
-    refreshToken: await getRefreshToken,
+    refreshToken: await getRefreshToken(),
   });
   return response.data;
 }
@@ -39,5 +39,10 @@ export async function logout(): Promise<any> {
 
 export async function editUser(body: any): Promise<any> {
   const response = await api.put('/user', body);
+  return response.data;
+}
+
+export async function checkIfEmailAleadyExists(body: any): Promise<any> {
+  const response = await api.post('/checkEmail', body);
   return response.data;
 }

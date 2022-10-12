@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {
+  COLOR,
   primaryBackgroundColor,
   primaryBorderColor,
   primaryButtonColor,
@@ -14,13 +15,13 @@ const formStyles = StyleSheet.create({
   },
   elementTextLabel: {
     margin: 10,
-    marginBottom:4,
+    marginBottom: 4,
     fontSize: 25,
     color: primaryFontColor,
   },
   elementTextInput: {
     margin: 10,
-    marginTop:1,
+    marginTop: 1,
     padding: 10,
     borderColor: primaryBorderColor,
     borderWidth: 3,
@@ -34,24 +35,22 @@ const formStyles = StyleSheet.create({
     textAlign: 'center',
     margin: 10,
     padding: 10,
-    borderColor: primaryBorderColor,
-    borderWidth: 3,
     borderRadius: 10,
     fontSize: 20,
-    backgroundColor: primaryButtonColor,
-    alignSelf:"center",
+    backgroundColor: COLOR.pink1,
+    alignSelf: 'center',
   },
-  textInsideButton:{
+  lastElementButton: {
+    marginBottom: 150,
+  },
+  textInsideButton: {
     fontSize: 15,
-    textAlign: "center",
-
-
+    textAlign: 'center',
   },
   elementSwitch: {
     display: 'flex',
     flexDirection: 'row',
   },
-
 });
 
 export default formStyles;

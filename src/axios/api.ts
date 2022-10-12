@@ -1,6 +1,7 @@
 import axios from 'axios';
-import { URL_TO_BACKEND } from '../constants/common';
-import { getAccessToken, getRefreshToken, saveAccessToken } from './asyncStorage';
+import {URL_TO_BACKEND} from '../constants/common';
+import {getAccessToken, getRefreshToken, saveAccessToken} from '../async_storage/asyncStorage';
+// import {URL_TO_BACKEND} from '@env';
 
 /**
  * axios instane is create with given base url and headers type
@@ -16,23 +17,23 @@ const instance = axios.create({
  * interceptors setup for that instance before sending any request
  */
 instance.interceptors.request.use(
-  async (config) => {
-    if (config.headers) config.headers['Authorization'] = 'Bearer ' + await getAccessToken();
+  async config => {
+    if (config.headers) config.headers['Authorization'] = 'Bearer ' + (await getAccessToken());
     return config;
   },
-  (error) => {
+  error => {
     return Promise.reject(error);
-  }
+  },
 );
 
 /**
  * interceptors setup for axios instance after getting any response
  */
 instance.interceptors.response.use(
-  (res) => {
+  res => {
     return res;
   },
-  async (err) => {
+  async err => {
     const originalConfig = err.config;
     if (err.response) {
       //got error response
@@ -48,7 +49,7 @@ instance.interceptors.response.use(
           const rs = await instance.post('/token', {
             refreshToken: await getRefreshToken(),
           });
-          const { accessToken } = rs.data;
+          const {accessToken} = rs.data;
           await saveAccessToken(accessToken);
           return instance(originalConfig);
         } catch (_error) {
@@ -57,6 +58,6 @@ instance.interceptors.response.use(
       }
     }
     return Promise.reject(err);
-  }
+  },
 );
 export default instance;

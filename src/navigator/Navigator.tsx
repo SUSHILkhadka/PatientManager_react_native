@@ -1,19 +1,18 @@
-import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import RegisterPage from '../screens/register/RegisterPage';
-import LoginPage from '../screens/login/LoginPage';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
-import ListPatientPage from '../screens/patient/ListPatientPage';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import React, {useEffect} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+import {checkToken} from '../redux_toolkit/slices/authSlice';
+import {AppDispatch, RootState} from '../redux_toolkit/stores/store';
+import LoginPage from '../screens/login/LoginPage';
 import AddPatientPage from '../screens/patient/AddPatientPage';
 import EditPatientPage from '../screens/patient/EditPatientPage';
+import ListPatientPage from '../screens/patient/ListPatientPage';
+import RegisterPage from '../screens/register/RegisterPage';
+import SettingPage from '../screens/setting/SettingPage';
 import SplashScreen from '../screens/SplashScreen';
-import axios from 'axios';
-import {getRefreshToken} from '../services/asyncStorage';
-import {useDispatch, useSelector} from 'react-redux';
-import {RootState} from '../redux_toolkit/stores/store';
-import {makeLoggedInWithInfo, makeLoggedOut} from '../redux_toolkit/slices/authSlice';
-import instance from '../services/api';
+import {getRefreshToken} from '../async_storage/asyncStorage';
 type RootStackParamList = {
   login: undefined;
   register: undefined;
@@ -21,35 +20,20 @@ type RootStackParamList = {
   list: undefined;
   add: undefined;
   edit: undefined;
+  setting: undefined;
 };
-export type typeOfUseNavigationHook =
-  NativeStackScreenProps<RootStackParamList>;
+export type typeOfUseNavigationHook = NativeStackScreenProps<RootStackParamList>;
 
 const Navigator = () => {
   const Stack = createNativeStackNavigator<RootStackParamList>();
-  const Tab = createNativeStackNavigator();
-
   const authInfo = useSelector((state: RootState) => state.auth);
-  const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
 
-  //checking whether the refreshToken in storage is valid or not
   useEffect(() => {
-    const checkRefreshToken = async () => {
-      try {
-        const response = await instance.post('/token', {
-          refreshToken: await getRefreshToken(),
-        });
-        dispatch(makeLoggedInWithInfo(response));
-      } catch (e:any) {
-        dispatch(makeLoggedOut())
-      }
-      setLoading(false);
-    };
-    checkRefreshToken();
+    dispatch(checkToken());
   }, []);
 
-  if (loading) {
+  if (authInfo.isLoading == 'loading') {
     return <SplashScreen />;
   }
 
@@ -57,32 +41,19 @@ const Navigator = () => {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{
-          gestureEnabled: true,
-          gestureDirection: 'horizontal',
+          headerShown: false,
         }}>
-        {!authInfo.login ? (
-          <>
-            <Stack.Screen
-              name="login"
-              options={{
-                title: 'login',
-                headerStyle: {
-                  backgroundColor: '#f4511e',
-                },
-                headerTintColor: '#fff',
-                headerTitleStyle: {
-                  fontWeight: 'bold',
-                },
-              }}
-              component={LoginPage}
-            />
-            <Stack.Screen name="register" component={RegisterPage} />
-          </>
-        ) : (
+        {authInfo.isLoading === 'fulfilled' && Boolean(getRefreshToken()) ? (
           <>
             <Stack.Screen name="list" component={ListPatientPage} />
             <Stack.Screen name="add" component={AddPatientPage} />
             <Stack.Screen name="edit" component={EditPatientPage} />
+            <Stack.Screen name="setting" component={SettingPage} />
+          </>
+        ) : (
+          <>
+            <Stack.Screen name="login" component={LoginPage} />
+            <Stack.Screen name="register" component={RegisterPage} />
           </>
         )}
       </Stack.Navigator>
