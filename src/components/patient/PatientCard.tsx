@@ -24,7 +24,7 @@ const PatientCard = (props: IPatient) => {
 
   const handleEdit = () => {
     dispatch(loadPatient(props));
-    navigation.navigate('edit');
+    navigation.push('edit');
   };
 
   const createDeleteAlertbox = () =>

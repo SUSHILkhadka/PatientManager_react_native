@@ -19,7 +19,7 @@ import formStyles from '../styles/Form';
 import CustomDatePicker from '../utils/CustomDatePicker';
 import CustomInput, {styles as customInputStyles} from '../utils/CustomInput';
 import ImageUploaderAndPreviewer from '../utils/ImageUploaderAndPreviewer';
-import ToastMessage from '../utils/ToastMessage';
+import ToastMessage, {showDefaultErrorMessage} from '../utils/ToastMessage';
 
 type PropType = {
   initialValue: IPatient;
@@ -33,10 +33,12 @@ const PatientForm = ({initialValue}: PropType) => {
 
   const [inputs, setInputs] = useState(initialValue);
   const [dob, setDob] = useState<Date>(new Date(initialValue.dob ? initialValue.dob : Date.now()));
-  const [specialAttention, setSpecialAttention] = useState<boolean>(initialValue.specialAttention);
   const [pickerResponse, setPickerResponse] = useState<any>();
   const handleSetInput = (text: string, label: string) => {
     setInputs(prevState => ({...prevState, [label]: text}));
+  };
+  const handleFavouriteChange = () => {
+    setInputs({...inputs, ['specialAttention']: !inputs.specialAttention});
   };
 
   const [errors, setErrors] = useState({
@@ -56,26 +58,29 @@ const PatientForm = ({initialValue}: PropType) => {
       contact: inputs.contact,
       dob: dob,
       address: inputs.address,
-      specialAttention: specialAttention,
-      photoUrl: pickerResponse ? await uploadFile(pickerResponse) : initialValue.photoUrl,
+      specialAttention: inputs.specialAttention,
     };
     if (Validator(body, patientSchema, handleErrors)) {
       setLoading(true);
 
       try {
+        const photoUrl = pickerResponse ? await uploadFile(pickerResponse) : initialValue.photoUrl;
         if (initialValue.name == '') {
-          const response = await addPatient(body);
-          console.log(response.data);
-          const responseAfterAllergy = await sentArrayOfAllergyToBackend(allergyArrayInfo, response.data.patientId);
+          const response = await addPatient({...body, photoUrl});
+          await sentArrayOfAllergyToBackend(allergyArrayInfo, response.data.patientId);
           ToastMessage('Patient added Successfully');
         } else {
-          const response = await editPatient(body, initialValue.patientId);
-          const responseAfterAllergy = await sentArrayOfAllergyToBackend(allergyArrayInfo, initialValue.patientId);
+          await editPatient(body, initialValue.patientId);
+          await sentArrayOfAllergyToBackend(allergyArrayInfo, initialValue.patientId);
           ToastMessage('Patient edited Successfully');
         }
         changePageToListPatient();
       } catch (e: AxiosError | any) {
-        ToastMessage(e.response.data.message);
+        try {
+          ToastMessage(e.response.data.message, true);
+        } catch {
+          showDefaultErrorMessage();
+        }
       }
       setLoading(false);
     }
@@ -138,8 +143,8 @@ const PatientForm = ({initialValue}: PropType) => {
       <View style={styles.container}>
         <Text style={customInputStyles.label}>Special Attention:</Text>
         <Icon
-          name={specialAttention ? 'star' : 'star-outline'}
-          onPress={() => setSpecialAttention(!specialAttention)}
+          name={inputs.specialAttention ? 'star' : 'star-outline'}
+          onPress={handleFavouriteChange}
           style={styles.icon}></Icon>
       </View>
       <AllergySection />

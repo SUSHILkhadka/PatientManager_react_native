@@ -40,16 +40,16 @@ instance.interceptors.response.use(
       if (
         err.response.status === 401 &&
         !originalConfig._retry &&
-        err.response.data.message === 'invalid access token'
+        err.response.data.message === 'Invalid access token'
       ) {
         // Access Token was expired
 
         originalConfig._retry = true;
         try {
-          const rs = await instance.post('/token', {
+          const response = await instance.post('/token', {
             refreshToken: await getRefreshToken(),
           });
-          const {accessToken} = rs.data;
+          const {accessToken} = response.data;
           await saveAccessToken(accessToken);
           return instance(originalConfig);
         } catch (_error) {

@@ -4,7 +4,7 @@ import React, {useRef, useState} from 'react';
 import {ActivityIndicator, DrawerLayoutAndroid, Text, TouchableOpacity, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import formStyles from '../../components/styles/Form';
-import ToastMessage from '../../components/utils/ToastMessage';
+import ToastMessage, {showDefaultErrorMessage} from '../../components/utils/ToastMessage';
 import {typeOfUseNavigationHook} from '../../navigator/Navigator';
 import {logoutAuthInfo} from '../../redux_toolkit/slices/authSlice';
 import {AppDispatch, RootState} from '../../redux_toolkit/stores/store';
@@ -22,8 +22,14 @@ const CustomDrawerOutlet = ({children}: any) => {
     setLoading(true);
     try {
       const response = await logout();
-      ToastMessage(response.message);
-    } catch (e: AxiosError | any) {}
+      ToastMessage('logged out successfully');
+    } catch (e: AxiosError | any) {
+      try {
+        ToastMessage(e.response.data.message, true);
+      } catch {
+        showDefaultErrorMessage();
+      }
+    }
     dispatch(logoutAuthInfo());
     await deleteLoginResponse();
     setLoading(false);

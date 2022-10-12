@@ -1,7 +1,7 @@
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import DocumentPicker from 'react-native-document-picker';
 import styleImage from '../styles/Image';
-import DocumentPicker, {DirectoryPickerResponse, DocumentPickerResponse} from 'react-native-document-picker';
 type Prop = {
   pickerResponse: any;
   setPickerResponse: any;
@@ -12,12 +12,10 @@ const ImageUploaderAndPreviewer = ({pickerResponse, setPickerResponse, previousU
     try {
       const res = await DocumentPicker.pickSingle({
         presentationStyle: 'fullScreen',
-        type: [DocumentPicker.types.allFiles],
+        type: [DocumentPicker.types.images],
       });
       setPickerResponse(res);
-    } catch (err) {
-      console.log(err);
-    }
+    } catch {}
   };
   return (
     <View>

@@ -19,10 +19,6 @@ const SettingForm = () => {
   const dispatch = useDispatch();
   const navigation: typeOfUseNavigationHook['navigation'] = useNavigation();
 
-  useEffect(() => {
-    console.log('setting');
-  }, []);
-
   const [loading, setLoading] = useState<boolean>(false);
   const [changeName, setChangeName] = useState<boolean>(true);
   const [inputs, setInputs] = useState({

@@ -50,7 +50,6 @@ module.exports = {
     };
   },
   get: (url: string) => {
-    console.log(url);
     return {
       data: {
         data: url == '/patient/' ? patientArray : allergyList,

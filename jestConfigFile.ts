@@ -28,10 +28,8 @@ jest.mock('react-native-snackbar', () => {});
 
 
 // export default jest.mock("../../services/api", () => {
-//     console.log('about')
 //   return {
 //     post: (url: string, body: any = "without any body") => {
-//         console.log('in mock')
 //       return {
 //         data: {
 //           data: body,
@@ -46,7 +44,6 @@ jest.mock('react-native-snackbar', () => {});
 //       };
 //     },
 //     get: (url: string) => {
-//         console.log('in mock')
 
 //       return {
 //         data: {

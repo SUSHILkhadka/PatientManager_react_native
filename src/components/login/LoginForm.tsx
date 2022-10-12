@@ -38,7 +38,6 @@ const LoginForm = () => {
 
   const handleLogin = async () => {
     if (Validator(inputs, loginSchema, handleErrors)) {
-      console.log(inputs);
       setLoading(true);
       const body = {
         email: inputs.email,
