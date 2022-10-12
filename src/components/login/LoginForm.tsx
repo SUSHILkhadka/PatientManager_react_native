@@ -3,16 +3,18 @@ import {AxiosError} from 'axios';
 import React, {useState} from 'react';
 import {ActivityIndicator, Text, TouchableOpacity, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
+import {saveLoginResponse} from '../../async_storage/asyncStorage';
 import {typeOfUseNavigationHook} from '../../navigator/Navigator';
+import {IDataAtToken} from '../../redux_toolkit/Interfaces/IDataAtToken';
 import {loadAuthInfoWithLoginInfo} from '../../redux_toolkit/slices/authSlice';
 import {RootState} from '../../redux_toolkit/stores/store';
-import {saveLoginResponse} from '../../services/asyncStorage';
-import {login} from '../../services/backendCallUser';
+import {login} from '../../axios/backendCallUser';
+import {getDataFromJWTToken} from '../../utils/jwt.utils';
 import loginSchema from '../../validations/schemas/loginSchema';
 import Validator from '../../validations/Validator';
 import formStyles from '../styles/Form';
 import CustomInput from '../utils/CustomInput';
-import ToastMessage from '../utils/ToastMessage';
+import ToastMessage, {showDefaultErrorMessage} from '../utils/ToastMessage';
 const LoginForm = () => {
   const navigation: typeOfUseNavigationHook['navigation'] = useNavigation();
   const authInfo = useSelector((state: RootState) => state.auth);
@@ -44,13 +46,16 @@ const LoginForm = () => {
       };
       try {
         const response = await login(body);
-        dispatch(loadAuthInfoWithLoginInfo(response));
-
-        await saveLoginResponse(response);
+        const authData = getDataFromJWTToken(response.refreshToken) as IDataAtToken;
+        dispatch(loadAuthInfoWithLoginInfo(authData));
+        await saveLoginResponse(response, authData.expiryDateForRefreshToken);
         ToastMessage(response.message);
       } catch (e: AxiosError | any) {
-        console.log('in error', e);
-        ToastMessage(e.response.data.message, true);
+        try {
+          ToastMessage(e.response.data.message, true);
+        } catch {
+          showDefaultErrorMessage();
+        }
       }
       setLoading(false);
     }

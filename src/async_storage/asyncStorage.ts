@@ -6,9 +6,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
  * stores whole response in AsyncStorage as string and also tokens separatly for easy access
  */
 
-export async function saveLoginResponse(response: any) {
+export async function saveLoginResponse(response: any, expiryDataForRefreshToken: number) {
   await saveAccessToken(response.accessToken);
-  await saveRefreshToken(response.refreshToken, response.expiresAtRefreshToken);
+  await saveRefreshToken(response.refreshToken, expiryDataForRefreshToken);
 }
 
 export async function deleteLoginResponse() {

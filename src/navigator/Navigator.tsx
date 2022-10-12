@@ -12,7 +12,7 @@ import ListPatientPage from '../screens/patient/ListPatientPage';
 import RegisterPage from '../screens/register/RegisterPage';
 import SettingPage from '../screens/setting/SettingPage';
 import SplashScreen from '../screens/SplashScreen';
-import {getRefreshToken} from '../services/asyncStorage';
+import {getRefreshToken} from '../async_storage/asyncStorage';
 type RootStackParamList = {
   login: undefined;
   register: undefined;

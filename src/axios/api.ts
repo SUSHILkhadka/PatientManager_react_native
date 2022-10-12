@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {URL_TO_BACKEND} from '../constants/common';
-import {getAccessToken, getRefreshToken, saveAccessToken} from './asyncStorage';
+import {getAccessToken, getRefreshToken, saveAccessToken} from '../async_storage/asyncStorage';
 // import {URL_TO_BACKEND} from '@env';
 
 /**

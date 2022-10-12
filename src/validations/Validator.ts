@@ -17,4 +17,22 @@ const Validator = (
   }
 };
 
+export const asyncValidator = async (
+  inputs: any,
+  schema: yup.ObjectSchema<any>,
+  handleErrors: (error: string, label: string) => void,
+): Promise<boolean> => {
+  try {
+    await schema.validate(inputs, {
+      abortEarly: false,
+    });
+    return true;
+  } catch (err: any) {
+    err.inner.forEach((e: any) => {
+      handleErrors(e.message, e.path);
+    });
+    return false;
+  }
+};
+
 export default Validator;

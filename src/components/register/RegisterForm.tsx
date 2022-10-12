@@ -1,15 +1,15 @@
-import {ActivityIndicator, Button, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
-import {register} from '../../services/backendCallUser';
+import {ActivityIndicator, Text, TouchableOpacity, View} from 'react-native';
+import {register} from '../../axios/backendCallUser';
 
-import {AxiosError} from 'axios';
-import ToastMessage from '../utils/ToastMessage';
 import {useNavigation} from '@react-navigation/native';
+import {AxiosError} from 'axios';
 import {typeOfUseNavigationHook} from '../../navigator/Navigator';
+import registerSchema from '../../validations/schemas/registerSchema';
+import {asyncValidator} from '../../validations/Validator';
 import formStyles from '../styles/Form';
 import CustomInput from '../utils/CustomInput';
-import Validator from '../../validations/Validator';
-import registerSchema from '../../validations/schemas/registerSchema';
+import ToastMessage, {showDefaultErrorMessage} from '../utils/ToastMessage';
 
 const RegisterForm = () => {
   const navigation: typeOfUseNavigationHook['navigation'] = useNavigation();
@@ -36,8 +36,8 @@ const RegisterForm = () => {
     setErrors(prevState => ({...prevState, [label]: error}));
   };
   const handleRegister = async () => {
-    if (Validator(inputs, registerSchema, handleErrors)) {
-      setLoading(true);
+    setLoading(true);
+    if (await asyncValidator(inputs, registerSchema, handleErrors)) {
       const body = {
         name: inputs.name.trim(),
         email: inputs.email,
@@ -47,10 +47,14 @@ const RegisterForm = () => {
         const response = await register(body);
         ToastMessage(response.message);
       } catch (e: AxiosError | any) {
-        ToastMessage(e.response.data.message, true);
+        try {
+          ToastMessage(e.response.data.message, true);
+        } catch {
+          showDefaultErrorMessage();
+        }
       }
-      setLoading(false);
     }
+    setLoading(false);
   };
 
   return (

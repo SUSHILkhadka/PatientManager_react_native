@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render splash screen properly 1`] = `
+<RCTSafeAreaView
+  emulateUnlessSupported={true}
+  style={
+    Object {
+      "backgroundColor": "#101010",
+      "flex": 1,
+    }
+  }
+  testID="main"
+>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#101010",
+        "display": "flex",
+        "flexDirection": "column",
+        "height": 1334,
+        "justifyContent": "center",
+        "width": "100%",
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "#ff2394",
+          "fontSize": 40,
+          "fontWeight": "bold",
+        }
+      }
+      testID="ff"
+    >
+      Patient PM
+    </Text>
+    <ActivityIndicator
+      color="#e51c83"
+      size={40}
+    />
+  </View>
+</RCTSafeAreaView>
+`;

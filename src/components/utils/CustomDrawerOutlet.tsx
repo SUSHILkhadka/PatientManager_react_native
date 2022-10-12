@@ -8,8 +8,8 @@ import ToastMessage from '../../components/utils/ToastMessage';
 import {typeOfUseNavigationHook} from '../../navigator/Navigator';
 import {logoutAuthInfo} from '../../redux_toolkit/slices/authSlice';
 import {AppDispatch, RootState} from '../../redux_toolkit/stores/store';
-import {deleteLoginResponse} from '../../services/asyncStorage';
-import {logout} from '../../services/backendCallUser';
+import {deleteLoginResponse} from '../../async_storage/asyncStorage';
+import {logout} from '../../axios/backendCallUser';
 
 const CustomDrawerOutlet = ({children}: any) => {
   const authInfo = useSelector((state: RootState) => state.auth);

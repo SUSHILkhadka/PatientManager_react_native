@@ -4,12 +4,13 @@ import React, {useState} from 'react';
 import {ActivityIndicator, Alert, Image, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useDispatch, useSelector} from 'react-redux';
+import {PHOTO_URL_INTERNET} from '../../constants/common';
 import {typeOfUseNavigationHook} from '../../navigator/Navigator';
 import {IPatient} from '../../redux_toolkit/Interfaces/IPatient';
 import {refreshPage} from '../../redux_toolkit/slices/pageSlice';
 import {loadPatient} from '../../redux_toolkit/slices/patientSlice';
 import {RootState} from '../../redux_toolkit/stores/store';
-import {deletePatient, editPatient} from '../../services/backendCallPatient';
+import {deletePatient, editPatient} from '../../axios/backendCallPatient';
 import patientCardStyle from '../styles/PatientCard';
 import ToastMessage from '../utils/ToastMessage';
 import {styles as patientFormStyles} from './PatientForm';
@@ -67,7 +68,7 @@ const PatientCard = (props: IPatient) => {
       <Image
         style={patientCardStyle.image}
         source={{
-          uri: props.photoUrl ? props.photoUrl : 'https://api.minimalavatars.com/avatar/random/png',
+          uri: props.photoUrl ? props.photoUrl : PHOTO_URL_INTERNET,
         }}
       />
       <View style={patientCardStyle.row_texts}>

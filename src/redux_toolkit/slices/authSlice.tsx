@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import instance from '../../services/api';
-import {getRefreshToken} from '../../services/asyncStorage';
+import instance from '../../axios/api';
+import {getRefreshToken} from '../../async_storage/asyncStorage';
 import {IAuth} from '../Interfaces/IAuth';
 
 const defaultValue: IAuth = {
@@ -22,9 +22,9 @@ export const authSlice = createSlice({
   initialState: defaultValue,
   reducers: {
     loadAuthInfoWithLoginInfo: (state, action) => {
-      state.id = action.payload.data.id;
-      state.username = action.payload.data.name;
-      state.email = action.payload.data.email;
+      state.id = action.payload.id;
+      state.username = action.payload.name;
+      state.email = action.payload.email;
       state.isLoading = 'fulfilled';
     },
     logoutAuthInfo: state => {

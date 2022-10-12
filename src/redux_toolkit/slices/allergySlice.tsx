@@ -20,7 +20,7 @@ export const allergySlice = createSlice({
     resetAllergyList: () => initialState,
     addNewAllergy: (state, action) => {
       const newAllergy: IAllergy = {
-        id: -1,
+        id: -Date.now(),
         name: action.payload,
         status: 'added',
       };
@@ -28,7 +28,7 @@ export const allergySlice = createSlice({
     },
     deleteAllergy: (state, action) => {
       const index = action.payload;
-      if (state[index].id == -1) {
+      if (state[index].id < 0) {
         const temp = state;
         temp.splice(action.payload, 1);
         state = temp;
@@ -42,7 +42,7 @@ export const allergySlice = createSlice({
 
       state[index].name = name;
 
-      if (state[index].id != -1) {
+      if (state[index].id >= 0) {
         state[index].status = 'edited';
       }
     },

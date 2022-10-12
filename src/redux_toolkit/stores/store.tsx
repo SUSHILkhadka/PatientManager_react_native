@@ -11,13 +11,13 @@ const persistConfig = {
   storage: AsyncStorage,
 };
 
-const reducers = combineReducers({
+export const allReducers = combineReducers({
   auth: authReducer,
   page: pageReducer,
   patient: patientReducer,
   allergy: allergyReducer,
 });
-const persistedAuthReducer = persistReducer(persistConfig, reducers);
+const persistedAuthReducer = persistReducer(persistConfig, allReducers);
 
 export const store = configureStore({
   reducer: persistedAuthReducer,

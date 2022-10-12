@@ -1,0 +1,429 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render list vaccine page properly 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "alignSelf": "flex-start",
+        "borderColor": "red",
+        "borderWidth": 1,
+      },
+      undefined,
+    ]
+  }
+>
+  <RCTSafeAreaView
+    emulateUnlessSupported={true}
+    style={
+      Object {
+        "backgroundColor": "#101010",
+        "flex": 1,
+      }
+    }
+  >
+    <View>
+      <View
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Object {
+            "alignSelf": "center",
+            "backgroundColor": "#e51c83",
+            "borderRadius": 400,
+            "fontSize": 40,
+            "opacity": 0.7,
+            "position": "absolute",
+            "right": 40,
+            "top": 1133.8999999999999,
+            "width": "20%",
+            "zIndex": 2,
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "alignSelf": "center",
+              "color": "#fffffc",
+              "fontSize": 40,
+            }
+          }
+        >
+          +
+        </Text>
+      </View>
+      <View
+        testID="card"
+      >
+        <RCTScrollView
+          testID="card"
+        >
+          <View>
+            <View
+              style={
+                Object {
+                  "marginTop": 10,
+                }
+              }
+            >
+              <View
+                testID="table"
+              >
+                <View
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "backgroundColor": "#171717",
+                      "borderColor": "white",
+                      "borderRadius": 50,
+                      "borderWidth": 1.5,
+                      "display": "flex",
+                      "flexDirection": "row",
+                      "flexWrap": "wrap",
+                      "height": 60,
+                      "margin": 13,
+                      "opacity": 1,
+                      "padding": 5,
+                    }
+                  }
+                >
+                  <Image
+                    source={
+                      Object {
+                        "uri": "asdfas",
+                      }
+                    }
+                    style={
+                      Object {
+                        "alignSelf": "center",
+                        "backgroundColor": "#bdbdbb",
+                        "borderRadius": 500,
+                        "display": "flex",
+                        "height": 35,
+                        "width": "10%",
+                      }
+                    }
+                  />
+                  <View
+                    style={
+                      Object {
+                        "left": 8,
+                        "position": "relative",
+                      }
+                    }
+                  >
+                    <Text
+                      style={
+                        Object {
+                          "color": "#fffffc",
+                          "fontSize": 16,
+                        }
+                      }
+                    >
+                      first patient
+                    </Text>
+                    <Text
+                      style={
+                        Object {
+                          "color": "#bdbdbb",
+                          "fontSize": 12,
+                        }
+                      }
+                    >
+                      asdfas
+                    </Text>
+                  </View>
+                  <View
+                    accessibilityState={
+                      Object {
+                        "disabled": false,
+                      }
+                    }
+                    accessible={true}
+                    collapsable={false}
+                    focusable={true}
+                    onClick={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
+                    style={
+                      Object {
+                        "alignSelf": "flex-end",
+                        "borderRadius": 500,
+                        "marginLeft": "auto",
+                        "opacity": 1,
+                        "width": "20%",
+                        "zIndex": 1,
+                      }
+                    }
+                    testID="favouriteIcon"
+                  >
+                    <Text
+                      allowFontScaling={false}
+                      selectable={false}
+                      style={
+                        Array [
+                          Object {
+                            "color": undefined,
+                            "fontSize": 12,
+                          },
+                          Object {
+                            "alignSelf": "center",
+                            "color": "#e51c83",
+                            "fontSize": 28,
+                            "marginHorizontal": 10,
+                          },
+                          Object {
+                            "fontFamily": "Material Design Icons",
+                            "fontStyle": "normal",
+                            "fontWeight": "normal",
+                          },
+                          Object {},
+                        ]
+                      }
+                    >
+                      󰓒
+                    </Text>
+                  </View>
+                  <View
+                    accessibilityState={
+                      Object {
+                        "disabled": false,
+                      }
+                    }
+                    accessible={true}
+                    collapsable={false}
+                    focusable={true}
+                    onClick={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
+                    style={
+                      Object {
+                        "backgroundColor": "#e51c83",
+                        "borderRadius": 500,
+                        "marginLeft": 30,
+                        "marginRight": 5,
+                        "opacity": 1,
+                        "width": "10%",
+                        "zIndex": 10,
+                      }
+                    }
+                    testID="deleteIcon"
+                  >
+                    <Text
+                      style={
+                        Object {
+                          "fontSize": 18,
+                          "textAlign": "center",
+                        }
+                      }
+                    >
+                      ╳
+                    </Text>
+                  </View>
+                </View>
+                <View
+                  accessible={true}
+                  collapsable={false}
+                  focusable={true}
+                  onClick={[Function]}
+                  onResponderGrant={[Function]}
+                  onResponderMove={[Function]}
+                  onResponderRelease={[Function]}
+                  onResponderTerminate={[Function]}
+                  onResponderTerminationRequest={[Function]}
+                  onStartShouldSetResponder={[Function]}
+                  style={
+                    Object {
+                      "alignItems": "center",
+                      "backgroundColor": "#171717",
+                      "borderColor": "white",
+                      "borderRadius": 50,
+                      "borderWidth": 1.5,
+                      "display": "flex",
+                      "flexDirection": "row",
+                      "flexWrap": "wrap",
+                      "height": 60,
+                      "margin": 13,
+                      "opacity": 1,
+                      "padding": 5,
+                    }
+                  }
+                >
+                  <Image
+                    source={
+                      Object {
+                        "uri": "asdfas",
+                      }
+                    }
+                    style={
+                      Object {
+                        "alignSelf": "center",
+                        "backgroundColor": "#bdbdbb",
+                        "borderRadius": 500,
+                        "display": "flex",
+                        "height": 35,
+                        "width": "10%",
+                      }
+                    }
+                  />
+                  <View
+                    style={
+                      Object {
+                        "left": 8,
+                        "position": "relative",
+                      }
+                    }
+                  >
+                    <Text
+                      style={
+                        Object {
+                          "color": "#fffffc",
+                          "fontSize": 16,
+                        }
+                      }
+                    >
+                      second patient
+                    </Text>
+                    <Text
+                      style={
+                        Object {
+                          "color": "#bdbdbb",
+                          "fontSize": 12,
+                        }
+                      }
+                    >
+                      asdfas
+                    </Text>
+                  </View>
+                  <View
+                    accessibilityState={
+                      Object {
+                        "disabled": false,
+                      }
+                    }
+                    accessible={true}
+                    collapsable={false}
+                    focusable={true}
+                    onClick={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
+                    style={
+                      Object {
+                        "alignSelf": "flex-end",
+                        "borderRadius": 500,
+                        "marginLeft": "auto",
+                        "opacity": 1,
+                        "width": "20%",
+                        "zIndex": 1,
+                      }
+                    }
+                    testID="favouriteIcon"
+                  >
+                    <Text
+                      allowFontScaling={false}
+                      selectable={false}
+                      style={
+                        Array [
+                          Object {
+                            "color": undefined,
+                            "fontSize": 12,
+                          },
+                          Object {
+                            "alignSelf": "center",
+                            "color": "#e51c83",
+                            "fontSize": 28,
+                            "marginHorizontal": 10,
+                          },
+                          Object {
+                            "fontFamily": "Material Design Icons",
+                            "fontStyle": "normal",
+                            "fontWeight": "normal",
+                          },
+                          Object {},
+                        ]
+                      }
+                    >
+                      󰓒
+                    </Text>
+                  </View>
+                  <View
+                    accessibilityState={
+                      Object {
+                        "disabled": false,
+                      }
+                    }
+                    accessible={true}
+                    collapsable={false}
+                    focusable={true}
+                    onClick={[Function]}
+                    onResponderGrant={[Function]}
+                    onResponderMove={[Function]}
+                    onResponderRelease={[Function]}
+                    onResponderTerminate={[Function]}
+                    onResponderTerminationRequest={[Function]}
+                    onStartShouldSetResponder={[Function]}
+                    style={
+                      Object {
+                        "backgroundColor": "#e51c83",
+                        "borderRadius": 500,
+                        "marginLeft": 30,
+                        "marginRight": 5,
+                        "opacity": 1,
+                        "width": "10%",
+                        "zIndex": 10,
+                      }
+                    }
+                    testID="deleteIcon"
+                  >
+                    <Text
+                      style={
+                        Object {
+                          "fontSize": 18,
+                          "textAlign": "center",
+                        }
+                      }
+                    >
+                      ╳
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+        </RCTScrollView>
+      </View>
+    </View>
+  </RCTSafeAreaView>
+</View>
+`;

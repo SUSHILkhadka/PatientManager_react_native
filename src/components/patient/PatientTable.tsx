@@ -5,7 +5,7 @@ import {ActivityIndicator, ScrollView, View} from 'react-native';
 import {useSelector} from 'react-redux';
 import {IPatient} from '../../redux_toolkit/Interfaces/IPatient';
 import {RootState} from '../../redux_toolkit/stores/store';
-import {readAllPatients} from '../../services/backendCallPatient';
+import {readAllPatients} from '../../axios/backendCallPatient';
 import {sortBySpecialFirstThenRest} from '../../utils/sort';
 import {COLOR} from '../styles/constants';
 import {patientTable} from '../styles/PatientTable';
@@ -35,7 +35,7 @@ const PatientTable = () => {
       setLoading(false);
     };
     reader();
-  }, []);
+  }, [pageInfo.refreshFlag]);
 
   return (
     <View testID="card">

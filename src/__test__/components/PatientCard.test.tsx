@@ -1,7 +1,7 @@
 import React from 'react';
-import {render} from '../utils/test-utils';
-import {IPatient} from '../redux_toolkit/Interfaces/IPatient';
-import PatientCard from '../components/patient/PatientCard';
+import {IPatient} from '../../redux_toolkit/Interfaces/IPatient';
+import PatientCard from '../../components/patient/PatientCard';
+import {renderWithProvidersAndNavigation} from './customRender';
 jest.useFakeTimers('legacy');
 it('should run patient card', () => {
   const input: IPatient = {
@@ -13,9 +13,8 @@ it('should run patient card', () => {
     address: 'test',
     photoUrl: 'test',
     specialAttention: false,
-    allergies: 'test',
   };
-  const page = render(<PatientCard {...input} />);
+  const page = renderWithProvidersAndNavigation(<PatientCard {...input} />);
 
   const deleteIcon = page.getAllByTestId('deleteIcon');
   const favouriteIcon = page.getAllByTestId('favouriteIcon');

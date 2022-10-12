@@ -8,9 +8,9 @@ import {typeOfUseNavigationHook} from '../../navigator/Navigator';
 import {IPatient} from '../../redux_toolkit/Interfaces/IPatient';
 import {refreshPage} from '../../redux_toolkit/slices/pageSlice';
 import {RootState} from '../../redux_toolkit/stores/store';
-import {sentArrayOfAllergyToBackend} from '../../services/backendCallAllergy';
-import {addPatient, editPatient} from '../../services/backendCallPatient';
-import {uploadFile} from '../../services/uploadFile';
+import {sentArrayOfAllergyToBackend} from '../../axios/backendCallAllergy';
+import {addPatient, editPatient} from '../../axios/backendCallPatient';
+import {uploadFile} from '../../axios/uploadFile';
 import patientSchema from '../../validations/schemas/patientSchema';
 import Validator from '../../validations/Validator';
 import AllergySection from '../allergy/AllergySection';
@@ -49,9 +49,9 @@ const PatientForm = ({initialValue}: PropType) => {
     setErrors(prevState => ({...prevState, [label]: error}));
   };
 
-  const handleEdit = async () => {
+  const handleSubmit = async () => {
     const body = {
-      name: inputs.name,
+      name: inputs.name.trim(),
       email: inputs.email,
       contact: inputs.contact,
       dob: dob,
@@ -146,11 +146,13 @@ const PatientForm = ({initialValue}: PropType) => {
       <TouchableOpacity
         disabled={loading}
         style={[formStyles.elementButton, formStyles.lastElementButton]}
-        onPress={handleEdit}>
+        onPress={handleSubmit}>
         {loading ? (
           <ActivityIndicator />
         ) : (
-          <Text style={formStyles.textInsideButton}>{initialValue.name != '' ? 'Tap to Save Changes' : 'add'}</Text>
+          <Text style={formStyles.textInsideButton}>
+            {initialValue.name != '' ? 'Save Changes' : 'Add new patient'}
+          </Text>
         )}
       </TouchableOpacity>
     </View>
