@@ -1,16 +1,16 @@
 import {useNavigation} from '@react-navigation/native';
 import {AxiosError} from 'axios';
-import React, {useState} from 'react';
+import React, {useLayoutEffect, useState} from 'react';
 import {ActivityIndicator, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useDispatch, useSelector} from 'react-redux';
+import {sentArrayOfAllergyToBackend} from '../../axios/backendCallAllergy';
+import {addPatient, editPatient} from '../../axios/backendCallPatient';
+import {uploadFile} from '../../axios/uploadFile';
 import {typeOfUseNavigationHook} from '../../navigator/Navigator';
 import {IPatient} from '../../redux_toolkit/Interfaces/IPatient';
 import {refreshPage} from '../../redux_toolkit/slices/pageSlice';
 import {RootState} from '../../redux_toolkit/stores/store';
-import {sentArrayOfAllergyToBackend} from '../../axios/backendCallAllergy';
-import {addPatient, editPatient} from '../../axios/backendCallPatient';
-import {uploadFile} from '../../axios/uploadFile';
 import patientSchema from '../../validations/schemas/patientSchema';
 import Validator from '../../validations/Validator';
 import AllergySection from '../allergy/AllergySection';
@@ -26,6 +26,25 @@ type PropType = {
 };
 const PatientForm = ({initialValue}: PropType) => {
   const navigation: typeOfUseNavigationHook['navigation'] = useNavigation();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        return (
+          <TouchableOpacity
+            disabled={loading}
+            // style={[formStyles.elementButton]}
+            onPress={handleSubmit}>
+            {loading ? (
+              <ActivityIndicator color={COLOR.pink2} />
+            ) : (
+              <Icon name={initialValue.name == '' ? 'plus' : 'check'} onPress={handleSubmit} style={styles.icon}></Icon>
+            )}
+          </TouchableOpacity>
+        );
+      },
+    });
+  });
   const pageInfo = useSelector((state: RootState) => state.page);
   const allergyArrayInfo = useSelector((state: RootState) => state.allergy);
   const dispatch = useDispatch();
@@ -148,18 +167,6 @@ const PatientForm = ({initialValue}: PropType) => {
           style={styles.icon}></Icon>
       </View>
       <AllergySection />
-      <TouchableOpacity
-        disabled={loading}
-        style={[formStyles.elementButton, formStyles.lastElementButton]}
-        onPress={handleSubmit}>
-        {loading ? (
-          <ActivityIndicator />
-        ) : (
-          <Text style={formStyles.textInsideButton}>
-            {initialValue.name != '' ? 'Save Changes' : 'Add new patient'}
-          </Text>
-        )}
-      </TouchableOpacity>
     </View>
   );
 };

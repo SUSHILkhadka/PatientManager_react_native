@@ -14,6 +14,7 @@ export const safeAreaStyles = StyleSheet.create({
   page: {
     flex: 1,
     backgroundColor: COLOR.black1,
+    paddingBottom: 16,
   },
 });
 export default LoginPage;

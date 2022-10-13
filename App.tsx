@@ -1,7 +1,7 @@
+import 'react-native-gesture-handler';
 import React, {useState} from 'react';
 import { ScrollView } from 'react-native';
 import Navigator from "./src/navigator/Navigator"
-
 
 const App = () => {
   return(

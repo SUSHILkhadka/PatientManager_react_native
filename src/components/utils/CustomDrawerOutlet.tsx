@@ -38,11 +38,11 @@ const CustomDrawerOutlet = ({children}: any) => {
   const drawer = useRef<any>(null);
   const navigationView = () => (
     <View>
-      <TouchableOpacity style={formStyles.elementButton} onPress={() => navigation.push('list')}>
+      <TouchableOpacity style={formStyles.elementButton} onPress={() => navigation.replace('list')}>
         <Text style={formStyles.textInsideButton}>Home</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={formStyles.elementButton} onPress={() => navigation.push('setting')}>
+      <TouchableOpacity style={formStyles.elementButton} onPress={() => navigation.replace('setting')}>
         <Text style={formStyles.textInsideButton}>Settings</Text>
       </TouchableOpacity>
 
