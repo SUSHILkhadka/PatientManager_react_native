@@ -1,6 +1,7 @@
 import React, {useRef, useState} from 'react';
 import {KeyboardTypeOptions, StyleSheet, Text, TextInput, View, Pressable} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {COLOR} from '../styles/constants';
 type PropType = {
   placeholder: string;
@@ -37,7 +38,11 @@ const CustomInput = ({
     <Pressable onPress={onSelection} style={styles.container}>
       <Text style={styles.label}>{label}</Text>
       <View style={[styles.inputContainer, {borderColor: error ? 'red' : isFocused ? COLOR.pink2 : '#4c4c4c'}]}>
-        <Icon style={styles.icon} name={iconName} />
+        {iconName == 'location' ? (
+          <Ionicons style={styles.icon} name={iconName} />
+        ) : (
+          <Icon style={styles.icon} name={iconName} />
+        )}
         <TextInput
           ref={ref}
           defaultValue={defaultValue}

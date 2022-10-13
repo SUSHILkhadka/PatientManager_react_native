@@ -6,7 +6,7 @@ export const defaultValue: IPatient = {
   name: '',
   email: '',
   contact: '',
-  dob: '',
+  dob: new Date().toLocaleDateString('fr-CA'),
   address: '',
   photoUrl: '',
   specialAttention: false,

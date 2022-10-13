@@ -1,7 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import {AxiosError} from 'axios';
 import React, {useLayoutEffect, useState} from 'react';
-import {ActivityIndicator, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {ActivityIndicator, Pressable, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useDispatch, useSelector} from 'react-redux';
 import {sentArrayOfAllergyToBackend} from '../../axios/backendCallAllergy';
@@ -15,7 +15,6 @@ import patientSchema from '../../validations/schemas/patientSchema';
 import Validator from '../../validations/Validator';
 import AllergySection from '../allergy/AllergySection';
 import {COLOR} from '../styles/constants';
-import formStyles from '../styles/Form';
 import CustomDatePicker from '../utils/CustomDatePicker';
 import CustomInput, {styles as customInputStyles} from '../utils/CustomInput';
 import ImageUploaderAndPreviewer from '../utils/ImageUploaderAndPreviewer';
@@ -152,7 +151,7 @@ const PatientForm = ({initialValue}: PropType) => {
         defaultValue={inputs.address}
         placeholder="Enter patient address"
         label="Patient Address"
-        iconName="phone-outline"
+        iconName="location"
         keyboardType="default"
         handleSetInput={(text: string) => handleSetInput(text, 'address')}
         error={errors.address}
@@ -166,13 +165,10 @@ const PatientForm = ({initialValue}: PropType) => {
         clearError={() => handleErrors('', 'dob')}
       />
 
-      <View style={styles.container}>
+      <Pressable onPress={handleFavouriteChange} style={styles.container}>
         <Text style={customInputStyles.label}>Special Attention:</Text>
-        <Icon
-          name={inputs.specialAttention ? 'star' : 'star-outline'}
-          onPress={handleFavouriteChange}
-          style={styles.icon}></Icon>
-      </View>
+        <Icon name={inputs.specialAttention ? 'star' : 'star-outline'} style={styles.icon}></Icon>
+      </Pressable>
       <AllergySection />
     </View>
   );
