@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {KeyboardTypeOptions, StyleSheet, Text, TextInput, View} from 'react-native';
+import React, {useRef, useState} from 'react';
+import {KeyboardTypeOptions, StyleSheet, Text, TextInput, View, Pressable} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {COLOR} from '../styles/constants';
 type PropType = {
@@ -26,12 +26,20 @@ const CustomInput = ({
 }: PropType) => {
   const [isFocused, setIsFocused] = useState(false);
   const [hidePassword, setHidePassword] = useState(true);
+
+  const ref = useRef<any>(null);
+  const onSelection = () => {
+    console.log('clicking');
+    ref.current.focus();
+  };
+
   return (
-    <View style={styles.container}>
+    <Pressable onPress={onSelection} style={styles.container}>
       <Text style={styles.label}>{label}</Text>
       <View style={[styles.inputContainer, {borderColor: error ? 'red' : isFocused ? COLOR.pink2 : '#4c4c4c'}]}>
         <Icon style={styles.icon} name={iconName} />
         <TextInput
+          ref={ref}
           defaultValue={defaultValue}
           style={styles.textinput}
           placeholder={placeholder}
@@ -55,7 +63,7 @@ const CustomInput = ({
         )}
       </View>
       <Text style={styles.errorText}>{error ? error : ''}</Text>
-    </View>
+    </Pressable>
   );
 };
 

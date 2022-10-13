@@ -51,7 +51,7 @@ const PatientForm = ({initialValue}: PropType) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const [inputs, setInputs] = useState(initialValue);
-  const [dob, setDob] = useState<Date>(new Date(initialValue.dob ? initialValue.dob : Date.now()));
+  const [dob, setDob] = useState<Date>(new Date(initialValue.dob ? initialValue.dob : ''));
   const [pickerResponse, setPickerResponse] = useState<any>();
   const handleSetInput = (text: string, label: string) => {
     setInputs(prevState => ({...prevState, [label]: text}));
@@ -65,6 +65,7 @@ const PatientForm = ({initialValue}: PropType) => {
     email: '',
     contact: '',
     address: '',
+    dob: '',
   });
   const handleErrors = (error: string, label: string) => {
     setErrors(prevState => ({...prevState, [label]: error}));
@@ -157,7 +158,13 @@ const PatientForm = ({initialValue}: PropType) => {
         error={errors.address}
         clearError={() => handleErrors('', 'address')}
       />
-      <CustomDatePicker label="Date of Birth" dob={dob} setDob={setDob} />
+      <CustomDatePicker
+        label="Date of Birth"
+        dob={dob}
+        setDob={setDob}
+        error={errors.dob}
+        clearError={() => handleErrors('', 'dob')}
+      />
 
       <View style={styles.container}>
         <Text style={customInputStyles.label}>Special Attention:</Text>

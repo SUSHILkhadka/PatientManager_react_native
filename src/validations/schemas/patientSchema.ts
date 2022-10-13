@@ -14,7 +14,7 @@ const patientSchema = yup.object().shape({
       otherwise: yup.string().matches(phoneNumberRegularExpression, 'contact number is not valid phone number'),
     }),
 
-  dob: yup.date(),
+  dob: yup.date().typeError('Invalid date').nullable(),
 });
 
 export default patientSchema;
