@@ -46,10 +46,12 @@ const RegisterForm = () => {
       try {
         const response = await register(body);
         ToastMessage(response.message);
+        changePageToLogin();
       } catch (e: AxiosError | any) {
         showDefaultErrorMessage(e);
       }
     }
+
     setLoading(false);
   };
 

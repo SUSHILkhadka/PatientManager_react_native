@@ -2,7 +2,8 @@ import {useNavigation} from '@react-navigation/native';
 import {AxiosError} from 'axios';
 import React, {useLayoutEffect, useState} from 'react';
 import {ActivityIndicator, Pressable, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useDispatch, useSelector} from 'react-redux';
 import {sentArrayOfAllergyToBackend} from '../../axios/backendCallAllergy';
 import {addPatient, editPatient} from '../../axios/backendCallPatient';
@@ -35,7 +36,10 @@ const PatientForm = ({initialValue}: PropType) => {
             {loading ? (
               <ActivityIndicator color={COLOR.pink2} />
             ) : (
-              <Icon name={initialValue.name == '' ? 'plus' : 'check'} onPress={handleSubmit} style={styles.icon}></Icon>
+              <Icon
+                name={initialValue.name == '' ? 'user-check' : 'save'}
+                onPress={handleSubmit}
+                style={styles.icon}></Icon>
             )}
           </TouchableOpacity>
         );
@@ -48,7 +52,6 @@ const PatientForm = ({initialValue}: PropType) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const [inputs, setInputs] = useState(initialValue);
-  // const [dob, setDob] = useState<Date>(new Date(initialValue.dob ? initialValue.dob : ''));
   const [pickerResponse, setPickerResponse] = useState<any>();
   const handleSetInput = (text: string, label: string) => {
     setInputs(prevState => ({...prevState, [label]: text}));
@@ -82,17 +85,19 @@ const PatientForm = ({initialValue}: PropType) => {
 
       try {
         const photoUrl = pickerResponse ? await uploadFile(pickerResponse) : initialValue.photoUrl;
+        const newBodyWithPhoto = {...body, photoUrl};
         if (initialValue.name == '') {
-          const response = await addPatient({...body, photoUrl});
+          const response = await addPatient(newBodyWithPhoto);
           await sentArrayOfAllergyToBackend(allergyArrayInfo, response.data.patientId);
           ToastMessage('Patient added Successfully');
         } else {
-          await editPatient(body, initialValue.patientId);
+          await editPatient(newBodyWithPhoto, initialValue.patientId);
           await sentArrayOfAllergyToBackend(allergyArrayInfo, initialValue.patientId);
           ToastMessage('Patient edited Successfully');
         }
         changePageToListPatient();
       } catch (e: AxiosError | any) {
+        console.log(e);
         showDefaultErrorMessage(e);
       }
       setLoading(false);
@@ -112,7 +117,7 @@ const PatientForm = ({initialValue}: PropType) => {
         setPickerResponse={setPickerResponse}
       />
       <CustomInput
-        defaultValue={inputs.name}
+        value={inputs.name}
         placeholder="Enter patient name"
         label="Patient Name"
         iconName="email-outline"
@@ -122,7 +127,7 @@ const PatientForm = ({initialValue}: PropType) => {
         clearError={() => handleErrors('', 'name')}
       />
       <CustomInput
-        defaultValue={inputs.email}
+        value={inputs.email}
         placeholder="Enter patient email address"
         label="Patient Email"
         iconName="email-outline"
@@ -132,7 +137,7 @@ const PatientForm = ({initialValue}: PropType) => {
         clearError={() => handleErrors('', 'email')}
       />
       <CustomInput
-        defaultValue={inputs.contact}
+        value={inputs.contact}
         placeholder="Enter patient phone number"
         label="Patient Contact"
         iconName="phone-outline"
@@ -142,7 +147,7 @@ const PatientForm = ({initialValue}: PropType) => {
         clearError={() => handleErrors('', 'contact')}
       />
       <CustomInput
-        defaultValue={inputs.address}
+        value={inputs.address}
         placeholder="Enter patient address"
         label="Patient Address"
         iconName="location"
@@ -162,17 +167,9 @@ const PatientForm = ({initialValue}: PropType) => {
 
       <Pressable onPress={handleFavouriteChange} style={styles.container}>
         <Text style={customInputStyles.label}>Special Attention:</Text>
-        <Icon name={inputs.specialAttention ? 'star' : 'star-outline'} style={styles.icon}></Icon>
+        <MaterialIcon name={inputs.specialAttention ? 'star' : 'star-outline'} style={styles.icon}></MaterialIcon>
       </Pressable>
       <AllergySection />
-
-      <TouchableOpacity disabled={loading} onPress={handleSubmit}>
-        {loading ? (
-          <ActivityIndicator color={COLOR.pink2} />
-        ) : (
-          <Icon name={initialValue.name == '' ? 'plus' : 'check'} onPress={handleSubmit} style={styles.icon}></Icon>
-        )}
-      </TouchableOpacity>
     </View>
   );
 };

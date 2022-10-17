@@ -86,7 +86,7 @@ const SettingForm = () => {
           label="Name"
           iconName="email-outline"
           keyboardType="default"
-          defaultValue={inputs.name}
+          value={inputs.name}
           handleSetInput={(text: string) => handleSetInput(text, 'name')}
           error={errors.name}
           clearError={() => handleErrors('', 'name')}

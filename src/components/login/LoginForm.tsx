@@ -4,11 +4,11 @@ import React, {useState} from 'react';
 import {ActivityIndicator, Text, TouchableOpacity, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {saveLoginResponse} from '../../async_storage/asyncStorage';
+import {login} from '../../axios/backendCallUser';
 import {typeOfUseNavigationHook} from '../../navigator/Navigator';
 import {IDataAtToken} from '../../redux_toolkit/Interfaces/IDataAtToken';
 import {loadAuthInfoWithLoginInfo} from '../../redux_toolkit/slices/authSlice';
 import {RootState} from '../../redux_toolkit/stores/store';
-import {login} from '../../axios/backendCallUser';
 import {getDataFromJWTToken} from '../../utils/jwt.utils';
 import loginSchema from '../../validations/schemas/loginSchema';
 import Validator from '../../validations/Validator';
@@ -63,6 +63,7 @@ const LoginForm = () => {
   return (
     <View>
       <CustomInput
+        value={inputs.email}
         placeholder="Enter your email address"
         label="Email"
         iconName="email-outline"
@@ -72,6 +73,7 @@ const LoginForm = () => {
         clearError={() => handleErrors('', 'email')}
       />
       <CustomInput
+        value={inputs.password}
         placeholder="Enter your password"
         label="Password"
         iconName="lock-outline"

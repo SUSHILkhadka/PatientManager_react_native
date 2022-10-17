@@ -6,13 +6,11 @@ import {safeAreaStyles} from '../login/LoginPage';
 
 const SettingPage = () => {
   return (
-    <CustomDrawerOutlet>
-      <SafeAreaView style={safeAreaStyles.page}>
-        <ScrollView>
-          <SettingForm />
-        </ScrollView>
-      </SafeAreaView>
-    </CustomDrawerOutlet>
+    <SafeAreaView style={safeAreaStyles.page}>
+      <ScrollView>
+        <SettingForm />
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

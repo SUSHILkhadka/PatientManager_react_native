@@ -1,10 +1,10 @@
-import {useNavigation, useRoute} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {AxiosError} from 'axios';
 import React, {useRef, useState} from 'react';
-import {ActivityIndicator, StyleSheet, DrawerLayoutAndroid, Text, TouchableOpacity, View} from 'react-native';
+import {ActivityIndicator, StyleSheet, DrawerLayoutAndroid, Text, TouchableOpacity, View, Linking} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import formStyles from '../../components/styles/Form';
-import ToastMessage, {showDefaultErrorMessage} from '../../components/utils/ToastMessage';
+import formStyles from '../styles/Form';
+import ToastMessage, {showDefaultErrorMessage} from './ToastMessage';
 import {typeOfUseNavigationHook} from '../../navigator/Navigator';
 import {logoutAuthInfo} from '../../redux_toolkit/slices/authSlice';
 import {AppDispatch, RootState} from '../../redux_toolkit/stores/store';
@@ -12,12 +12,13 @@ import {deleteLoginResponse} from '../../async_storage/asyncStorage';
 import {logout} from '../../axios/backendCallUser';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {COLOR} from '../styles/constants';
+import {DrawerContentScrollView, DrawerItem, DrawerItemList} from '@react-navigation/drawer';
 
-const CustomDrawerOutlet = ({children}: any) => {
+const CustomDrawer = (props: any) => {
   const authInfo = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch<AppDispatch>();
   const navigation: typeOfUseNavigationHook['navigation'] = useNavigation();
-  const route = useRoute();
+  // const route = useRoute();
 
   const [loading, setLoading] = useState(false);
 
@@ -51,33 +52,53 @@ const CustomDrawerOutlet = ({children}: any) => {
     </View>
   );
 
-  const CustomNavigationHeader = () => {
-    return (
-      <View style={styles.headerContainter}>
-        <Icon style={styles.icon} name="hamburger" onPress={() => drawer.current.openDrawer()}></Icon>
-        <Text style={styles.title}>{route.path == 'list' ? 'Home' : 'Setting'}</Text>
-      </View>
-    );
-  };
-
   return (
-    <DrawerLayoutAndroid ref={drawer} drawerWidth={200} renderNavigationView={navigationView}>
-      <CustomNavigationHeader />
-      {children}
-    </DrawerLayoutAndroid>
+    <DrawerContentScrollView {...props}>
+      <View style={styles.infoContainter}>
+        <Text style={styles.nameContainer}>{authInfo.username}</Text>
+        <Text style={styles.emailContainer}>{authInfo.email}</Text>
+      </View>
+      <DrawerItemList {...props} />
+      <DrawerItem
+        // activeBackgroundColor={COLOR.pink1}
+        {...props}
+        label="Help"
+        onPress={() => Linking.openURL('https://mywebsite.com/help')}
+      />
+      <TouchableOpacity style={styles.logoutContainer} onPress={handleLogout}>
+        <Icon style={styles.icon} name="logout" />
+        <View style={styles.titleContainer}>
+          {loading ? <ActivityIndicator size={18} color={COLOR.pink1} /> : <Text style={styles.title}>Logout</Text>}
+        </View>
+      </TouchableOpacity>
+    </DrawerContentScrollView>
   );
 };
 
 const fontSize = 22;
 const marginVertical = 16;
-const marginHorizontal = 16;
+const marginHorizontal = 8;
 
 const styles = StyleSheet.create({
-  headerContainter: {
-    backgroundColor: COLOR.black2,
+  infoContainter: {
+    display: 'flex',
+    alignItems: 'center',
+    marginVertical: 8,
+  },
+  nameContainer: {
+    color: COLOR.pink1,
+    fontSize: 20,
+  },
+  emailContainer: {
+    color: COLOR.pink1,
+    fontSize: 16,
+  },
+  logoutContainer: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
+    marginHorizontal: 10,
+    borderRadius: 4,
   },
   icon: {
     marginVertical: marginVertical,
@@ -85,13 +106,14 @@ const styles = StyleSheet.create({
     fontSize: fontSize,
     color: COLOR.pink1,
   },
-  title: {
+  titleContainer: {
     marginVertical: marginVertical,
-    marginHorizontal: marginHorizontal,
-
-    fontSize: fontSize,
+    marginHorizontal: marginHorizontal * 3,
+  },
+  title: {
+    fontSize: 16,
     color: COLOR.pink1,
   },
 });
 
-export default CustomDrawerOutlet;
+export default CustomDrawer;

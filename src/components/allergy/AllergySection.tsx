@@ -13,10 +13,10 @@ import AllergyCard from './AllergyCard';
 const AllergySection = () => {
   const allergyArrayInfo = useSelector((state: RootState) => state.allergy);
   const dispatch = useDispatch();
-
-  const [inputs, setInputs] = useState({
+  const initialValue = {
     allergyName: '',
-  });
+  };
+  const [inputs, setInputs] = useState(initialValue);
   const handleSetInput = (text: string, label: string) => {
     setInputs(prevState => ({...prevState, [label]: text}));
   };
@@ -30,6 +30,9 @@ const AllergySection = () => {
   const handleAddAllergy = async () => {
     if (Validator(inputs, allerygySchema, handleErrors)) {
       dispatch(addNewAllergy(inputs.allergyName.trim()));
+      setInputs({
+        allergyName: '',
+      });
     }
   };
 
@@ -41,6 +44,7 @@ const AllergySection = () => {
           label="Allergy"
           iconName="virus-outline"
           keyboardType="default"
+          value={inputs.allergyName}
           handleSetInput={(text: string) => handleSetInput(text, 'allergyName')}
           error={errors.allergyName}
           clearError={() => handleErrors('', 'allergyName')}

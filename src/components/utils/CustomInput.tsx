@@ -12,7 +12,7 @@ type PropType = {
   hide?: boolean;
   keyboardType?: KeyboardTypeOptions;
   handleSetInput: (text: string) => void;
-  defaultValue?: string;
+  value?: string;
 };
 const CustomInput = ({
   placeholder,
@@ -23,7 +23,7 @@ const CustomInput = ({
   hide,
   keyboardType,
   handleSetInput,
-  defaultValue,
+  value,
 }: PropType) => {
   const [isFocused, setIsFocused] = useState(false);
   const [hidePassword, setHidePassword] = useState(true);
@@ -44,7 +44,7 @@ const CustomInput = ({
         )}
         <TextInput
           ref={ref}
-          defaultValue={defaultValue}
+          value={value}
           style={styles.textinput}
           placeholder={placeholder}
           onFocus={() => {

@@ -1,7 +1,7 @@
 import axios from 'axios';
-// import {URL_TO_BACKEND} from '../constants/common';
+import {URL_TO_BACKEND} from '../constants/common';
 import {getAccessToken, getRefreshToken, saveAccessToken} from '../async_storage/asyncStorage';
-import {URL_TO_BACKEND} from '@env';
+// import {URL_TO_BACKEND} from '@env';
 
 /**
  * axios instane is create with given base url and headers type
