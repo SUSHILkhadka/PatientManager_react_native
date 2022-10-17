@@ -11,8 +11,13 @@ const ToastMessage = (message: string, error?: boolean) => {
   });
 };
 
-export const showDefaultErrorMessage = () => {
-  ToastMessage('Something went wrong. Please try later', true);
+export const showDefaultErrorMessage = (e: any) => {
+  try {
+    ToastMessage(e.response.data.message, true);
+  } catch {
+    if (e.message == 'Network Error') ToastMessage('No internet connection.', true);
+    else ToastMessage('Something went wrong. Please try later', true);
+  }
 };
 
 export default ToastMessage;

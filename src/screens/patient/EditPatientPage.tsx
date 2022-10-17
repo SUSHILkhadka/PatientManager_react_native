@@ -33,11 +33,7 @@ const EditPatientPage = () => {
           dispatch(loadAllergyList(response.data));
         }
       } catch (e: any) {
-        try {
-          ToastMessage(e.response.data.message, true);
-        } catch {
-          showDefaultErrorMessage();
-        }
+        showDefaultErrorMessage(e);
       }
     };
     getAllAllergyOfPatient();

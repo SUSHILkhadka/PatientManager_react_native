@@ -1,18 +1,21 @@
-import React, {Dispatch, SetStateAction, useRef, useState} from 'react';
-import {TextInput, View, Text, Pressable} from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import React, {useRef, useState} from 'react';
+import {Pressable, Text, TextInput, View} from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
-import {COLOR} from '../styles/constants';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import {getDateFromString, getFormattedDateFromDateObject} from '../../utils/date.utils';
+import {COLOR} from '../styles/constants';
 import {styles as customInputStyles} from './CustomInput';
 type Prop = {
   label: string;
-  dob: Date;
+  name: string;
+  value: string;
+  handleSetInput: (text: string, label: string) => void;
+
   clearError?: () => void;
   error?: string;
-  setDob: Dispatch<SetStateAction<Date>>;
 };
-const CustomDatePicker = ({label, dob, setDob, clearError, error}: Prop) => {
+const CustomDatePicker = ({label, value, name, handleSetInput, clearError, error}: Prop) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const showDatePicker = () => {
@@ -22,12 +25,11 @@ const CustomDatePicker = ({label, dob, setDob, clearError, error}: Prop) => {
     setDatePickerVisibility(false);
   };
   const handleConfirm = (date: Date) => {
-    setDob(date);
-    setTempInputDate(date.toLocaleDateString('fr-CA'));
+    clearError && clearError();
+    handleSetInput(getFormattedDateFromDateObject(date), name);
     hideDatePicker();
   };
   const ref = useRef<any>(null);
-  const [tempInputDate, setTempInputDate] = useState(dob.toLocaleDateString('fr-CA'));
 
   return (
     <Pressable onPress={() => ref.current.focus()} style={customInputStyles.container}>
@@ -38,33 +40,34 @@ const CustomDatePicker = ({label, dob, setDob, clearError, error}: Prop) => {
           ref={ref}
           style={customInputStyles.textinput}
           onChangeText={text => {
-            setTempInputDate(text);
+            clearError && clearError();
+            handleSetInput(text, name);
           }}
           onFocus={() => {
             setIsFocused(true);
           }}
-          onEndEditing={e => {
-            const value = e.nativeEvent.text;
-            const date = new Date(value);
-            const dateinProperFormat = date.toLocaleDateString('fr-CA');
+          // onEndEditing={e => {
+          //   const value = e.nativeEvent.text;
+          //   const date = new Date(value);
+          //   const dateinProperFormat = date.toLocaleDateString('fr-CA');
 
-            if (dateinProperFormat != 'Invalid Date') {
-              setDob(new Date(dateinProperFormat));
-              setTempInputDate(dateinProperFormat);
-            } else {
-              setTempInputDate(dob.toLocaleDateString('fr-CA'));
-            }
-          }}
+          //   if (dateinProperFormat != 'Invalid Date') {
+          //     setDob(new Date(dateinProperFormat));
+          //     setTempInputDate(dateinProperFormat);
+          //   } else {
+          //     setTempInputDate(dob.toLocaleDateString('fr-CA'));
+          //   }
+          // }}
           onBlur={text => {
             setIsFocused(false);
           }}
-          value={tempInputDate}
+          value={value}
         />
         <Ionicons onPress={showDatePicker} style={[customInputStyles.icon, {fontSize: 28}]} name="calendar" />
         <DateTimePickerModal
           isVisible={isDatePickerVisible}
           mode="date"
-          date={dob}
+          date={getDateFromString(value)}
           onConfirm={handleConfirm}
           onCancel={hideDatePicker}
           textColor={COLOR.pink1}

@@ -1,18 +1,20 @@
 import {useNavigation} from '@react-navigation/native';
 import {AxiosError} from 'axios';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {ActivityIndicator, Text, TouchableOpacity, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
+import {deleteLoginResponse, saveLoginResponse} from '../../async_storage/asyncStorage';
+import {editUser, login} from '../../axios/backendCallUser';
 import {typeOfUseNavigationHook} from '../../navigator/Navigator';
-import {logoutAuthInfo} from '../../redux_toolkit/slices/authSlice';
+import {IDataAtToken} from '../../redux_toolkit/Interfaces/IDataAtToken';
+import {loadAuthInfoWithLoginInfo, logoutAuthInfo} from '../../redux_toolkit/slices/authSlice';
 import {RootState} from '../../redux_toolkit/stores/store';
-import {deleteLoginResponse} from '../../async_storage/asyncStorage';
-import {editUser} from '../../axios/backendCallUser';
+import {getDataFromJWTToken} from '../../utils/jwt.utils';
 import editUserSchema, {editNameSchema} from '../../validations/schemas/editUserSchema';
 import Validator from '../../validations/Validator';
 import formStyles from '../styles/Form';
 import CustomInput from '../utils/CustomInput';
-import ToastMessage from '../utils/ToastMessage';
+import ToastMessage, {showDefaultErrorMessage} from '../utils/ToastMessage';
 
 const SettingForm = () => {
   const authInfo = useSelector((state: RootState) => state.auth);
@@ -53,11 +55,24 @@ const SettingForm = () => {
 
       try {
         const response = await editUser(body);
-        ToastMessage(response.message);
-        dispatch(logoutAuthInfo());
-        await deleteLoginResponse();
+        if (!changeName) {
+          dispatch(logoutAuthInfo());
+          await deleteLoginResponse();
+          ToastMessage('Password changed successfully');
+        } else {
+          //relogin
+          const body = {
+            email: authInfo.email,
+            password: inputs.oldPassword,
+          };
+          const response = await login(body);
+          const authData = getDataFromJWTToken(response.refreshToken) as IDataAtToken;
+          dispatch(loadAuthInfoWithLoginInfo(authData));
+          await saveLoginResponse(response, authData.expiryDateForRefreshToken);
+          ToastMessage('Name changed successfully');
+        }
       } catch (e: AxiosError | any) {
-        ToastMessage(e.response.data.message, true);
+        showDefaultErrorMessage(e);
       }
       setLoading(false);
     }

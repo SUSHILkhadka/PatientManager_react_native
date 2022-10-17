@@ -15,7 +15,7 @@ const ListPatientPage = () => {
   const navigation: typeOfUseNavigationHook['navigation'] = useNavigation();
 
   useLayoutEffect(() => {
-    navigation.setOptions({
+    navigation.setOptions?.({
       headerRight: () => {
         return (
           <TouchableOpacity onPress={goToAddPatientPage}>
@@ -24,7 +24,7 @@ const ListPatientPage = () => {
         );
       },
     });
-  });
+  }, [navigation]);
   const goToAddPatientPage = () => {
     navigation.navigate('add');
   };

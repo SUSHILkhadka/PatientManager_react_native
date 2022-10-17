@@ -11,6 +11,7 @@ import {typeOfUseNavigationHook} from '../../navigator/Navigator';
 import {IPatient} from '../../redux_toolkit/Interfaces/IPatient';
 import {refreshPage} from '../../redux_toolkit/slices/pageSlice';
 import {RootState} from '../../redux_toolkit/stores/store';
+import {getFormattedDateStringFromDateString} from '../../utils/date.utils';
 import patientSchema from '../../validations/schemas/patientSchema';
 import Validator from '../../validations/Validator';
 import AllergySection from '../allergy/AllergySection';
@@ -30,10 +31,7 @@ const PatientForm = ({initialValue}: PropType) => {
     navigation.setOptions({
       headerRight: () => {
         return (
-          <TouchableOpacity
-            disabled={loading}
-            // style={[formStyles.elementButton]}
-            onPress={handleSubmit}>
+          <TouchableOpacity disabled={loading} onPress={handleSubmit}>
             {loading ? (
               <ActivityIndicator color={COLOR.pink2} />
             ) : (
@@ -50,7 +48,7 @@ const PatientForm = ({initialValue}: PropType) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   const [inputs, setInputs] = useState(initialValue);
-  const [dob, setDob] = useState<Date>(new Date(initialValue.dob ? initialValue.dob : ''));
+  // const [dob, setDob] = useState<Date>(new Date(initialValue.dob ? initialValue.dob : ''));
   const [pickerResponse, setPickerResponse] = useState<any>();
   const handleSetInput = (text: string, label: string) => {
     setInputs(prevState => ({...prevState, [label]: text}));
@@ -75,7 +73,7 @@ const PatientForm = ({initialValue}: PropType) => {
       name: inputs.name.trim(),
       email: inputs.email,
       contact: inputs.contact,
-      dob: dob,
+      dob: getFormattedDateStringFromDateString(inputs.dob),
       address: inputs.address,
       specialAttention: inputs.specialAttention,
     };
@@ -95,11 +93,7 @@ const PatientForm = ({initialValue}: PropType) => {
         }
         changePageToListPatient();
       } catch (e: AxiosError | any) {
-        try {
-          ToastMessage(e.response.data.message, true);
-        } catch {
-          showDefaultErrorMessage();
-        }
+        showDefaultErrorMessage(e);
       }
       setLoading(false);
     }
@@ -107,7 +101,7 @@ const PatientForm = ({initialValue}: PropType) => {
 
   const changePageToListPatient = () => {
     dispatch(refreshPage(!pageInfo.refreshFlag));
-    navigation.push('list');
+    navigation.pop();
   };
 
   return (
@@ -159,8 +153,9 @@ const PatientForm = ({initialValue}: PropType) => {
       />
       <CustomDatePicker
         label="Date of Birth"
-        dob={dob}
-        setDob={setDob}
+        name="dob"
+        value={inputs.dob}
+        handleSetInput={handleSetInput}
         error={errors.dob}
         clearError={() => handleErrors('', 'dob')}
       />
@@ -170,6 +165,14 @@ const PatientForm = ({initialValue}: PropType) => {
         <Icon name={inputs.specialAttention ? 'star' : 'star-outline'} style={styles.icon}></Icon>
       </Pressable>
       <AllergySection />
+
+      <TouchableOpacity disabled={loading} onPress={handleSubmit}>
+        {loading ? (
+          <ActivityIndicator color={COLOR.pink2} />
+        ) : (
+          <Icon name={initialValue.name == '' ? 'plus' : 'check'} onPress={handleSubmit} style={styles.icon}></Icon>
+        )}
+      </TouchableOpacity>
     </View>
   );
 };

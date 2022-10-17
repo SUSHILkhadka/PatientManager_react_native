@@ -2,6 +2,8 @@
 import {NavigationContainer} from '@react-navigation/native';
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {getRefreshToken} from '../async_storage/asyncStorage';
@@ -18,22 +20,21 @@ import RegisterPage from '../screens/register/RegisterPage';
 import SettingPage from '../screens/setting/SettingPage';
 import SplashScreen from '../screens/SplashScreen';
 type RootStackParamList = {
+  main: undefined;
   login: undefined;
   register: undefined;
   list: undefined;
   add: undefined;
   edit: undefined;
   setting: undefined;
+  a: undefined;
 };
 
-type RootStackParamListForDrawer = {
-  a: undefined;
-  b: undefined;
-};
 export type typeOfUseNavigationHook = NativeStackScreenProps<RootStackParamList>;
 
 const Navigator = () => {
   const Stack = createNativeStackNavigator<RootStackParamList>();
+  const Tab = createBottomTabNavigator();
   // const Drawer = createDrawerNavigator<RootStackParamListForDrawer>();
   const authInfo = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch<AppDispatch>();
@@ -51,12 +52,12 @@ const Navigator = () => {
     headerTintColor: COLOR.pink1,
   };
 
-  // const DrawerNavigator = () => {
+  // const TabN = () => {
   //   return (
-  //     <Drawer.Navigator>
-  //       <Drawer.Screen name="a" component={APage} options={{title: 'a'}} />
-  //       <Drawer.Screen name="b" component={BPage} options={{title: 'b'}} />
-  //     </Drawer.Navigator>
+  //     <Tab.Navigator>
+  //       <Tab.Screen name="list" component={ListPatientPage} options={{title: 'Home'}} />
+  //       <Tab.Screen name="setting" component={SettingPage} options={{title: 'Setting'}} />
+  //     </Tab.Navigator>
   //   );
   // };
 

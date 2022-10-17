@@ -30,7 +30,6 @@ const CustomInput = ({
 
   const ref = useRef<any>(null);
   const onSelection = () => {
-    console.log('clicking');
     ref.current.focus();
   };
 
@@ -49,13 +48,14 @@ const CustomInput = ({
           style={styles.textinput}
           placeholder={placeholder}
           onFocus={() => {
-            clearError && clearError();
+            // clearError && clearError();
             setIsFocused(true);
           }}
           secureTextEntry={hide ? hidePassword : false}
           onBlur={() => setIsFocused(false)}
           keyboardType={keyboardType}
           onChangeText={text => {
+            clearError && clearError();
             handleSetInput(text);
           }}
         />

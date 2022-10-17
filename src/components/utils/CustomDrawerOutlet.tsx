@@ -24,11 +24,7 @@ const CustomDrawerOutlet = ({children}: any) => {
       const response = await logout();
       ToastMessage('logged out successfully');
     } catch (e: AxiosError | any) {
-      try {
-        ToastMessage(e.response.data.message, true);
-      } catch {
-        showDefaultErrorMessage();
-      }
+      showDefaultErrorMessage(e);
     }
     dispatch(logoutAuthInfo());
     await deleteLoginResponse();

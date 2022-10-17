@@ -19,48 +19,11 @@ exports[`should render list vaccine page properly 1`] = `
       Object {
         "backgroundColor": "#101010",
         "flex": 1,
+        "paddingBottom": 16,
       }
     }
   >
     <View>
-      <View
-        accessible={true}
-        collapsable={false}
-        focusable={true}
-        onClick={[Function]}
-        onResponderGrant={[Function]}
-        onResponderMove={[Function]}
-        onResponderRelease={[Function]}
-        onResponderTerminate={[Function]}
-        onResponderTerminationRequest={[Function]}
-        onStartShouldSetResponder={[Function]}
-        style={
-          Object {
-            "alignSelf": "center",
-            "backgroundColor": "#e51c83",
-            "borderRadius": 400,
-            "fontSize": 40,
-            "opacity": 0.7,
-            "position": "absolute",
-            "right": 40,
-            "top": 1133.8999999999999,
-            "width": "20%",
-            "zIndex": 2,
-          }
-        }
-      >
-        <Text
-          style={
-            Object {
-              "alignSelf": "center",
-              "color": "#fffffc",
-              "fontSize": 40,
-            }
-          }
-        >
-          +
-        </Text>
-      </View>
       <View
         testID="card"
       >
@@ -91,18 +54,17 @@ exports[`should render list vaccine page properly 1`] = `
                   onStartShouldSetResponder={[Function]}
                   style={
                     Object {
-                      "alignItems": "center",
                       "backgroundColor": "#171717",
                       "borderColor": "white",
                       "borderRadius": 50,
+                      "borderTopRightRadius": 12,
                       "borderWidth": 1.5,
                       "display": "flex",
                       "flexDirection": "row",
-                      "flexWrap": "wrap",
-                      "height": 60,
-                      "margin": 13,
+                      "height": 200,
+                      "margin": 6,
                       "opacity": 1,
-                      "padding": 5,
+                      "position": "relative",
                     }
                   }
                 >
@@ -115,27 +77,31 @@ exports[`should render list vaccine page properly 1`] = `
                     style={
                       Object {
                         "alignSelf": "center",
-                        "backgroundColor": "#bdbdbb",
+                        "backgroundColor": "#171717",
+                        "borderColor": "white",
                         "borderRadius": 500,
+                        "borderWidth": 1.5,
                         "display": "flex",
-                        "height": 35,
-                        "width": "10%",
+                        "height": "80%",
+                        "margin": 8,
+                        "width": "40%",
                       }
                     }
                   />
                   <View
                     style={
                       Object {
-                        "left": 8,
-                        "position": "relative",
+                        "alignItems": "center",
+                        "display": "flex",
+                        "justifyContent": "space-around",
+                        "width": "50%",
                       }
                     }
                   >
                     <Text
                       style={
                         Object {
-                          "color": "#fffffc",
-                          "fontSize": 16,
+                          "fontSize": 24,
                         }
                       }
                     >
@@ -144,68 +110,80 @@ exports[`should render list vaccine page properly 1`] = `
                     <Text
                       style={
                         Object {
-                          "color": "#bdbdbb",
-                          "fontSize": 12,
+                          "fontSize": 14,
                         }
                       }
                     >
                       asdfas
                     </Text>
-                  </View>
-                  <View
-                    accessibilityState={
-                      Object {
-                        "disabled": false,
-                      }
-                    }
-                    accessible={true}
-                    collapsable={false}
-                    focusable={true}
-                    onClick={[Function]}
-                    onResponderGrant={[Function]}
-                    onResponderMove={[Function]}
-                    onResponderRelease={[Function]}
-                    onResponderTerminate={[Function]}
-                    onResponderTerminationRequest={[Function]}
-                    onStartShouldSetResponder={[Function]}
-                    style={
-                      Object {
-                        "alignSelf": "flex-end",
-                        "borderRadius": 500,
-                        "marginLeft": "auto",
-                        "opacity": 1,
-                        "width": "20%",
-                        "zIndex": 1,
-                      }
-                    }
-                    testID="favouriteIcon"
-                  >
                     <Text
-                      allowFontScaling={false}
-                      selectable={false}
                       style={
-                        Array [
-                          Object {
-                            "color": undefined,
-                            "fontSize": 12,
-                          },
-                          Object {
-                            "alignSelf": "center",
-                            "color": "#e51c83",
-                            "fontSize": 28,
-                            "marginHorizontal": 10,
-                          },
-                          Object {
-                            "fontFamily": "Material Design Icons",
-                            "fontStyle": "normal",
-                            "fontWeight": "normal",
-                          },
-                          Object {},
-                        ]
+                        Object {
+                          "fontSize": 14,
+                        }
                       }
                     >
-                      󰓒
+                      asdfas
                     </Text>
+                    <Text
+                      style={
+                        Object {
+                          "fontSize": 14,
+                        }
+                      }
+                    >
+                      asdfas
+                    </Text>
+                    <View
+                      accessibilityState={
+                        Object {
+                          "disabled": false,
+                        }
+                      }
+                      accessible={true}
+                      collapsable={false}
+                      focusable={true}
+                      onClick={[Function]}
+                      onResponderGrant={[Function]}
+                      onResponderMove={[Function]}
+                      onResponderRelease={[Function]}
+                      onResponderTerminate={[Function]}
+                      onResponderTerminationRequest={[Function]}
+                      onStartShouldSetResponder={[Function]}
+                      style={
+                        Object {
+                          "opacity": 1,
+                        }
+                      }
+                      testID="favouriteIcon"
+                    >
+                      <Text
+                        allowFontScaling={false}
+                        selectable={false}
+                        style={
+                          Array [
+                            Object {
+                              "color": undefined,
+                              "fontSize": 12,
+                            },
+                            Object {
+                              "alignSelf": "center",
+                              "color": "#e51c83",
+                              "fontSize": 34,
+                              "marginHorizontal": 10,
+                            },
+                            Object {
+                              "fontFamily": "Material Design Icons",
+                              "fontStyle": "normal",
+                              "fontWeight": "normal",
+                            },
+                            Object {},
+                          ]
+                        }
+                      >
+                        󰓒
+                      </Text>
+                    </View>
                   </View>
                   <View
                     accessibilityState={
@@ -227,10 +205,10 @@ exports[`should render list vaccine page properly 1`] = `
                       Object {
                         "backgroundColor": "#e51c83",
                         "borderRadius": 500,
-                        "marginLeft": 30,
-                        "marginRight": 5,
+                        "marginLeft": "90%",
                         "opacity": 1,
-                        "width": "10%",
+                        "position": "absolute",
+                        "width": 10,
                         "zIndex": 10,
                       }
                     }
@@ -240,6 +218,7 @@ exports[`should render list vaccine page properly 1`] = `
                       style={
                         Object {
                           "fontSize": 18,
+                          "fontWeight": "bold",
                           "textAlign": "center",
                         }
                       }
@@ -261,18 +240,17 @@ exports[`should render list vaccine page properly 1`] = `
                   onStartShouldSetResponder={[Function]}
                   style={
                     Object {
-                      "alignItems": "center",
                       "backgroundColor": "#171717",
                       "borderColor": "white",
                       "borderRadius": 50,
+                      "borderTopRightRadius": 12,
                       "borderWidth": 1.5,
                       "display": "flex",
                       "flexDirection": "row",
-                      "flexWrap": "wrap",
-                      "height": 60,
-                      "margin": 13,
+                      "height": 200,
+                      "margin": 6,
                       "opacity": 1,
-                      "padding": 5,
+                      "position": "relative",
                     }
                   }
                 >
@@ -285,27 +263,31 @@ exports[`should render list vaccine page properly 1`] = `
                     style={
                       Object {
                         "alignSelf": "center",
-                        "backgroundColor": "#bdbdbb",
+                        "backgroundColor": "#171717",
+                        "borderColor": "white",
                         "borderRadius": 500,
+                        "borderWidth": 1.5,
                         "display": "flex",
-                        "height": 35,
-                        "width": "10%",
+                        "height": "80%",
+                        "margin": 8,
+                        "width": "40%",
                       }
                     }
                   />
                   <View
                     style={
                       Object {
-                        "left": 8,
-                        "position": "relative",
+                        "alignItems": "center",
+                        "display": "flex",
+                        "justifyContent": "space-around",
+                        "width": "50%",
                       }
                     }
                   >
                     <Text
                       style={
                         Object {
-                          "color": "#fffffc",
-                          "fontSize": 16,
+                          "fontSize": 24,
                         }
                       }
                     >
@@ -314,68 +296,80 @@ exports[`should render list vaccine page properly 1`] = `
                     <Text
                       style={
                         Object {
-                          "color": "#bdbdbb",
-                          "fontSize": 12,
+                          "fontSize": 14,
                         }
                       }
                     >
                       asdfas
                     </Text>
-                  </View>
-                  <View
-                    accessibilityState={
-                      Object {
-                        "disabled": false,
-                      }
-                    }
-                    accessible={true}
-                    collapsable={false}
-                    focusable={true}
-                    onClick={[Function]}
-                    onResponderGrant={[Function]}
-                    onResponderMove={[Function]}
-                    onResponderRelease={[Function]}
-                    onResponderTerminate={[Function]}
-                    onResponderTerminationRequest={[Function]}
-                    onStartShouldSetResponder={[Function]}
-                    style={
-                      Object {
-                        "alignSelf": "flex-end",
-                        "borderRadius": 500,
-                        "marginLeft": "auto",
-                        "opacity": 1,
-                        "width": "20%",
-                        "zIndex": 1,
-                      }
-                    }
-                    testID="favouriteIcon"
-                  >
                     <Text
-                      allowFontScaling={false}
-                      selectable={false}
                       style={
-                        Array [
-                          Object {
-                            "color": undefined,
-                            "fontSize": 12,
-                          },
-                          Object {
-                            "alignSelf": "center",
-                            "color": "#e51c83",
-                            "fontSize": 28,
-                            "marginHorizontal": 10,
-                          },
-                          Object {
-                            "fontFamily": "Material Design Icons",
-                            "fontStyle": "normal",
-                            "fontWeight": "normal",
-                          },
-                          Object {},
-                        ]
+                        Object {
+                          "fontSize": 14,
+                        }
                       }
                     >
-                      󰓒
+                      asdfas
                     </Text>
+                    <Text
+                      style={
+                        Object {
+                          "fontSize": 14,
+                        }
+                      }
+                    >
+                      asdfas
+                    </Text>
+                    <View
+                      accessibilityState={
+                        Object {
+                          "disabled": false,
+                        }
+                      }
+                      accessible={true}
+                      collapsable={false}
+                      focusable={true}
+                      onClick={[Function]}
+                      onResponderGrant={[Function]}
+                      onResponderMove={[Function]}
+                      onResponderRelease={[Function]}
+                      onResponderTerminate={[Function]}
+                      onResponderTerminationRequest={[Function]}
+                      onStartShouldSetResponder={[Function]}
+                      style={
+                        Object {
+                          "opacity": 1,
+                        }
+                      }
+                      testID="favouriteIcon"
+                    >
+                      <Text
+                        allowFontScaling={false}
+                        selectable={false}
+                        style={
+                          Array [
+                            Object {
+                              "color": undefined,
+                              "fontSize": 12,
+                            },
+                            Object {
+                              "alignSelf": "center",
+                              "color": "#e51c83",
+                              "fontSize": 34,
+                              "marginHorizontal": 10,
+                            },
+                            Object {
+                              "fontFamily": "Material Design Icons",
+                              "fontStyle": "normal",
+                              "fontWeight": "normal",
+                            },
+                            Object {},
+                          ]
+                        }
+                      >
+                        󰓒
+                      </Text>
+                    </View>
                   </View>
                   <View
                     accessibilityState={
@@ -397,10 +391,10 @@ exports[`should render list vaccine page properly 1`] = `
                       Object {
                         "backgroundColor": "#e51c83",
                         "borderRadius": 500,
-                        "marginLeft": 30,
-                        "marginRight": 5,
+                        "marginLeft": "90%",
                         "opacity": 1,
-                        "width": "10%",
+                        "position": "absolute",
+                        "width": 10,
                         "zIndex": 10,
                       }
                     }
@@ -410,6 +404,7 @@ exports[`should render list vaccine page properly 1`] = `
                       style={
                         Object {
                           "fontSize": 18,
+                          "fontWeight": "bold",
                           "textAlign": "center",
                         }
                       }
