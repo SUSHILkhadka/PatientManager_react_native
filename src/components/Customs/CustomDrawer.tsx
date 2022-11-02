@@ -4,7 +4,7 @@ import React, {useRef, useState} from 'react';
 import {ActivityIndicator, StyleSheet, DrawerLayoutAndroid, Text, TouchableOpacity, View, Linking} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import formStyles from '../styles/Form';
-import ToastMessage, {showDefaultErrorMessage} from './ToastMessage';
+import ToastMessage, {showDefaultErrorMessage} from '../../utils/ToastMessage.utils';
 import {typeOfUseNavigationHook} from '../../navigator/Navigator';
 import {logoutAuthInfo} from '../../redux_toolkit/slices/authSlice';
 import {AppDispatch, RootState} from '../../redux_toolkit/stores/store';
@@ -18,7 +18,6 @@ const CustomDrawer = (props: any) => {
   const authInfo = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch<AppDispatch>();
   const navigation: typeOfUseNavigationHook['navigation'] = useNavigation();
-  // const route = useRoute();
 
   const [loading, setLoading] = useState(false);
 
@@ -36,21 +35,6 @@ const CustomDrawer = (props: any) => {
   };
 
   const drawer = useRef<any>(null);
-  const navigationView = () => (
-    <View>
-      <TouchableOpacity style={formStyles.elementButton} onPress={() => navigation.replace('list')}>
-        <Text style={formStyles.textInsideButton}>Home</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={formStyles.elementButton} onPress={() => navigation.replace('setting')}>
-        <Text style={formStyles.textInsideButton}>Settings</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={formStyles.elementButton} onPress={handleLogout}>
-        {loading ? <ActivityIndicator /> : <Text style={formStyles.textInsideButton}>Logout</Text>}
-      </TouchableOpacity>
-    </View>
-  );
 
   return (
     <DrawerContentScrollView {...props}>
@@ -59,12 +43,6 @@ const CustomDrawer = (props: any) => {
         <Text style={styles.emailContainer}>{authInfo.email}</Text>
       </View>
       <DrawerItemList {...props} />
-      <DrawerItem
-        // activeBackgroundColor={COLOR.pink1}
-        {...props}
-        label="Help"
-        onPress={() => Linking.openURL('https://mywebsite.com/help')}
-      />
       <TouchableOpacity style={styles.logoutContainer} onPress={handleLogout}>
         <Icon style={styles.icon} name="logout" />
         <View style={styles.titleContainer}>

@@ -13,8 +13,8 @@ import {getDataFromJWTToken} from '../../utils/jwt.utils';
 import loginSchema from '../../validations/schemas/loginSchema';
 import Validator from '../../validations/Validator';
 import formStyles from '../styles/Form';
-import CustomInput from '../utils/CustomInput';
-import ToastMessage, {showDefaultErrorMessage} from '../utils/ToastMessage';
+import CustomInput from '../Customs/CustomInput';
+import ToastMessage, {showDefaultErrorMessage} from '../../utils/ToastMessage.utils';
 const LoginForm = () => {
   const navigation: typeOfUseNavigationHook['navigation'] = useNavigation();
   const authInfo = useSelector((state: RootState) => state.auth);

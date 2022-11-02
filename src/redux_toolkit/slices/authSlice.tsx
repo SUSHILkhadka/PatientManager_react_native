@@ -40,6 +40,8 @@ export const authSlice = createSlice({
         state.isLoading = 'loading';
       })
       .addCase(checkToken.fulfilled, (state, action) => {
+        console.log(action.payload.data);
+
         state.isLoading = 'fulfilled';
         state.id = action.payload.data.id;
         state.username = action.payload.data.name;

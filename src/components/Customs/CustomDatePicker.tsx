@@ -46,18 +46,6 @@ const CustomDatePicker = ({label, value, name, handleSetInput, clearError, error
           onFocus={() => {
             setIsFocused(true);
           }}
-          // onEndEditing={e => {
-          //   const value = e.nativeEvent.text;
-          //   const date = new Date(value);
-          //   const dateinProperFormat = date.toLocaleDateString('fr-CA');
-
-          //   if (dateinProperFormat != 'Invalid Date') {
-          //     setDob(new Date(dateinProperFormat));
-          //     setTempInputDate(dateinProperFormat);
-          //   } else {
-          //     setTempInputDate(dob.toLocaleDateString('fr-CA'));
-          //   }
-          // }}
           onBlur={text => {
             setIsFocused(false);
           }}

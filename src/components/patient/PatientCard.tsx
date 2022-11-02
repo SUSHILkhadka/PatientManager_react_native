@@ -12,7 +12,7 @@ import {refreshPage} from '../../redux_toolkit/slices/pageSlice';
 import {loadPatient} from '../../redux_toolkit/slices/patientSlice';
 import {RootState} from '../../redux_toolkit/stores/store';
 import {COLOR} from '../styles/constants';
-import ToastMessage from '../utils/ToastMessage';
+import ToastMessage from '../../utils/ToastMessage.utils';
 
 const PatientCard = (props: IPatient) => {
   const pageInfo = useSelector((state: RootState) => state.page);

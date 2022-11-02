@@ -17,7 +17,7 @@ import SettingPage from '../screens/setting/SettingPage';
 import SplashScreen from '../screens/SplashScreen';
 
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import CustomDrawer from '../components/utils/CustomDrawer';
+import CustomDrawer from '../components/Customs/CustomDrawer';
 const Drawer = createDrawerNavigator();
 
 type RootStackParamList = {

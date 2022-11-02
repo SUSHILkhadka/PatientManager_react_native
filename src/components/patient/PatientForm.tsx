@@ -17,10 +17,10 @@ import patientSchema from '../../validations/schemas/patientSchema';
 import Validator from '../../validations/Validator';
 import AllergySection from '../allergy/AllergySection';
 import {COLOR} from '../styles/constants';
-import CustomDatePicker from '../utils/CustomDatePicker';
-import CustomInput, {styles as customInputStyles} from '../utils/CustomInput';
-import ImageUploaderAndPreviewer from '../utils/ImageUploaderAndPreviewer';
-import ToastMessage, {showDefaultErrorMessage} from '../utils/ToastMessage';
+import CustomDatePicker from '../Customs/CustomDatePicker';
+import CustomInput, {styles as customInputStyles} from '../Customs/CustomInput';
+import ImageUploaderAndPreviewer from '../Customs/ImageUploaderAndPreviewer';
+import ToastMessage, {showDefaultErrorMessage} from '../../utils/ToastMessage.utils';
 
 type PropType = {
   initialValue: IPatient;

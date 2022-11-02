@@ -16,7 +16,9 @@ const AllergyCard = ({index, name}: PropType) => {
 
   return (
     <View style={allergyCardStyles.cardContainer}>
-      <Text style={allergyCardStyles.text}>{name}</Text>
+      <Text onPress={handleDeleteAllergy} style={allergyCardStyles.text}>
+        {name}
+      </Text>
       <TouchableOpacity style={allergyCardStyles.deleteIcon} onPress={handleDeleteAllergy}>
         <Text style={allergyCardStyles.icon}>&#9587;</Text>
       </TouchableOpacity>

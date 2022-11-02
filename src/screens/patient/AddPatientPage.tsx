@@ -5,6 +5,7 @@ import PatientForm from '../../components/patient/PatientForm';
 import {resetAllergyList} from '../../redux_toolkit/slices/allergySlice';
 import {defaultValue, resetPatient} from '../../redux_toolkit/slices/patientSlice';
 import {safeAreaStyles} from '../login/LoginPage';
+
 const AddPatientPage = () => {
   const dispatch = useDispatch();
   useEffect(() => {

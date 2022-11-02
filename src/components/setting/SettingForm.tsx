@@ -13,8 +13,8 @@ import {getDataFromJWTToken} from '../../utils/jwt.utils';
 import editUserSchema, {editNameSchema} from '../../validations/schemas/editUserSchema';
 import Validator from '../../validations/Validator';
 import formStyles from '../styles/Form';
-import CustomInput from '../utils/CustomInput';
-import ToastMessage, {showDefaultErrorMessage} from '../utils/ToastMessage';
+import CustomInput from '../Customs/CustomInput';
+import ToastMessage, {showDefaultErrorMessage} from '../../utils/ToastMessage.utils';
 
 const SettingForm = () => {
   const authInfo = useSelector((state: RootState) => state.auth);
@@ -132,8 +132,10 @@ const SettingForm = () => {
           <Text style={formStyles.textInsideButton}>{changeName ? 'Save name' : 'Save password'}</Text>
         )}
       </TouchableOpacity>
-      <TouchableOpacity style={formStyles.elementButton} onPress={() => setChangeName(!changeName)}>
-        <Text style={formStyles.textInsideButton}>
+      <TouchableOpacity
+        style={[formStyles.elementButton, formStyles.lastButton]}
+        onPress={() => setChangeName(!changeName)}>
+        <Text style={[formStyles.textInsideButton]}>
           {changeName ? 'change password instead' : 'change name instead'}
         </Text>
       </TouchableOpacity>
