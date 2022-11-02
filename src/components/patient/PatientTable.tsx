@@ -3,13 +3,13 @@ import {AxiosError} from 'axios';
 import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, ScrollView, View} from 'react-native';
 import {useSelector} from 'react-redux';
+import {readAllPatients} from '../../axios/backendCallPatient';
 import {IPatient} from '../../redux_toolkit/Interfaces/IPatient';
 import {RootState} from '../../redux_toolkit/stores/store';
-import {readAllPatients} from '../../axios/backendCallPatient';
-import {sortBySpecialFirstThenRest} from '../../utils/sort';
+import {sortBySpecialFirstThenRest} from '../../utils/sort.utils';
 import {COLOR} from '../styles/constants';
 import {patientTable} from '../styles/PatientTable';
-import ToastMessage from '../utils/ToastMessage';
+import ToastMessage from '../../utils/ToastMessage.utils';
 import PatientCard from './PatientCard';
 
 const PatientTable = () => {
@@ -20,13 +20,17 @@ const PatientTable = () => {
 
   const navigation = useNavigation();
   useEffect(() => {
+    let isMounted = true;
+
     setLoading(true);
     const reader = async () => {
       try {
         const response = await readAllPatients();
-        const sorted = sortBySpecialFirstThenRest(response.data);
-        setOriginalData(sorted);
-        setDisplayingData(sorted);
+        if (isMounted) {
+          const sorted = sortBySpecialFirstThenRest(response.data);
+          setOriginalData(sorted);
+          setDisplayingData(sorted);
+        }
       } catch (e: AxiosError | any) {
         ToastMessage(e.response.data.message, true);
         setOriginalData([]);
@@ -35,6 +39,10 @@ const PatientTable = () => {
       setLoading(false);
     };
     reader();
+
+    return () => {
+      isMounted = false;
+    };
   }, [pageInfo.refreshFlag]);
 
   return (

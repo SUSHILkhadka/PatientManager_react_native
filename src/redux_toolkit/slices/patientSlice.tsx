@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
+import {getDateStringFromDateAndTimeString} from '../../utils/date.utils';
 import {IPatient} from '../Interfaces/IPatient';
 
 export const defaultValue: IPatient = {
@@ -6,7 +7,7 @@ export const defaultValue: IPatient = {
   name: '',
   email: '',
   contact: '',
-  dob: '',
+  dob: new Date().toLocaleDateString('fr-CA'),
   address: '',
   photoUrl: '',
   specialAttention: false,
@@ -21,7 +22,7 @@ export const patientSlice = createSlice({
       state.name = action.payload.name;
       state.email = action.payload.email;
       state.contact = action.payload.contact;
-      state.dob = action.payload.dob;
+      state.dob = getDateStringFromDateAndTimeString(action.payload.dob);
       state.address = action.payload.address;
       state.specialAttention = action.payload.specialAttention;
       state.photoUrl = action.payload.photoUrl;

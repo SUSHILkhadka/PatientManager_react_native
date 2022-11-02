@@ -13,6 +13,7 @@ const Validator = (
     err.inner.forEach((e: any) => {
       handleErrors(e.message, e.path);
     });
+    console.log(err.inner);
     return false;
   }
 };

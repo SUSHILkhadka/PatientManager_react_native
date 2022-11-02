@@ -1,0 +1,190 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should run patient card 1`] = `
+<View
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onClick={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "backgroundColor": "#171717",
+      "borderColor": "white",
+      "borderRadius": 50,
+      "borderTopRightRadius": 12,
+      "borderWidth": 1.5,
+      "display": "flex",
+      "flexDirection": "row",
+      "height": 200,
+      "margin": 6,
+      "opacity": 1,
+      "position": "relative",
+    }
+  }
+>
+  <Image
+    source={
+      Object {
+        "uri": "asdfas",
+      }
+    }
+    style={
+      Object {
+        "alignSelf": "center",
+        "backgroundColor": "#171717",
+        "borderColor": "white",
+        "borderRadius": 500,
+        "borderWidth": 1.5,
+        "display": "flex",
+        "height": "80%",
+        "margin": 8,
+        "width": "40%",
+      }
+    }
+  />
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "display": "flex",
+        "justifyContent": "space-around",
+        "width": "50%",
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "fontSize": 24,
+        }
+      }
+    >
+      first patient
+    </Text>
+    <Text
+      style={
+        Object {
+          "fontSize": 14,
+        }
+      }
+    >
+      asdfas
+    </Text>
+    <Text
+      style={
+        Object {
+          "fontSize": 14,
+        }
+      }
+    >
+      asdfas
+    </Text>
+    <Text
+      style={
+        Object {
+          "fontSize": 14,
+        }
+      }
+    >
+      asdfas
+    </Text>
+    <View
+      accessibilityState={
+        Object {
+          "disabled": false,
+        }
+      }
+      accessible={true}
+      collapsable={false}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "opacity": 1,
+        }
+      }
+      testID="favouriteIcon"
+    >
+      <Text
+        allowFontScaling={false}
+        selectable={false}
+        style={
+          Array [
+            Object {
+              "color": undefined,
+              "fontSize": 12,
+            },
+            Object {
+              "alignSelf": "center",
+              "color": "#e51c83",
+              "fontSize": 34,
+              "marginHorizontal": 10,
+            },
+            Object {
+              "fontFamily": "Material Design Icons",
+              "fontStyle": "normal",
+              "fontWeight": "normal",
+            },
+            Object {},
+          ]
+        }
+      >
+        󰓒
+      </Text>
+    </View>
+  </View>
+  <View
+    accessibilityState={
+      Object {
+        "disabled": false,
+      }
+    }
+    accessible={true}
+    collapsable={false}
+    focusable={true}
+    onClick={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "backgroundColor": "#e51c83",
+        "borderRadius": 500,
+        "marginLeft": "90%",
+        "opacity": 1,
+        "position": "absolute",
+        "width": 10,
+        "zIndex": 10,
+      }
+    }
+    testID="deleteIcon"
+  >
+    <Text
+      style={
+        Object {
+          "fontSize": 18,
+          "fontWeight": "bold",
+          "textAlign": "center",
+        }
+      }
+    >
+      ╳
+    </Text>
+  </View>
+</View>
+`;

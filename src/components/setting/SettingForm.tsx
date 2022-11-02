@@ -1,27 +1,25 @@
 import {useNavigation} from '@react-navigation/native';
 import {AxiosError} from 'axios';
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {ActivityIndicator, Text, TouchableOpacity, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
+import {deleteLoginResponse, saveLoginResponse} from '../../async_storage/asyncStorage';
+import {editUser, login} from '../../axios/backendCallUser';
 import {typeOfUseNavigationHook} from '../../navigator/Navigator';
-import {logoutAuthInfo} from '../../redux_toolkit/slices/authSlice';
+import {IDataAtToken} from '../../redux_toolkit/Interfaces/IDataAtToken';
+import {loadAuthInfoWithLoginInfo, logoutAuthInfo} from '../../redux_toolkit/slices/authSlice';
 import {RootState} from '../../redux_toolkit/stores/store';
-import {deleteLoginResponse} from '../../async_storage/asyncStorage';
-import {editUser} from '../../axios/backendCallUser';
+import {getDataFromJWTToken} from '../../utils/jwt.utils';
 import editUserSchema, {editNameSchema} from '../../validations/schemas/editUserSchema';
 import Validator from '../../validations/Validator';
 import formStyles from '../styles/Form';
-import CustomInput from '../utils/CustomInput';
-import ToastMessage from '../utils/ToastMessage';
+import CustomInput from '../Customs/CustomInput';
+import ToastMessage, {showDefaultErrorMessage} from '../../utils/ToastMessage.utils';
 
 const SettingForm = () => {
   const authInfo = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
   const navigation: typeOfUseNavigationHook['navigation'] = useNavigation();
-
-  useEffect(() => {
-    console.log('setting');
-  }, []);
 
   const [loading, setLoading] = useState<boolean>(false);
   const [changeName, setChangeName] = useState<boolean>(true);
@@ -57,11 +55,24 @@ const SettingForm = () => {
 
       try {
         const response = await editUser(body);
-        ToastMessage(response.message);
-        dispatch(logoutAuthInfo());
-        await deleteLoginResponse();
+        if (!changeName) {
+          dispatch(logoutAuthInfo());
+          await deleteLoginResponse();
+          ToastMessage('Password changed successfully');
+        } else {
+          //relogin
+          const body = {
+            email: authInfo.email,
+            password: inputs.oldPassword,
+          };
+          const response = await login(body);
+          const authData = getDataFromJWTToken(response.refreshToken) as IDataAtToken;
+          dispatch(loadAuthInfoWithLoginInfo(authData));
+          await saveLoginResponse(response, authData.expiryDateForRefreshToken);
+          ToastMessage('Name changed successfully');
+        }
       } catch (e: AxiosError | any) {
-        ToastMessage(e.response.data.message, true);
+        showDefaultErrorMessage(e);
       }
       setLoading(false);
     }
@@ -75,7 +86,7 @@ const SettingForm = () => {
           label="Name"
           iconName="email-outline"
           keyboardType="default"
-          defaultValue={inputs.name}
+          value={inputs.name}
           handleSetInput={(text: string) => handleSetInput(text, 'name')}
           error={errors.name}
           clearError={() => handleErrors('', 'name')}
@@ -121,8 +132,10 @@ const SettingForm = () => {
           <Text style={formStyles.textInsideButton}>{changeName ? 'Save name' : 'Save password'}</Text>
         )}
       </TouchableOpacity>
-      <TouchableOpacity style={formStyles.elementButton} onPress={() => setChangeName(!changeName)}>
-        <Text style={formStyles.textInsideButton}>
+      <TouchableOpacity
+        style={[formStyles.elementButton, formStyles.lastButton]}
+        onPress={() => setChangeName(!changeName)}>
+        <Text style={[formStyles.textInsideButton]}>
           {changeName ? 'change password instead' : 'change name instead'}
         </Text>
       </TouchableOpacity>

@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
-import {KeyboardTypeOptions, StyleSheet, Text, TextInput, View} from 'react-native';
+import React, {useRef, useState} from 'react';
+import {KeyboardTypeOptions, StyleSheet, Text, TextInput, View, Pressable} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {COLOR} from '../styles/constants';
 type PropType = {
   placeholder: string;
@@ -11,7 +12,7 @@ type PropType = {
   hide?: boolean;
   keyboardType?: KeyboardTypeOptions;
   handleSetInput: (text: string) => void;
-  defaultValue?: string;
+  value?: string;
 };
 const CustomInput = ({
   placeholder,
@@ -22,27 +23,39 @@ const CustomInput = ({
   hide,
   keyboardType,
   handleSetInput,
-  defaultValue,
+  value,
 }: PropType) => {
   const [isFocused, setIsFocused] = useState(false);
   const [hidePassword, setHidePassword] = useState(true);
+
+  const ref = useRef<any>(null);
+  const onSelection = () => {
+    ref.current.focus();
+  };
+
   return (
-    <View style={styles.container}>
+    <Pressable onPress={onSelection} style={styles.container}>
       <Text style={styles.label}>{label}</Text>
       <View style={[styles.inputContainer, {borderColor: error ? 'red' : isFocused ? COLOR.pink2 : '#4c4c4c'}]}>
-        <Icon style={styles.icon} name={iconName} />
+        {iconName == 'location' ? (
+          <Ionicons style={styles.icon} name={iconName} />
+        ) : (
+          <Icon style={styles.icon} name={iconName} />
+        )}
         <TextInput
-          defaultValue={defaultValue}
+          ref={ref}
+          value={value}
           style={styles.textinput}
           placeholder={placeholder}
           onFocus={() => {
-            clearError && clearError();
+            // clearError && clearError();
             setIsFocused(true);
           }}
           secureTextEntry={hide ? hidePassword : false}
           onBlur={() => setIsFocused(false)}
           keyboardType={keyboardType}
           onChangeText={text => {
+            clearError && clearError();
             handleSetInput(text);
           }}
         />
@@ -55,7 +68,7 @@ const CustomInput = ({
         )}
       </View>
       <Text style={styles.errorText}>{error ? error : ''}</Text>
-    </View>
+    </Pressable>
   );
 };
 

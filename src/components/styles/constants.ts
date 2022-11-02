@@ -13,4 +13,5 @@ export const COLOR = {
   pink2: '#e51c83',
   white1: '#fffffc',
   white2: '#bdbdbb',
+  modalBackground: 'green',
 };

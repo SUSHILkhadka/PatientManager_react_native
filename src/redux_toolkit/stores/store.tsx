@@ -1,11 +1,11 @@
-import {configureStore, getDefaultMiddleware} from '@reduxjs/toolkit';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {configureStore} from '@reduxjs/toolkit';
+import {combineReducers} from 'redux';
+import {persistReducer, persistStore} from 'redux-persist';
+import {allergyReducer} from '../slices/allergySlice';
 import {authReducer} from '../slices/authSlice';
 import {pageReducer} from '../slices/pageSlice';
-import {combineReducers} from 'redux';
-import {persistStore, persistReducer} from 'redux-persist';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {patientReducer} from '../slices/patientSlice';
-import {allergyReducer} from '../slices/allergySlice';
 const persistConfig = {
   key: 'KeyForPersistStore',
   storage: AsyncStorage,
@@ -21,9 +21,10 @@ const persistedAuthReducer = persistReducer(persistConfig, allReducers);
 
 export const store = configureStore({
   reducer: persistedAuthReducer,
-  middleware: getDefaultMiddleware({
-    serializableCheck: false,
-  }),
+  middleware: getDefaultMiddleware =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 export const persistedStore = persistStore(store);
 

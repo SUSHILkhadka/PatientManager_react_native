@@ -8,14 +8,15 @@ import {typeOfUseNavigationHook} from '../../navigator/Navigator';
 import registerSchema from '../../validations/schemas/registerSchema';
 import {asyncValidator} from '../../validations/Validator';
 import formStyles from '../styles/Form';
-import CustomInput from '../utils/CustomInput';
-import ToastMessage, {showDefaultErrorMessage} from '../utils/ToastMessage';
+import CustomInput from '../Customs/CustomInput';
+import ToastMessage, {showDefaultErrorMessage} from '../../utils/ToastMessage.utils';
 
 const RegisterForm = () => {
   const navigation: typeOfUseNavigationHook['navigation'] = useNavigation();
   const changePageToLogin = () => {
     navigation.navigate('login');
   };
+
   const [loading, setLoading] = useState<boolean>(false);
   const [inputs, setInputs] = useState({
     name: '',
@@ -26,6 +27,7 @@ const RegisterForm = () => {
   const handleSetInput = (text: string, label: string) => {
     setInputs(prevState => ({...prevState, [label]: text}));
   };
+
   const [errors, setErrors] = useState({
     name: '',
     email: '',
@@ -35,6 +37,7 @@ const RegisterForm = () => {
   const handleErrors = (error: string, label: string) => {
     setErrors(prevState => ({...prevState, [label]: error}));
   };
+
   const handleRegister = async () => {
     setLoading(true);
     if (await asyncValidator(inputs, registerSchema, handleErrors)) {
@@ -46,14 +49,12 @@ const RegisterForm = () => {
       try {
         const response = await register(body);
         ToastMessage(response.message);
+        changePageToLogin();
       } catch (e: AxiosError | any) {
-        try {
-          ToastMessage(e.response.data.message, true);
-        } catch {
-          showDefaultErrorMessage();
-        }
+        showDefaultErrorMessage(e);
       }
     }
+
     setLoading(false);
   };
 

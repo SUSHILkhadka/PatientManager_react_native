@@ -1,12 +1,9 @@
-import React, {useState} from 'react';
-import { ScrollView } from 'react-native';
-import Navigator from "./src/navigator/Navigator"
-
+import 'react-native-gesture-handler';
+import React from 'react';
+import Navigator from './src/navigator/Navigator';
 
 const App = () => {
-  return(
-    <Navigator/>
-  )
+  return <Navigator />;
 };
 
 export default App;

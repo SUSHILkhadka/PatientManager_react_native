@@ -40,6 +40,9 @@ const formStyles = StyleSheet.create({
     backgroundColor: COLOR.pink1,
     alignSelf: 'center',
   },
+  lastButton: {
+    backgroundColor: 'transparent',
+  },
   lastElementButton: {
     marginBottom: 150,
   },

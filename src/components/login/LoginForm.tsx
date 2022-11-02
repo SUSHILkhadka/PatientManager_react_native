@@ -4,17 +4,17 @@ import React, {useState} from 'react';
 import {ActivityIndicator, Text, TouchableOpacity, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {saveLoginResponse} from '../../async_storage/asyncStorage';
+import {login} from '../../axios/backendCallUser';
 import {typeOfUseNavigationHook} from '../../navigator/Navigator';
 import {IDataAtToken} from '../../redux_toolkit/Interfaces/IDataAtToken';
 import {loadAuthInfoWithLoginInfo} from '../../redux_toolkit/slices/authSlice';
 import {RootState} from '../../redux_toolkit/stores/store';
-import {login} from '../../axios/backendCallUser';
 import {getDataFromJWTToken} from '../../utils/jwt.utils';
 import loginSchema from '../../validations/schemas/loginSchema';
 import Validator from '../../validations/Validator';
 import formStyles from '../styles/Form';
-import CustomInput from '../utils/CustomInput';
-import ToastMessage, {showDefaultErrorMessage} from '../utils/ToastMessage';
+import CustomInput from '../Customs/CustomInput';
+import ToastMessage, {showDefaultErrorMessage} from '../../utils/ToastMessage.utils';
 const LoginForm = () => {
   const navigation: typeOfUseNavigationHook['navigation'] = useNavigation();
   const authInfo = useSelector((state: RootState) => state.auth);
@@ -38,7 +38,6 @@ const LoginForm = () => {
 
   const handleLogin = async () => {
     if (Validator(inputs, loginSchema, handleErrors)) {
-      console.log(inputs);
       setLoading(true);
       const body = {
         email: inputs.email,
@@ -51,11 +50,7 @@ const LoginForm = () => {
         await saveLoginResponse(response, authData.expiryDateForRefreshToken);
         ToastMessage(response.message);
       } catch (e: AxiosError | any) {
-        try {
-          ToastMessage(e.response.data.message, true);
-        } catch {
-          showDefaultErrorMessage();
-        }
+        showDefaultErrorMessage(e);
       }
       setLoading(false);
     }
@@ -68,6 +63,7 @@ const LoginForm = () => {
   return (
     <View>
       <CustomInput
+        value={inputs.email}
         placeholder="Enter your email address"
         label="Email"
         iconName="email-outline"
@@ -77,6 +73,7 @@ const LoginForm = () => {
         clearError={() => handleErrors('', 'email')}
       />
       <CustomInput
+        value={inputs.password}
         placeholder="Enter your password"
         label="Password"
         iconName="lock-outline"
